@@ -1,6 +1,5 @@
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.Cursor;
 
 public class CheckerBoardFactory  {
   
@@ -11,18 +10,9 @@ public class CheckerBoardFactory  {
                              CIRCLE_BORDER = 2;
     
     public Pane render(SafeSceneInteraction scene) {
-        final GridPane   checkerBoard = new GridPane();
-                
-        CircleFactory circleFactory = new CircleFactory(CIRCLE_RADIUS, CIRCLE_BORDER)
-            .setMouseOver((e) -> {
-            	scene.setCursor(Cursor.HAND); // Change cursor to hand
-            })
-            .setMouseOut((e) -> {
-            	scene.setCursor(Cursor.DEFAULT); // Change cursor back to the normal one
-            })
-            .setClicked((e) -> {
-            	
-            }); 
+        final GridPane                       checkerBoard  = new GridPane();
+        final CheckerboardInteractionManager interactions  = new CheckerboardInteractionManager(scene);
+        final CircleFactory                  circleFactory = new CircleFactory(CIRCLE_RADIUS, CIRCLE_BORDER, interactions); 
         
         new CheckerboardInitialization(NUM_PIECES, BOARD_SIZE, SQUARE_SIZE)
             .initialize(checkerBoard, circleFactory);
