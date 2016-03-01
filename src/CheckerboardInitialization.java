@@ -8,7 +8,7 @@ import javafx.geometry.VPos;
 
 public class CheckerboardInitialization {    
     public static Checkerboard initialize(GridPane visual, CircleFactory circleFactory) {
-    	Checkerboard data = new Checkerboard(Settings.BOARD_SIZE);
+    	Checkerboard data = new Checkerboard();
     	
         configureBoardLayout(visual);
         addSquaresToBoard(visual);
@@ -54,7 +54,7 @@ public class CheckerboardInitialization {
         	
             // Give Player 1 a piece
         	visual.add(
-                 circleFactory.create(Color.WHITE, Color.BLACK),
+                 circleFactory.create(Color.RED, Color.WHITE),
                  player1Cell.x,
                  player1Cell.y);
             

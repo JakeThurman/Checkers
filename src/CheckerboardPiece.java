@@ -10,11 +10,11 @@ public class CheckerboardPiece {
 		this.isEmpty = true;
 	}
 	
-	public boolean getIsPlayer1() {
+	public boolean isPlayer1() {
 		return isPlayer1;
 	}
 	
-	public boolean getIsEmpty() {
+	public boolean isEmpty() {
 		return isEmpty;
 	}
 }
