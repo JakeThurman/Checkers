@@ -6,79 +6,75 @@ import javafx.scene.layout.RowConstraints;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 
-public class CheckerboardInitialization {
-    private final int NUM_PIECES,
-                      BOARD_SIZE,
-                      SQUARE_SIZE;
-
-    public CheckerboardInitialization(int numPieces, int boardSize, int squareSize) {
-        this.NUM_PIECES  = numPieces;
-        this.BOARD_SIZE  = boardSize;
-        this.SQUARE_SIZE = squareSize;
-    }
-    
-    public void initialize(GridPane checkerBoard, CircleFactory circleFactory) {
-        configureBoardLayout(checkerBoard);
-        addSquaresToBoard(checkerBoard);
-        addPiecesToBoard(checkerBoard, circleFactory);
+public class CheckerboardInitialization {    
+    public static Checkerboard initialize(GridPane visual, CircleFactory circleFactory) {
+    	Checkerboard data = new Checkerboard(Settings.BOARD_SIZE);
+    	
+        configureBoardLayout(visual);
+        addSquaresToBoard(visual);
+        addPiecesToBoard(visual, circleFactory, data);
+        
+        return data;
     }
         
-    private void configureBoardLayout(GridPane board) {
-        for (int i=0; i<BOARD_SIZE; i++) {
+    private static void configureBoardLayout(GridPane visual) {
+        for (int i=0; i < Settings.BOARD_SIZE; i++) {
             RowConstraints rowConstraints = new RowConstraints();
-            rowConstraints.setMinHeight(SQUARE_SIZE);
-            rowConstraints.setPrefHeight(SQUARE_SIZE);
-            rowConstraints.setMaxHeight(SQUARE_SIZE);
+            rowConstraints.setMinHeight(Settings.SQUARE_SIZE);
+            rowConstraints.setPrefHeight(Settings.SQUARE_SIZE);
+            rowConstraints.setMaxHeight(Settings.SQUARE_SIZE);
             rowConstraints.setValignment(VPos.CENTER);
-            board.getRowConstraints().add(rowConstraints);
+            visual.getRowConstraints().add(rowConstraints);
 
             ColumnConstraints colConstraints = new ColumnConstraints();
-            colConstraints.setMinWidth(SQUARE_SIZE);
-            colConstraints.setMaxWidth(SQUARE_SIZE);
-            colConstraints.setPrefWidth(SQUARE_SIZE);
+            colConstraints.setMinWidth(Settings.SQUARE_SIZE);
+            colConstraints.setMaxWidth(Settings.SQUARE_SIZE);
+            colConstraints.setPrefWidth(Settings.SQUARE_SIZE);
             colConstraints.setHalignment(HPos.CENTER);
-            board.getColumnConstraints().add(colConstraints);
+            visual.getColumnConstraints().add(colConstraints);
         }
     }
     
-    private void addSquaresToBoard(GridPane board) {
+    private static void addSquaresToBoard(GridPane visual) {
         Color[] squareColors = new Color[] {Color.WHITE, Color.BLACK};
-        for (int row = 0; row < BOARD_SIZE; row++) {
-            for (int col = 0; col < BOARD_SIZE; col++) {
-                board.add(new Rectangle(SQUARE_SIZE, SQUARE_SIZE, squareColors[(row+col)%2]), col, row);
+        for (int row = 0; row < Settings.BOARD_SIZE; row++) {
+            for (int col = 0; col < Settings.BOARD_SIZE; col++) {
+                visual.add(new Rectangle(Settings.SQUARE_SIZE, Settings.SQUARE_SIZE, squareColors[(row+col)%2]), col, row);
             }
         }
     }
 
-    private void addPiecesToBoard(GridPane checkerBoard, CircleFactory circleFactory) {
-        for (int i=0; i<NUM_PIECES; i++) {
+    private static void addPiecesToBoard(GridPane visual, CircleFactory circleFactory, Checkerboard data) {
+        for (int i=0; i < Settings.NUM_PIECES; i++) {
+        	CellIndex player1Cell = getPlayer1Cell(i);
+        	CellIndex player2Cell = getPlayer2Cell(i);
+        	
+        	data.pieceIsInCell(/*isPlayer1*/ true, player1Cell);
+        	data.pieceIsInCell(/*isPlayer1*/ false, player2Cell);
+        	
             // Give Player 1 a piece
-            checkerBoard.add(
+        	visual.add(
                  circleFactory.create(Color.WHITE, Color.BLACK),
-                 getPlayer1Column(i),
-                 getPlayer1Row(i));
+                 player1Cell.x,
+                 player1Cell.y);
             
             // Give Player 2 a piece
-            checkerBoard.add(
+        	visual.add(
                 circleFactory.create(Color.BLACK, Color.WHITE),
-                getPlayer2Column(i),
-                getPlayer2Row(i));
+                player2Cell.x,
+                player2Cell.y);
         }
     }
     
-    private int getPlayer2Row(int currPiece) {
-        return (currPiece*2)/BOARD_SIZE;
+    private static CellIndex getPlayer2Cell(int currPiece) {
+        return new CellIndex(
+        	currPiece%(Settings.BOARD_SIZE/2) * 2 + (1 + 2*currPiece/Settings.BOARD_SIZE)%2, // X
+        	(currPiece*2)/Settings.BOARD_SIZE);                                     // Y
     }
     
-    private int getPlayer1Row(int currPiece) {
-        return BOARD_SIZE - 1 - (currPiece*2)/BOARD_SIZE;
-    }
-    
-    private int getPlayer2Column(int currPiece) {
-        return currPiece%(BOARD_SIZE/2) * 2 + (1 + 2*currPiece/BOARD_SIZE)%2;
-    }
-    
-    private int getPlayer1Column(int currPiece) {
-        return currPiece%(BOARD_SIZE/2) * 2 + (2*currPiece/BOARD_SIZE)%2;
+    private static CellIndex getPlayer1Cell(int currPiece) {
+    	return new CellIndex(
+    			currPiece%(Settings.BOARD_SIZE/2) * 2 + (2*currPiece/Settings.BOARD_SIZE)%2, // X
+    			Settings.BOARD_SIZE - 1 - (currPiece*2)/Settings.BOARD_SIZE);                // Y
     }
 }

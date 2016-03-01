@@ -1,28 +1,24 @@
 import javafx.scene.shape.Circle;
 import javafx.scene.paint.Color;
 
-public class CircleFactory {
-    private final int CIRCLE_RADIUS,
-                      BORDER_WIDTH;
-        
-    private final CheckerboardInteractionManager interactions;
+public class CircleFactory {        
+    private final CircleInteractionFactory interactionFactory;
     
-    public CircleFactory(int circleRadius, int borderWidth, CheckerboardInteractionManager interactions) {
-        this.CIRCLE_RADIUS = circleRadius;
-        this.BORDER_WIDTH  = borderWidth;
-        this.interactions = interactions;
+    public CircleFactory(final CircleInteractionFactory interactionFactory) {
+        this.interactionFactory = interactionFactory;
     }
     	
-	public Circle create(Color fill, Color border) {
-		//Draw the circle
-		Circle c = new Circle(CIRCLE_RADIUS, fill);
+	public Circle create(final Color fill, final Color border) {
+		// Draw the circle
+		Circle c = new Circle(Settings.CIRCLE_RADIUS, fill);
 		c.setStroke(border);
-        c.setStrokeWidth(BORDER_WIDTH);
+        c.setStrokeWidth(Settings.CIRCLE_BORDER);
         
         // Set the built in events
-        c.setOnMouseEntered((e) -> this.interactions.onClicleMouseOver(e));
-        c.setOnMouseExited((e) -> this.interactions.onClicleMouseOut(e));
-        c.setOnMouseClicked((e) -> this.interactions.onCircleClick(e));
+        CircleInteractionManager cim = this.interactionFactory.create(c);
+        c.setOnMouseEntered((e) -> cim.onClicleMouseOver(e));
+        c.setOnMouseExited((e) -> cim.onClicleMouseOut(e));
+        c.setOnMouseClicked((e) -> cim.onCircleClick(e));
         
         return c;
 	}
