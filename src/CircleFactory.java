@@ -4,14 +4,16 @@ import javafx.event.EventHandler;
 import javafx.scene.paint.Color;
 
 public class CircleFactory {
-    private final int CIRCLE_SIZE;
+    private final int CIRCLE_SIZE,
+                      BORDER_WIDTH;
     
     private EventHandler<? super MouseEvent> mouseOver = null,
                                              mouseOut = null,
                                              clicked = null;
     
-    public CircleFactory(int circleSize) {
+    public CircleFactory(int circleSize, int borderWidth) {
         this.CIRCLE_SIZE = circleSize;
+        this.BORDER_WIDTH = borderWidth;
     }
     
 	public CircleFactory setMouseOut(EventHandler<? super MouseEvent> mouseOut) {
@@ -33,7 +35,7 @@ public class CircleFactory {
 		//Draw the circle
 		Circle c = new Circle(CIRCLE_SIZE, fill);
 		c.setStroke(border);
-        c.setStrokeWidth(2);
+        c.setStrokeWidth(BORDER_WIDTH);
         
         // Set the built in events
         c.setOnMouseEntered(this.mouseOver);
