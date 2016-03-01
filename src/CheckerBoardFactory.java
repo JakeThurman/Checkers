@@ -11,14 +11,16 @@ public class CheckerBoardFactory  {
     public Pane render(SafeSceneInteraction scene) {
         final GridPane   checkerBoard = new GridPane();
                 
-        CircleFactory circleFactory = new CircleFactory(SQUARE_SIZE)
+        CircleFactory circleFactory = new CircleFactory(SQUARE_SIZE/2-6)
             .setMouseOver((e) -> {
-            	scene.setCursor(Cursor.HAND);
-            }) //Change cursor to hand
-            .setMouseOut((e) -> {
-            	scene.setCursor(Cursor.DEFAULT);
+            	scene.setCursor(Cursor.HAND); // Change cursor to hand
             })
-            .setClicked((e) -> System.out.println("Clicked on a circle!")); //Change cursor back to the normal one
+            .setMouseOut((e) -> {
+            	scene.setCursor(Cursor.DEFAULT); // Change cursor back to the normal one
+            })
+            .setClicked((e) -> {
+            	
+            }); 
         
         new CheckerboardInitialization(NUM_PIECES, BOARD_SIZE, SQUARE_SIZE)
             .initialize(checkerBoard, circleFactory);
