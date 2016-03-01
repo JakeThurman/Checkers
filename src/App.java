@@ -14,7 +14,7 @@ public class App  extends Application {
     	final Scene scene = new Scene(pane);
     	
     	Pane checkerBoard = new CheckerBoardFactory()
-    	    .render(new SafeSceneInteraction(scene));
+    	    .render(new CheckerboardInteractionManager(new SafeSceneInteraction(scene)));
     	
     	pane.setCenter(checkerBoard);
         

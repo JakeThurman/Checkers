@@ -9,9 +9,8 @@ public class CheckerBoardFactory  {
                              CIRCLE_RADIUS = SQUARE_SIZE/2-6,
                              CIRCLE_BORDER = 2;
     
-    public Pane render(SafeSceneInteraction scene) {
+    public Pane render(CheckerboardInteractionManager interactions) {
         final GridPane                       checkerBoard  = new GridPane();
-        final CheckerboardInteractionManager interactions  = new CheckerboardInteractionManager(scene);
         final CircleFactory                  circleFactory = new CircleFactory(CIRCLE_RADIUS, CIRCLE_BORDER, interactions); 
         
         new CheckerboardInitialization(NUM_PIECES, BOARD_SIZE, SQUARE_SIZE)
