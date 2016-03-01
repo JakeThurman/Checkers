@@ -7,13 +7,13 @@ public class CheckerBoardFactory  {
     private static final int BOARD_SIZE    = 8,
                              SQUARE_SIZE   = 60,
                              NUM_PIECES    = 12,
-                             CIRCLE_SIZE   = SQUARE_SIZE/2-6,
+                             CIRCLE_RADIUS = SQUARE_SIZE/2-6,
                              CIRCLE_BORDER = 2;
     
     public Pane render(SafeSceneInteraction scene) {
         final GridPane   checkerBoard = new GridPane();
                 
-        CircleFactory circleFactory = new CircleFactory(CIRCLE_SIZE, CIRCLE_BORDER)
+        CircleFactory circleFactory = new CircleFactory(CIRCLE_RADIUS, CIRCLE_BORDER)
             .setMouseOver((e) -> {
             	scene.setCursor(Cursor.HAND); // Change cursor to hand
             })
