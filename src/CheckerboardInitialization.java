@@ -7,17 +7,21 @@ import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 
 public class CheckerboardInitialization {    
-    public static Checkerboard initialize(GridPane visual, CircleFactory circleFactory) {
-    	Checkerboard data = new Checkerboard();
-    	
-        configureBoardLayout(visual);
-        addSquaresToBoard(visual);
-        addPiecesToBoard(visual, circleFactory, data);
-        
-        return data;
+	private final CircleFactory circleFactory;
+	private final CheckerInteractionManager interactions;
+	
+	public CheckerboardInitialization(CircleFactory circleFactory, CheckerInteractionManager interactions) {
+		this.circleFactory = circleFactory;
+		this.interactions  = interactions;
+	}
+	
+    public void initialize(Checkerboard data) {   	
+        configureBoardLayout(data.visual);
+        addSquaresToBoard(data.visual);
+        addPiecesToBoard(data);
     }
         
-    private static void configureBoardLayout(GridPane visual) {
+    private void configureBoardLayout(GridPane visual) {
         for (int i=0; i < Settings.BOARD_SIZE; i++) {
             RowConstraints rowConstraints = new RowConstraints();
             rowConstraints.setMinHeight(Settings.SQUARE_SIZE);
@@ -35,7 +39,7 @@ public class CheckerboardInitialization {
         }
     }
     
-    private static void addSquaresToBoard(GridPane visual) {
+    private void addSquaresToBoard(GridPane visual) {
         Color[] squareColors = new Color[] {Color.WHITE, Color.BLACK};
         for (int row = 0; row < Settings.BOARD_SIZE; row++) {
             for (int col = 0; col < Settings.BOARD_SIZE; col++) {
@@ -43,26 +47,26 @@ public class CheckerboardInitialization {
             }
         }
     }
+    
+    private void addPiecesToBoard(Checkerboard data) {
+        for (int i=0; i < Settings.NUM_PIECES; i++) {  
+        	// Give player 1 a piece   
+        	Checker p1Checker = new Checker(
+        		/*isPlayer1*/ true, 
+        		circleFactory.create(Color.RED, Color.WHITE), 
+        		getPlayer1Cell(i));
 
-    private static void addPiecesToBoard(GridPane visual, CircleFactory circleFactory, Checkerboard data) {
-        for (int i=0; i < Settings.NUM_PIECES; i++) {
-        	CellIndex player1Cell = getPlayer1Cell(i);
-        	CellIndex player2Cell = getPlayer2Cell(i);
-        	
-        	data.pieceIsInCell(/*isPlayer1*/ true, player1Cell);
-        	data.pieceIsInCell(/*isPlayer1*/ false, player2Cell);
-        	
-            // Give Player 1 a piece
-        	visual.add(
-                 circleFactory.create(Color.RED, Color.WHITE),
-                 player1Cell.x,
-                 player1Cell.y);
-            
-            // Give Player 2 a piece
-        	visual.add(
-                circleFactory.create(Color.BLACK, Color.WHITE),
-                player2Cell.x,
-                player2Cell.y);
+        	interactions.initalize(p1Checker);
+        	data.pieceIsInCell(p1Checker);
+
+        	// Give player 2 a piece
+        	Checker p2Checker = new Checker(
+	    		/*isPlayer1*/ false, 
+	    		circleFactory.create(Color.BLACK, Color.WHITE), 
+	    		getPlayer2Cell(i));
+
+            interactions.initalize(p2Checker);
+        	data.pieceIsInCell(p2Checker);
         }
     }
     
