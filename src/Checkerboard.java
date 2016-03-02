@@ -1,5 +1,4 @@
 import java.util.LinkedList;
-
 import javafx.scene.layout.GridPane;
 
 public class Checkerboard {
@@ -22,8 +21,10 @@ public class Checkerboard {
 		
 	private CheckerboardSquare getCell(CellIndex i) {
 		if (!isValid(i))
+		{
 			Logging.report("Attempted Invalid Access! " + i.toString());
-		
+			return null;
+		}
 		return cells[i.x][i.y];
 	}
 	
@@ -48,28 +49,29 @@ public class Checkerboard {
 		LinkedList<CellIndex>      results = new LinkedList<CellIndex>();
 		LinkedList<CellSearchData> toCheck = new LinkedList<CellSearchData>();
 		
-		boolean isPlayer1 = checker.isPlayer1();
-
 		toCheck.add(new CellSearchData(1, 1, checker.getPos()));
 		toCheck.add(new CellSearchData(-1, -1, checker.getPos()));
 		toCheck.add(new CellSearchData(-1, 1, checker.getPos()));
-		toCheck.add(new CellSearchData(1, 1, checker.getPos()));
+		toCheck.add(new CellSearchData(1, -1, checker.getPos()));
 		
 		while (!toCheck.isEmpty()) {
 			CellSearchData checking = toCheck.poll();
-						
-			if (!isValid(checking.getCellIndex()))
+			CellIndex      index    = checking.getCellIndex();
+			
+			if (!isValid(index))
 				continue;
 						
 			// See if this is an empty space
-			if (getCell(checking.getCellIndex()).isEmpty()) {
-				if (!results.contains(checking.getCellIndex()))
-					results.add(checking.getCellIndex());
+			CheckerboardSquare cell = getCell(index);
+			
+			if (cell.isEmpty()) {
+				if (!results.contains(index))
+					results.add(index);
 				
 				//TODO: Check if we can double/triple jump here
 			}
 			// If we aren't already doing so, see if we can jump this piece and it's not our own piece
-			else if (!checking.isJump && getCell(checking.getCellIndex()).getPiece().isPlayer1() != isPlayer1) {
+			else if (!checking.isJump && cell.getPiece().isPlayer1() != checker.isPlayer1()) {
 				toCheck.add(checking.withDoubleOffsetCellIndex());
 			}
 		}
@@ -82,9 +84,7 @@ public class Checkerboard {
 		private final int       deltaX, 
 		                        deltaY;
 		public  final boolean   isJump;
-	
-		private CellIndex _cellIndex = null;
-		
+			
 		public CellSearchData(int deltaX, int deltaY, CellIndex source) {
 			this(deltaX, deltaY, source, false);
 		}
@@ -97,9 +97,7 @@ public class Checkerboard {
 		}
 		
 		public CellIndex getCellIndex() {
-			return _cellIndex == null 
-					? _cellIndex = new CellIndex(source.x + deltaX, source.y + deltaY)
-					: _cellIndex;
+			return new CellIndex(source.x + deltaX, source.y + deltaY);
 		}
 		
 		public CellSearchData withDoubleOffsetCellIndex() {

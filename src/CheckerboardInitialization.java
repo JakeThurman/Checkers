@@ -1,8 +1,10 @@
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.layout.GridPane;
+import javafx.scene.Node;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.RowConstraints;
+import java.util.LinkedList;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 
@@ -15,10 +17,32 @@ public class CheckerboardInitialization {
 		this.interactions  = interactions;
 	}
 	
-    public void initialize(Checkerboard data) {   	
+    public void initialize(Checkerboard data) {
+    	showAvailableMovesOnClick(data);
         configureBoardLayout(data.visual);
         addSquaresToBoard(data.visual);
         addPiecesToBoard(data);
+    }
+        
+    private void showAvailableMovesOnClick(Checkerboard data) {
+    	LinkedList<Node> choiceNodes = new LinkedList<Node>();
+    	
+    	interactions.setAfterClick((checker) -> {    		
+    		for (CellIndex pos : data.getAvailableSpaces(checker)) {
+    			Node circle = circleFactory.createOpaque(Color.LIGHTBLUE);
+    			interactions.initializeNoClick(circle);
+    			data.visual.add(circle, pos.x, pos.y);
+    			choiceNodes.add(circle);
+    		}
+    	});
+    	
+    	interactions.setAfterUnselect((checker) -> {
+    		for (Node node : choiceNodes) {
+    			data.visual.getChildren().remove(node);
+    		}
+    		
+    		choiceNodes.clear();
+    	});
     }
         
     private void configureBoardLayout(GridPane visual) {
@@ -53,19 +77,19 @@ public class CheckerboardInitialization {
         	// Give player 1 a piece   
         	Checker p1Checker = new Checker(
         		/*isPlayer1*/ true, 
-        		circleFactory.create(Color.RED, Color.WHITE), 
+        		circleFactory.create(Color.RED), 
         		getPlayer1Cell(i));
 
-        	interactions.initalize(p1Checker);
+        	interactions.initalizeAll(p1Checker);
         	data.pieceIsInCell(p1Checker);
 
         	// Give player 2 a piece
         	Checker p2Checker = new Checker(
 	    		/*isPlayer1*/ false, 
-	    		circleFactory.create(Color.BLACK, Color.WHITE), 
+	    		circleFactory.create(Color.BLACK), 
 	    		getPlayer2Cell(i));
 
-            interactions.initalize(p2Checker);
+            interactions.initalizeAll(p2Checker);
         	data.pieceIsInCell(p2Checker);
         }
     }
