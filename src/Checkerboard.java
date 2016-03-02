@@ -12,6 +12,20 @@ public class Checkerboard {
 		init();
 	}
 	
+	public String toString() {
+		String output = "Checkerboard:\n";
+		for (int row = 0; row < cells.length; row++) {
+			output += "  Row " + row + "";
+		    if (cells[row] != null && cells[row].length > 0) {
+		        for (int column = 0; column < cells[row].length; column++) {
+		            output += "\n    " + cells[row][column];
+		        }
+		    }
+		    output += "\n";
+		}
+		return output;
+	}
+	
 	// Simple required initialization logic
 	private void init() {
     	for (int x = 0; x < Settings.BOARD_SIZE; x++)

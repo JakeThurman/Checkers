@@ -27,4 +27,8 @@ public class Checker {
 	public boolean isPlayer1() {
 		return isPlayer1;
 	}
+	
+	public String toString() {
+		return "Checker: { Pos: {" + pos.toString() + "}, isPlayer1: " + isPlayer1 + " }"; 
+	}
 }

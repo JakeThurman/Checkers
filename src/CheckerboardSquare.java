@@ -16,4 +16,10 @@ public class CheckerboardSquare {
 	public Checker getPiece() {
 		return this.checker;
 	}
+	
+	public String toString() {
+		return isEmpty() 
+			? "CheckerboardSquare: { Empty }" 
+			: "CheckerboardSquare: { " + this.checker.toString() + " }";
+	}
 }	

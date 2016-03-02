@@ -6,7 +6,7 @@ public class CheckerInteractionManager {
 	private final SafeSceneInteraction scene;
 	private final SelectionManager selection;
 	
-	private Consumer<Checker> afterClick    = null;
+	private Consumer<Checker> afterSelect    = null;
 	private Runnable          afterUnselect = null;
 	
 	public CheckerInteractionManager(SafeSceneInteraction scene, SelectionManager selection) {
@@ -14,8 +14,8 @@ public class CheckerInteractionManager {
 		this.selection = selection;
 	}
 	
-	public void setAfterClick(Consumer<Checker> afterClick) {
-		this.afterClick = afterClick;
+	public void setAfterSelect(Consumer<Checker> afterSelect) {
+		this.afterSelect = afterSelect;
 	}
 	
 	public void setAfterUnselect(Runnable afterUnselect) {
@@ -54,8 +54,8 @@ public class CheckerInteractionManager {
 		if (!thisSelected)
 			selection.setSelected(c);
 		
-		if (!shouldUnselect && this.afterClick != null)
-			afterClick.accept(c);
+		if (!thisSelected && this.afterSelect != null)
+			afterSelect.accept(c);
 	}
 	
 	private void doUnselect() {
