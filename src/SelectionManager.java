@@ -2,15 +2,9 @@ import javafx.scene.shape.Shape;
 import javafx.scene.paint.Paint;
 
 public class SelectionManager {	
-	private final Checkerboard data;	
-	
 	private Paint originalColor = null;
 	private Shape selected      = null;
-	
-	public SelectionManager(Checkerboard data) {
-		this.data = data;
-	}
-		
+			
 	public boolean hasSelected() {
 		return this.selected != null;
 	}
@@ -25,9 +19,6 @@ public class SelectionManager {
 		//Color management
 		this.originalColor = this.selected.getFill();
 		this.selected.setFill(Settings.SELECTED_COLOR);
-		
-		//TODO set data selected
-		data.getAvailableSpaces(c);
 	}
 	
 	public void unselect() {

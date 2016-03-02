@@ -8,7 +8,7 @@ public class CheckerBoardFactory  {
     		new CircleFactory(), 
     		new CheckerInteractionManager(
     			scene, 
-    			new SelectionManager(data)));
+    			new SelectionManager()));
 
         ci.initialize(data);
                 
