@@ -22,14 +22,18 @@ public class CheckerInteractionManager {
 		this.afterUnselect = afterUnselect;
 	}
 	
-	public void initalizeAll(Checker c) {
+	public void initalizeChecker(Checker c) {
 		final Node node = c.getNode();
 		node.setOnMouseClicked((e) -> onCircleClick(c));
 		
-		initializeNoClick(node);
+		initializeMouseOver(node);
 	}
 	
-	public void initializeNoClick(Node node) {
+	public void initializeMoveOption(Node node) {
+		initializeMouseOver(node);
+	}
+	
+	private void initializeMouseOver(Node node) {
         node.setOnMouseEntered((e) -> onClicleMouseOver());
         node.setOnMouseExited((e) -> onClicleMouseOut());
 	}

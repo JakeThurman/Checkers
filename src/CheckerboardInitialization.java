@@ -30,7 +30,7 @@ public class CheckerboardInitialization {
     	interactions.setAfterClick((checker) -> {    		
     		for (CellIndex pos : data.getAvailableSpaces(checker)) {
     			Node circle = circleFactory.createOpaque(Color.LIGHTBLUE);
-    			interactions.initializeNoClick(circle);
+    			interactions.initializeMoveOption(circle);
     			data.visual.add(circle, pos.x, pos.y);
     			choiceNodes.add(circle);
     		}
@@ -80,7 +80,7 @@ public class CheckerboardInitialization {
         		circleFactory.create(Color.RED), 
         		getPlayer1Cell(i));
 
-        	interactions.initalizeAll(p1Checker);
+        	interactions.initalizeChecker(p1Checker);
         	data.pieceIsInCell(p1Checker);
 
         	// Give player 2 a piece
@@ -89,7 +89,7 @@ public class CheckerboardInitialization {
 	    		circleFactory.create(Color.BLACK), 
 	    		getPlayer2Cell(i));
 
-            interactions.initalizeAll(p2Checker);
+            interactions.initalizeChecker(p2Checker);
         	data.pieceIsInCell(p2Checker);
         }
     }
