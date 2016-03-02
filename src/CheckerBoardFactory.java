@@ -6,7 +6,8 @@ public class CheckerBoardFactory  {
         final GridPane         visual        = new GridPane();
         final SelectionManager sm            = new SelectionManager();
         final CircleFactory    circleFactory = new CircleFactory(new CircleInteractionFactory(scene, sm)); 
-        final Checkerboard     data          = CheckerboardInitialization.initialize(visual, circleFactory);
+
+        CheckerboardInitialization.initialize(visual, circleFactory);
                 
         return visual;
     }
