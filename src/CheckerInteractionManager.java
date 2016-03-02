@@ -6,8 +6,8 @@ public class CheckerInteractionManager {
 	private final SafeSceneInteraction scene;
 	private final SelectionManager selection;
 	
-	private Consumer<Checker> afterClick    = null,
-			                  afterUnselect = null;
+	private Consumer<Checker> afterClick    = null;
+	private Runnable          afterUnselect = null;
 	
 	public CheckerInteractionManager(SafeSceneInteraction scene, SelectionManager selection) {
 		this.scene = scene;
@@ -18,19 +18,24 @@ public class CheckerInteractionManager {
 		this.afterClick = afterClick;
 	}
 	
-	public void setAfterUnselect(Consumer<Checker> afterUnselect) {
+	public void setAfterUnselect(Runnable afterUnselect) {
 		this.afterUnselect = afterUnselect;
 	}
 	
 	public void initalizeChecker(Checker c) {
 		final Node node = c.getNode();
-		node.setOnMouseClicked((e) -> onCircleClick(c));
+		node.setOnMouseClicked((e) -> doSelection(c));
 		
 		initializeMouseOver(node);
 	}
 	
-	public void initializeMoveOption(Node node) {
+	public void initializeMoveOption(Node node, Runnable moveHere) {
 		initializeMouseOver(node);
+		
+		node.setOnMouseClicked((e) -> {
+			doUnselect();
+			moveHere.run();
+		});
 	}
 	
 	private void initializeMouseOver(Node node) {
@@ -38,22 +43,26 @@ public class CheckerInteractionManager {
         node.setOnMouseExited((e) -> onClicleMouseOut());
 	}
 	
-	private void onCircleClick(Checker c) {
+	private void doSelection(Checker c) {
 		boolean anySelected    = selection.hasSelected();
 		boolean thisSelected   = selection.isSelected(c);
 		boolean shouldUnselect = thisSelected || (!thisSelected && anySelected);
 		
 		if (shouldUnselect)
-			selection.unselect();
-		
-		if (shouldUnselect && this.afterUnselect != null)
-			afterUnselect.accept(c);
+			doUnselect();
 		
 		if (!thisSelected)
 			selection.setSelected(c);
 		
 		if (!shouldUnselect && this.afterClick != null)
 			afterClick.accept(c);
+	}
+	
+	private void doUnselect() {
+		selection.unselect();
+		
+		if (this.afterUnselect != null)
+			afterUnselect.run();
 	}
 	
 	private void onClicleMouseOver() {

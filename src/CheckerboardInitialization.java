@@ -30,13 +30,15 @@ public class CheckerboardInitialization {
     	interactions.setAfterClick((checker) -> {    		
     		for (CellIndex pos : data.getAvailableSpaces(checker)) {
     			Node circle = circleFactory.createOpaque(Color.LIGHTBLUE);
-    			interactions.initializeMoveOption(circle);
+    			interactions.initializeMoveOption(circle, () -> {
+    				data.movePieceToCell(checker, pos);
+    			});
     			data.visual.add(circle, pos.x, pos.y);
     			choiceNodes.add(circle);
     		}
     	});
     	
-    	interactions.setAfterUnselect((checker) -> {
+    	interactions.setAfterUnselect(() -> {
     		for (Node node : choiceNodes) {
     			data.visual.getChildren().remove(node);
     		}
