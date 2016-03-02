@@ -13,7 +13,7 @@ public class App extends Application {
     	final BorderPane pane = new BorderPane();
     	final Scene scene = new Scene(pane);
     	
-    	Pane visual = CheckerBoardFactory.render(new SafeSceneInteraction(scene));
+    	Pane visual = Rendering.renderCheckerboard(new SafeSceneInteraction(scene));
     	
     	pane.setCenter(visual);
     	

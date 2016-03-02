@@ -1,7 +1,7 @@
 import javafx.scene.layout.Pane;
 
-public class CheckerBoardFactory  {    
-    public static Pane render(final SafeSceneInteraction scene) {
+public class Rendering  {    
+    public static Pane renderCheckerboard(final SafeSceneInteraction scene) {
         final Checkerboard data = new Checkerboard();
         
         final CheckerboardInitialization ci = new CheckerboardInitialization(
