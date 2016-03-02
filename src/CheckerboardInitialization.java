@@ -27,7 +27,7 @@ public class CheckerboardInitialization {
     private void showAvailableMovesOnClick(Checkerboard data) {
     	LinkedList<Node> choiceNodes = new LinkedList<Node>();
     	
-    	interactions.setAfterSelect((checker) -> {    		    		
+    	interactions.setAfterSelect((checker) -> {    		
     		for (CellIndex pos : data.getAvailableSpaces(checker)) {
     			Node circle = circleFactory.createOpaque(Color.LIGHTBLUE);
     			interactions.initializeMoveOption(circle, () -> {

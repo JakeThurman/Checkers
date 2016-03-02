@@ -55,11 +55,9 @@ public class Checkerboard {
 		visual.add(checker.getNode(), pos.x, pos.y);
 	}
 
-	public void movePieceToCell(Checker checker, CellIndex pos) {
-		CheckerboardSquare newCell = getCell(pos);
-		
-		// Record that this cell is now empty
-		newCell.setEmpty();
+	public void movePieceToCell(Checker checker, CellIndex pos) {		
+		// Record that the old cell is now empty
+		getCell(checker.getPos()).setEmpty();
 		
 		// Record the new position to the checker
 		checker.setPos(pos);
