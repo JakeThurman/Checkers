@@ -7,6 +7,11 @@ public class CellIndex {
 		this.y = y;
 	}
 	
+	public boolean isValid() {
+		return x < Settings.BOARD_SIZE && x >= 0 
+			&& y < Settings.BOARD_SIZE && y >= 0;
+	}
+	
 	public String toString() {
 		return "CellIndex: { x = " + x + ", y = " + y + " }";
 	}

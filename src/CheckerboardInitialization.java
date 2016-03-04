@@ -28,10 +28,15 @@ public class CheckerboardInitialization {
     	LinkedList<Node> choiceNodes = new LinkedList<Node>();
     	
     	interactions.setAfterSelect((checker) -> {    		
-    		for (CellIndex pos : data.getAvailableSpaces(checker)) {
-    			Node circle = circleFactory.createOpaque(Color.LIGHTBLUE);
+    		for (CellSearchResult searchData : data.getAvailableSpaces(checker)) {
+    			Node      circle = circleFactory.createOpaque(Color.LIGHTBLUE);
+    			CellIndex pos    = searchData.getCellIndex();
     			interactions.initializeMoveOption(circle, () -> {
     				data.movePieceToCell(checker, pos);
+    				
+    				if (searchData.getIsJump()) {
+    					data.setJumped(searchData.getJumpedCellIndex());
+    				}
     			});
     			data.visual.add(circle, pos.x, pos.y);
     			choiceNodes.add(circle);
@@ -78,7 +83,8 @@ public class CheckerboardInitialization {
         for (int i=0; i < Settings.NUM_PIECES; i++) {  
         	// Give player 1 a piece   
         	Checker p1Checker = new Checker(
-        		/*isPlayer1*/ true, 
+        		true, // isPlayer1
+        		Color.DEEPPINK, // King Fill
         		circleFactory.create(Color.RED), 
         		getPlayer1Cell(i));
 
@@ -87,8 +93,9 @@ public class CheckerboardInitialization {
 
         	// Give player 2 a piece
         	Checker p2Checker = new Checker(
-	    		/*isPlayer1*/ false, 
-	    		circleFactory.create(Color.BLACK), 
+	    		false, // isPlayer1
+	    		Color.DARKSLATEGRAY, // King Fill
+	    		circleFactory.create(Color.BLACK),
 	    		getPlayer2Cell(i));
 
             interactions.initalizeChecker(p2Checker);

@@ -4,14 +4,16 @@ import javafx.scene.Node;
 
 public class CheckerInteractionManager {
 	private final SafeSceneInteraction scene;
-	private final SelectionManager selection;
+	private final SelectionManager     selection;
+	private final CheckersTurnManager  turnManager;
 	
 	private Consumer<Checker> afterSelect    = null;
 	private Runnable          afterUnselect = null;
 	
-	public CheckerInteractionManager(SafeSceneInteraction scene, SelectionManager selection) {
+	public CheckerInteractionManager(SafeSceneInteraction scene, SelectionManager selection, CheckersTurnManager turnManager) {
 		this.scene = scene;
 		this.selection = selection;
+		this.turnManager = turnManager;
 	}
 	
 	public void setAfterSelect(Consumer<Checker> afterSelect) {
@@ -25,12 +27,17 @@ public class CheckerInteractionManager {
 	public void initalizeChecker(Checker c) {
 		final Node node = c.getNode();
 		node.setOnMouseClicked((e) -> doSelection(c));
-		
-		initializeMouseOver(node);
+
+        node.setOnMouseExited((e) -> scene.setCursor(Cursor.DEFAULT));
+        node.setOnMouseEntered((e) -> { 
+        	if(c.getIsPlayer1() == turnManager.isPlayer1sTurn()) 
+        		scene.setCursor(Cursor.HAND); 
+        });
 	}
 	
 	public void initializeMoveOption(Node node, Runnable moveHere) {
-		initializeMouseOver(node);
+        node.setOnMouseEntered((e) -> scene.setCursor(Cursor.HAND));
+        node.setOnMouseExited((e) -> scene.setCursor(Cursor.DEFAULT));
 		
 		node.setOnMouseClicked((e) -> {
 			doUnselect();
@@ -38,23 +45,20 @@ public class CheckerInteractionManager {
 		});
 	}
 	
-	private void initializeMouseOver(Node node) {
-        node.setOnMouseEntered((e) -> onClicleMouseOver());
-        node.setOnMouseExited((e) -> onClicleMouseOut());
-	}
-	
 	private void doSelection(Checker c) {
+		boolean canSelect      = turnManager.isPlayer1sTurn() == c.getIsPlayer1();
 		boolean anySelected    = selection.hasSelected();
 		boolean thisSelected   = selection.isSelected(c);
 		boolean shouldUnselect = thisSelected || (!thisSelected && anySelected);
+		boolean shouldSelect   = !thisSelected && canSelect;
 		
 		if (shouldUnselect)
 			doUnselect();
 		
-		if (!thisSelected)
+		if (shouldSelect)
 			selection.setSelected(c);
 		
-		if (!thisSelected && this.afterSelect != null)
+		if (shouldSelect && this.afterSelect != null)
 			afterSelect.accept(c);
 	}
 	
@@ -63,13 +67,5 @@ public class CheckerInteractionManager {
 		
 		if (this.afterUnselect != null)
 			afterUnselect.run();
-	}
-	
-	private void onClicleMouseOver() {
-		scene.setCursor(Cursor.HAND);
-	}
-	
-	private void onClicleMouseOut() {
-		scene.setCursor(Cursor.DEFAULT);
 	}
 }

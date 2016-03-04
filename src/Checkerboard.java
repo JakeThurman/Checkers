@@ -3,11 +3,13 @@ import javafx.scene.layout.GridPane;
 
 public class Checkerboard {
 	private final CheckerboardSquare[][] cells;
-	public  final GridPane visual;
+	private final CheckersTurnManager    turnManager;
+	public  final GridPane               visual;
 	
-	public Checkerboard() {
-		this.cells  = new CheckerboardSquare[Settings.BOARD_SIZE][Settings.BOARD_SIZE];		
-		this.visual = new GridPane();
+	public Checkerboard(CheckersTurnManager turnManager) {
+		this.turnManager = turnManager;
+		this.cells       = new CheckerboardSquare[Settings.BOARD_SIZE][Settings.BOARD_SIZE];		
+		this.visual      = new GridPane();
 		
 		init();
 	}
@@ -34,17 +36,19 @@ public class Checkerboard {
 	}
 		
 	private CheckerboardSquare getCell(CellIndex i) {
-		if (!isValid(i))
-		{
+		if (!i.isValid()) {
 			Logging.report("Attempted Invalid Access! " + i.toString());
 			return null;
 		}
 		return cells[i.x][i.y];
 	}
 	
-	private boolean isValid(CellIndex ci) {
-		return ci.x < Settings.BOARD_SIZE && ci.x >= 0 
-			&& ci.y < Settings.BOARD_SIZE && ci.y >= 0;
+	public void setJumped(CellIndex i) {
+		CheckerboardSquare cell   = getCell(i);
+		Checker            jumped = cell.getPiece();
+		
+		remove(jumped);
+		turnManager.recordDeadChecker(jumped.getIsPlayer1());
 	}
 		
 	public void pieceIsInCell(Checker checker) {
@@ -54,82 +58,74 @@ public class Checkerboard {
 		// Add visually
 		visual.add(checker.getNode(), pos.x, pos.y);
 	}
+	
+	private void remove(Checker c) {
+		visual.getChildren().remove(c.getNode());
+	}
 
-	public void movePieceToCell(Checker checker, CellIndex pos) {		
-		// Record that the old cell is now empty
-		getCell(checker.getPos()).setEmpty();
-		
-		// Record the new position to the checker
-		checker.setPos(pos);
-		
-		// Remove it from it's old location
-		visual.getChildren().remove(checker.getNode());
-		
-		//Move it to the new piece
-		pieceIsInCell(checker);
+	public void movePieceToCell(Checker checker, CellIndex pos) {
+		getCell(checker.getPos()).setEmpty(); // Record that the old cell is now empty
+		checker.setPos(pos); // Record the new position to the checker
+		remove(checker); // Remove it from it's old location
+		pieceIsInCell(checker); // Move it to the new piece
+		handleKingship(checker, pos); // Handle Kingship
+		turnManager.endTurn(); // This was this players turn so call it over
 	}
 	
-	public void cellIsEmpty(CellIndex i) {
-		getCell(i).setEmpty();
+	public void handleKingship(Checker c, CellIndex pos) {
+		if ((c.getIsPlayer1() && pos.y == 0) || (!c.getIsPlayer1() && pos.y == (Settings.BOARD_SIZE - 1)))
+			c.kingMe();
 	}
 	
-	public Iterable<CellIndex> getAvailableSpaces(Checker checker) {
-		LinkedList<CellIndex>      results = new LinkedList<CellIndex>();
+	public Iterable<CellSearchResult> getAvailableSpaces(Checker checker) {
+		LinkedList<CellSearchResult> results = new LinkedList<CellSearchResult>();
 		LinkedList<CellSearchData> toCheck = new LinkedList<CellSearchData>();
 		
-		toCheck.add(new CellSearchData(1, 1, checker.getPos()));
-		toCheck.add(new CellSearchData(-1, -1, checker.getPos()));
-		toCheck.add(new CellSearchData(-1, 1, checker.getPos()));
-		toCheck.add(new CellSearchData(1, -1, checker.getPos()));
+		if (!checker.getIsPlayer1() || checker.getIsKing()) {
+			toCheck.add(new CellSearchData(1, 1, checker.getPos()));
+			toCheck.add(new CellSearchData(-1, 1, checker.getPos()));
+		}
+		if (checker.getIsPlayer1() || checker.getIsKing()) {
+			toCheck.add(new CellSearchData(-1, -1, checker.getPos()));
+			toCheck.add(new CellSearchData(1, -1, checker.getPos()));
+		}
+		
+		boolean iAmPlayer1 = checker.getIsPlayer1();
 		
 		while (!toCheck.isEmpty()) {
 			CellSearchData checking = toCheck.poll();
 			CellIndex      index    = checking.getCellIndex();
 			
-			if (!isValid(index))
+			if (!index.isValid())
 				continue;
 						
 			// See if this is an empty space
 			CheckerboardSquare cell = getCell(index);
 			
 			if (cell.isEmpty()) {
-				if (!results.contains(index))
-					results.add(index);
+				if (!results.contains(checking))
+					results.add(checking);
 				
-				//TODO: Check if we can double/triple jump here
+				// Check if we can double jump
+				if (checking.getIsJump()) {
+					// Check if the next square from here has another piece in it
+					// If it does add it to the queue to be checker for jumpage
+					CellSearchData doubleJump      = checking.withJumpOffset();
+					CellIndex      doubleJumpIndex = doubleJump.getCellIndex();
+					if (doubleJumpIndex.isValid()) {
+						CheckerboardSquare doubleJumpCell = getCell(doubleJumpIndex);
+						
+						if (!doubleJumpCell.isEmpty() && doubleJumpCell.getPiece().getIsPlayer1() != iAmPlayer1)
+							toCheck.add(doubleJump.withJumpOffset());
+					}
+				}
 			}
 			// If we aren't already doing so, see if we can jump this piece and it's not our own piece
-			else if (!checking.isJump && cell.getPiece().isPlayer1() != checker.isPlayer1()) {
-				toCheck.add(checking.withDoubleOffsetCellIndex());
+			else if (!checking.isJump && cell.getPiece().getIsPlayer1() != iAmPlayer1) {
+				toCheck.add(checking.withJumpOffset());
 			}
 		}
 		
 		return results;
-	}
-	
-	private class CellSearchData {
-		private final CellIndex source;
-		private final int       deltaX, 
-		                        deltaY;
-		public  final boolean   isJump;
-			
-		public CellSearchData(int deltaX, int deltaY, CellIndex source) {
-			this(deltaX, deltaY, source, false);
-		}
-
-		private CellSearchData(int deltaX, int deltaY, CellIndex source, boolean isJump) {
-			this.deltaX = deltaX;
-			this.deltaY = deltaY;
-			this.source = source;
-			this.isJump = isJump;
-		}
-		
-		public CellIndex getCellIndex() {
-			return new CellIndex(source.x + deltaX, source.y + deltaY);
-		}
-		
-		public CellSearchData withDoubleOffsetCellIndex() {
-			return new CellSearchData(deltaX * 2, deltaY * 2, source, true);
-		}
 	}
 }

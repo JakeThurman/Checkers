@@ -1,15 +1,20 @@
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Shape;
 
 public class Checker {
 	public  final Shape   node;
 	private final boolean isPlayer1;
+	private final Paint   kingFill;
 	
-	private CellIndex pos = null;
+	private boolean   isKing;
+	private CellIndex pos;
 	
-	public Checker(boolean isPlayer1, Shape node, CellIndex initialPos) {
+	public Checker(boolean isPlayer1, Paint kingFill, Shape node, CellIndex initialPos) {
 		this.isPlayer1 = isPlayer1;
 		this.node      = node;
 		this.pos       = initialPos;
+		this.kingFill  = kingFill;
+		this.isKing    = false;
 	}
 	
 	public Shape getNode() {
@@ -24,8 +29,18 @@ public class Checker {
 		this.pos = pos;
 	}
 	
-	public boolean isPlayer1() {
+	public boolean getIsPlayer1() {
 		return isPlayer1;
+	}
+	
+	public boolean getIsKing() {
+		return isKing;
+	}
+	
+	public void kingMe() {
+		this.isKing = true;
+		
+		this.getNode().setFill(this.kingFill);
 	}
 	
 	public String toString() {
