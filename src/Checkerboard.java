@@ -60,11 +60,11 @@ public class Checkerboard {
 	}
 	
 	private void remove(Checker c) {
-		visual.getChildren().remove(c.getNode());
+		getCell(c.getPos()).setEmpty(); // Record that the cell is now empty
+		visual.getChildren().remove(c.getNode()); // Remove the node
 	}
 
 	public void movePieceToCell(Checker checker, CellIndex pos) {
-		getCell(checker.getPos()).setEmpty(); // Record that the old cell is now empty
 		checker.setPos(pos); // Record the new position to the checker
 		remove(checker); // Remove it from it's old location
 		pieceIsInCell(checker); // Move it to the new piece
@@ -107,6 +107,7 @@ public class Checkerboard {
 					results.add(checking);
 				
 				// Check if we can double jump
+				// TODO handle double jumps in a different direction from the first
 				if (checking.getIsJump()) {
 					// Check if the next square from here has another piece in it
 					// If it does add it to the queue to be checker for jumpage
