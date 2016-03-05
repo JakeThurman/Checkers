@@ -95,20 +95,20 @@ public class CheckerboardInitialization implements Disposable {
         	// Give player 1 a piece   
         	Checker p1Checker = new Checker(
         		true, // isPlayer1
-        		Color.DEEPPINK, // King Fill
         		circleFactory.create(Color.RED), 
         		getPlayer1Cell(i));
 
+        	p1Checker.setOnKing(() -> p1Checker.getNode().setFill(Color.DEEPPINK));
         	interactions.initalizeChecker(p1Checker);
         	data.pieceIsInCell(p1Checker);
 
         	// Give player 2 a piece
         	Checker p2Checker = new Checker(
 	    		false, // isPlayer1
-	    		Color.DARKSLATEGRAY, // King Fill
 	    		circleFactory.create(Color.BLACK),
 	    		getPlayer2Cell(i));
 
+        	p1Checker.setOnKing(() -> p1Checker.getNode().setFill(Color.DARKSLATEGRAY));
             interactions.initalizeChecker(p2Checker);
         	data.pieceIsInCell(p2Checker);
         }

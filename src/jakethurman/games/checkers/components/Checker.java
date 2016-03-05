@@ -1,6 +1,5 @@
 package jakethurman.games.checkers.components;
 
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Shape;
 import jakethurman.components.CellIndex;
 import jakethurman.foundation.Disposable;
@@ -8,17 +7,20 @@ import jakethurman.foundation.Disposable;
 public class Checker implements Disposable {
 	public  final Shape   node;
 	private final boolean isPlayer1;
-	private final Paint   kingFill;
-	
+
+	private Runnable  onKing = null;
 	private boolean   isKing;
 	private CellIndex pos;
 	
-	public Checker(boolean isPlayer1, Paint kingFill, Shape node, CellIndex initialPos) {
+	public Checker(boolean isPlayer1, Shape node, CellIndex initialPos) {
 		this.isPlayer1 = isPlayer1;
 		this.node      = node;
 		this.pos       = initialPos;
-		this.kingFill  = kingFill;
 		this.isKing    = false;
+	}
+	
+	public void setOnKing(final Runnable onKing) {
+		this.onKing = onKing;
 	}
 	
 	public Shape getNode() {
@@ -44,7 +46,8 @@ public class Checker implements Disposable {
 	public void kingMe() {
 		this.isKing = true;
 		
-		this.getNode().setFill(this.kingFill);
+		if (onKing != null) 
+			onKing.run();
 	}
 	
 	public String toString() {
@@ -53,6 +56,7 @@ public class Checker implements Disposable {
 	
 	public void dispose() {
 		this.pos.dispose();
-		this.pos = null;
+		this.pos    = null;
+		this.onKing = null;
 	}
 }
