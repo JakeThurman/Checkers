@@ -1,5 +1,5 @@
-public class Rendering  {
-    public static ReadOnlyPositionedNodes renderCheckerboard(final SafeSceneInteraction scene) {
+public class CheckerboardRenderer implements Renderer {
+    public ReadOnlyPositionedNodes render(final SafeSceneInteraction scene, Runnable rerender) {
         final CheckersTurnManager ctm  = new CheckersTurnManager();
         final Checkerboard        data = new Checkerboard(ctm);
         
@@ -14,13 +14,13 @@ public class Rendering  {
         
         // Initialize the status bar's dependencies 
         Messages       msgs    = new Messages();
-        CleanupHandler cleanup = new CleanupHandler(ctm, data, ci, msgs);       
+        CleanupHandler cleanup = new CleanupHandler(scene, ctm, data, ci, msgs);       
         
         // Initialize the status bar
         GameStatusBar statusBar = new GameStatusBar(
             msgs,
             ctm,
-            new PlayAgainHandler(cleanup));
+            new PlayAgainHandler(cleanup, rerender));
                 
         return new PositionedNodes()
         	.setCenter(data.visual)

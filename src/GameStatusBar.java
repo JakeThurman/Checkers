@@ -1,3 +1,4 @@
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
@@ -58,10 +59,12 @@ public class GameStatusBar {
 		this.turn.setText(msg);
 		
 		Button playAgain = new Button();
+		playAgain.setText(msgs.getPlayAgain());
+		playAgain.setAlignment(Pos.CENTER);
 		playAgain.setOnMouseClicked((e) -> {
 			playAgainHandler.run();
 		});
-		parent.setRight(playAgain);
+		parent.setBottom(playAgain);
 	}
 	
 	public Node getNode() {

@@ -35,6 +35,7 @@ class CellSearchData implements CellSearchResult {
 		return new CellSearchData(deltaX + originalDeltaX, originalDeltaX, deltaY + originalDeltaY, originalDeltaY, source, true);
 	}
 	
+	@Override
 	public boolean equals(Object obj) {
 		return obj instanceof CellSearchData && ((CellSearchData)obj).getCellIndex() == getCellIndex();
 	}

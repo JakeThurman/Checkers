@@ -53,7 +53,7 @@ public class Checkerboard implements Disposable {
 		turnManager.recordDeadChecker(jumped.getIsPlayer1());
 		jumped.dispose();
 	}
-		
+	
 	public void pieceIsInCell(Checker checker) {
 		CellIndex pos = checker.getPos();
 		getCell(pos).setPiece(checker);

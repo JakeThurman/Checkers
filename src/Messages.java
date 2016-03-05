@@ -3,7 +3,8 @@ public class Messages implements Disposable {
 	                            SCORESTATUS = "%2$s has %3$d/%1$d checkers remaining.\n%4$s has %5$d/%1$d checkers remaining.",
 	                            YOUWIN      = "Congratulations %1$s! You won!",
 	                            PLAYER1     = "Red",
-	                            PLAYER2     = "Black";
+	                            PLAYER2     = "Black",
+	                            PLAYAGAIN   = "Play Again";
 	
 	public String getTurnStatus(boolean isPlayer1) {
 		return String.format(TURNSTATUS, isPlayer1 ? PLAYER1 : PLAYER2);
@@ -15,6 +16,10 @@ public class Messages implements Disposable {
 	
 	public String getWinnerMessage(boolean isPlayer1) {
 		return String.format(YOUWIN, isPlayer1 ? PLAYER1 : PLAYER2);
+	}
+	
+	public String getPlayAgain() {
+		return PLAYAGAIN;
 	}
 	
 	public void dispose() {
