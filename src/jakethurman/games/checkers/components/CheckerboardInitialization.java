@@ -4,13 +4,14 @@ import java.util.LinkedList;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.layout.GridPane;
-import javafx.scene.Node;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.RowConstraints;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 import jakethurman.components.CellIndex;
 import jakethurman.components.CircleFactory;
+import jakethurman.components.SafeNode;
+import jakethurman.components.SafePaint;
 import jakethurman.foundation.CleanupHandler;
 import jakethurman.foundation.Disposable;
 import jakethurman.games.checkers.CellSearchResult;
@@ -36,11 +37,11 @@ public class CheckerboardInitialization implements Disposable {
     }
         
     private void showAvailableMovesOnClick(Checkerboard data) {
-    	LinkedList<Node> choiceNodes = new LinkedList<Node>();
+    	LinkedList<SafeNode> choiceNodes = new LinkedList<SafeNode>();
     	
     	interactions.setAfterSelect((checker) -> {    		
     		for (CellSearchResult searchData : data.getAvailableSpaces(checker)) {
-    			Node      circle = circleFactory.createOpaque(Color.LIGHTBLUE);
+    			SafeNode  circle = circleFactory.createOpaque(Color.LIGHTBLUE);
     			CellIndex pos    = searchData.getCellIndex();
     			interactions.initializeMoveOption(circle, () -> {
     				data.movePieceToCell(checker, pos);
@@ -49,14 +50,14 @@ public class CheckerboardInitialization implements Disposable {
     					data.setJumped(searchData.getJumpedCellIndex());
     				}
     			});
-    			data.visual.add(circle, pos.x, pos.y);
+    			data.visual.add(circle.getUnsafe(), pos.x, pos.y);
     			choiceNodes.add(circle);
     		}
     	});
     	
     	interactions.setAfterUnselect(() -> {
-    		for (Node node : choiceNodes) {
-    			data.visual.getChildren().remove(node);
+    		for (SafeNode node : choiceNodes) {
+    			data.visual.getChildren().remove(node.getUnsafe());
     		}
     		
     		choiceNodes.clear();
@@ -95,20 +96,20 @@ public class CheckerboardInitialization implements Disposable {
         	// Give player 1 a piece   
         	Checker p1Checker = new Checker(
         		true, // isPlayer1
+        		SafePaint.DEEPPINK, // King Fill
         		circleFactory.create(Color.RED), 
         		getPlayer1Cell(i));
 
-        	p1Checker.setOnKing(() -> p1Checker.getNode().setFill(Color.DEEPPINK));
         	interactions.initalizeChecker(p1Checker);
         	data.pieceIsInCell(p1Checker);
 
         	// Give player 2 a piece
         	Checker p2Checker = new Checker(
 	    		false, // isPlayer1
+	    		SafePaint.DARKSLATEGRAY, // King Fill
 	    		circleFactory.create(Color.BLACK),
 	    		getPlayer2Cell(i));
-
-        	p1Checker.setOnKing(() -> p1Checker.getNode().setFill(Color.DARKSLATEGRAY));
+        	
             interactions.initalizeChecker(p2Checker);
         	data.pieceIsInCell(p2Checker);
         }

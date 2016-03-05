@@ -2,9 +2,9 @@ package jakethurman.games.checkers;
 
 import java.util.function.Consumer;
 import javafx.scene.Cursor;
-import javafx.scene.Node;
 import jakethurman.foundation.CleanupHandler;
 import jakethurman.foundation.Disposable;
+import jakethurman.components.SafeNode;
 import jakethurman.components.SafeSceneInteraction;
 import jakethurman.games.checkers.components.Checker;
 
@@ -33,21 +33,21 @@ public class CheckerInteractionManager implements Disposable {
 	}
 	
 	public void initalizeChecker(Checker c) {
-		final Node node = c.getNode();
-		node.setOnMouseClicked((e) -> doSelection(c));
+		final SafeNode node = c.getNode();
+		node.setOnMouseClicked(() -> doSelection(c));
 
-        node.setOnMouseExited((e) -> scene.setCursor(Cursor.DEFAULT));
-        node.setOnMouseEntered((e) -> { 
+        node.setOnMouseExited(() -> scene.setCursor(Cursor.DEFAULT));
+        node.setOnMouseEntered(() -> { 
         	if(c.getIsPlayer1() == turnManager.isPlayer1sTurn()) 
         		scene.setCursor(Cursor.HAND); 
         });
 	}
 	
-	public void initializeMoveOption(Node node, Runnable moveHere) {
-        node.setOnMouseEntered((e) -> scene.setCursor(Cursor.HAND));
-        node.setOnMouseExited((e) -> scene.setCursor(Cursor.DEFAULT));
+	public void initializeMoveOption(SafeNode node, Runnable moveHere) {
+        node.setOnMouseEntered(() -> scene.setCursor(Cursor.HAND));
+        node.setOnMouseExited(() -> scene.setCursor(Cursor.DEFAULT));
 		
-		node.setOnMouseClicked((e) -> {
+		node.setOnMouseClicked(() -> {
 			doUnselect();
 			moveHere.run();
 		});

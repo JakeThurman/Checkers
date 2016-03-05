@@ -1,13 +1,13 @@
 package jakethurman.games.checkers;
 
-import javafx.scene.shape.Shape;
-import javafx.scene.paint.Paint;
+import jakethurman.components.SafePaint;
+import jakethurman.components.SafeShape;
 import jakethurman.foundation.Disposable;
 import jakethurman.games.checkers.components.Checker;
 
 public class SelectionManager implements Disposable {	
-	private Paint originalColor = null;
-	private Shape selected      = null;
+	private SafePaint originalColor = null;
+	private SafeShape selected      = null;
 			
 	public boolean hasSelected() {
 		return this.selected != null;
@@ -21,7 +21,6 @@ public class SelectionManager implements Disposable {
 		this.selected = c.getNode();
 		
 		//Color management
-		this.originalColor = this.selected.getFill();
 		this.selected.setFill(Settings.SELECTED_COLOR);
 	}
 	

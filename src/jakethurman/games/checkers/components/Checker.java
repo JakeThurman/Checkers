@@ -1,29 +1,27 @@
 package jakethurman.games.checkers.components;
 
-import javafx.scene.shape.Shape;
 import jakethurman.components.CellIndex;
+import jakethurman.components.SafePaint;
+import jakethurman.components.SafeShape;
 import jakethurman.foundation.Disposable;
 
 public class Checker implements Disposable {
-	public  final Shape   node;
-	private final boolean isPlayer1;
+	private final SafeShape node;
+	private final boolean   isPlayer1;
+	private final SafePaint kingFill;
 
-	private Runnable  onKing = null;
 	private boolean   isKing;
 	private CellIndex pos;
 	
-	public Checker(boolean isPlayer1, Shape node, CellIndex initialPos) {
+	public Checker(boolean isPlayer1, SafePaint kingFill, SafeShape node, CellIndex initialPos) {
 		this.isPlayer1 = isPlayer1;
+		this.kingFill  = kingFill;
 		this.node      = node;
 		this.pos       = initialPos;
 		this.isKing    = false;
 	}
 	
-	public void setOnKing(final Runnable onKing) {
-		this.onKing = onKing;
-	}
-	
-	public Shape getNode() {
+	public SafeShape getNode() {
 		return node;
 	}
 	
@@ -45,9 +43,7 @@ public class Checker implements Disposable {
 	
 	public void kingMe() {
 		this.isKing = true;
-		
-		if (onKing != null) 
-			onKing.run();
+		this.node.setFill(kingFill);
 	}
 	
 	public String toString() {
@@ -57,6 +53,5 @@ public class Checker implements Disposable {
 	public void dispose() {
 		this.pos.dispose();
 		this.pos    = null;
-		this.onKing = null;
 	}
 }

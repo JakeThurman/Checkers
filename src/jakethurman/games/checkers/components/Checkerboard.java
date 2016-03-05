@@ -69,12 +69,12 @@ public class Checkerboard implements Disposable {
 		getCell(pos).setPiece(checker);
 		
 		// Add visually
-		visual.add(checker.getNode(), pos.x, pos.y);
+		visual.add(checker.getNode().getUnsafe(), pos.x, pos.y);
 	}
 	
 	private void remove(Checker c) {
 		getCell(c.getPos()).setEmpty(); // Record that the cell is now empty
-		visual.getChildren().remove(c.getNode()); // Remove the node
+		visual.getChildren().remove(c.getNode().getUnsafe()); // Remove the node
 	}
 
 	public void movePieceToCell(Checker checker, CellIndex pos) {
