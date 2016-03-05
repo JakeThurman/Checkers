@@ -1,3 +1,5 @@
+package jakethurman.games.checkers;
+
 public class ScoreInfo {
 	public final boolean currentPlayerIsPlayer1;
 	public final int player1CheckersRemaining;

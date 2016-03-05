@@ -1,4 +1,8 @@
+package jakethurman.components;
+
 import javafx.scene.shape.Circle;
+import jakethurman.foundation.Disposable;
+import jakethurman.games.checkers.Settings;
 import javafx.scene.paint.Color;
 
 public class CircleFactory implements Disposable {    	

@@ -1,5 +1,9 @@
+package jakethurman.games.checkers.components;
+
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Shape;
+import jakethurman.components.CellIndex;
+import jakethurman.foundation.Disposable;
 
 public class Checker implements Disposable {
 	public  final Shape   node;

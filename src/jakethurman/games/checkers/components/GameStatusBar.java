@@ -1,3 +1,5 @@
+package jakethurman.games.checkers.components;
+
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.layout.BorderPane;
@@ -5,6 +7,13 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import jakethurman.foundation.CleanupHandler;
+import jakethurman.foundation.Disposable;
+import jakethurman.components.ButtonFactory;
+import jakethurman.games.PlayAgainHandler;
+import jakethurman.games.checkers.CheckersTurnManager;
+import jakethurman.games.checkers.Messages;
+import jakethurman.games.checkers.ScoreInfo;
 
 public class GameStatusBar implements Disposable {
 	private final CheckersTurnManager turnManager;

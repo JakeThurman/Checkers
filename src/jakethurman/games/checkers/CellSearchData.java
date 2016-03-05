@@ -1,4 +1,8 @@
-class CellSearchData implements CellSearchResult {
+package jakethurman.games.checkers;
+
+import jakethurman.components.CellIndex;
+
+public class CellSearchData implements CellSearchResult {
 	private final CellIndex source;
 	private final int       deltaX, 
 	                        deltaY,

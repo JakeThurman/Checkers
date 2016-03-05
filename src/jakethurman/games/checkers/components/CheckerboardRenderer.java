@@ -1,3 +1,18 @@
+package jakethurman.games.checkers.components;
+
+import jakethurman.foundation.CleanupHandler;
+import jakethurman.components.ButtonFactory;
+import jakethurman.components.CircleFactory;
+import jakethurman.components.PositionedNodes;
+import jakethurman.components.ReadOnlyPositionedNodes;
+import jakethurman.components.SafeSceneInteraction;
+import jakethurman.games.PlayAgainHandler;
+import jakethurman.games.Renderer;
+import jakethurman.games.checkers.CheckerInteractionManager;
+import jakethurman.games.checkers.CheckersTurnManager;
+import jakethurman.games.checkers.Messages;
+import jakethurman.games.checkers.SelectionManager;
+
 public class CheckerboardRenderer implements Renderer {
     public ReadOnlyPositionedNodes render(final SafeSceneInteraction scene, Runnable rerender) {
         final CheckersTurnManager ctm  = new CheckersTurnManager();

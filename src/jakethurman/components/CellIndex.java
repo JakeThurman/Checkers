@@ -1,3 +1,8 @@
+package jakethurman.components;
+
+import jakethurman.foundation.Disposable;
+import jakethurman.games.checkers.Settings;
+
 public class CellIndex implements Disposable {
 	public final int x;
 	public final int y;

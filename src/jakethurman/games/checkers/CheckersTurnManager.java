@@ -1,5 +1,8 @@
+package jakethurman.games.checkers;
+
 import java.util.LinkedList;
 import java.util.function.Consumer;
+import jakethurman.foundation.Disposable;
 
 public class CheckersTurnManager implements Disposable {
 	private boolean                         isPlayer1sTurn   = true;

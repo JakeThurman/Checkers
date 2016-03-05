@@ -1,5 +1,15 @@
+package jakethurman.games.checkers.components;
+
 import java.util.LinkedList;
 import javafx.scene.layout.GridPane;
+import jakethurman.foundation.CleanupHandler;
+import jakethurman.foundation.Disposable;
+import jakethurman.foundation.Logging;
+import jakethurman.components.CellIndex;
+import jakethurman.games.checkers.CellSearchData;
+import jakethurman.games.checkers.CellSearchResult;
+import jakethurman.games.checkers.CheckersTurnManager;
+import jakethurman.games.checkers.Settings;
 
 public class Checkerboard implements Disposable {
 	private final CheckerboardSquare[][] cells;

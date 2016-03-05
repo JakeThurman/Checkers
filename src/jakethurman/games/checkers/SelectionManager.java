@@ -1,5 +1,9 @@
+package jakethurman.games.checkers;
+
 import javafx.scene.shape.Shape;
 import javafx.scene.paint.Paint;
+import jakethurman.foundation.Disposable;
+import jakethurman.games.checkers.components.Checker;
 
 public class SelectionManager implements Disposable {	
 	private Paint originalColor = null;

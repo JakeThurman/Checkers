@@ -1,3 +1,5 @@
+package jakethurman.foundation;
+
 public class CleanupHandler implements Disposable {
 	private final Disposable[] toDispose;
 	public CleanupHandler(Disposable...toDispose) {

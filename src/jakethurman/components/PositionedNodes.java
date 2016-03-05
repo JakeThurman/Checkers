@@ -1,3 +1,5 @@
+package jakethurman.components;
+
 import javafx.scene.Node;
 public class PositionedNodes implements ReadOnlyPositionedNodes {
 	private Node center;

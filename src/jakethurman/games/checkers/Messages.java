@@ -1,3 +1,7 @@
+package jakethurman.games.checkers;
+
+import jakethurman.foundation.Disposable;
+
 public class Messages implements Disposable {
 	private static final String TURNSTATUS  = "It's %1$ss turn.",
 	                            SCORESTATUS = "%2$s has %3$d/%1$d checkers remaining.\n%4$s has %5$d/%1$d checkers remaining.",

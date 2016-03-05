@@ -1,4 +1,7 @@
+package jakethurman.components;
+
 import javafx.scene.Node;
+import jakethurman.foundation.Disposable;
 
 public interface ReadOnlyPositionedNodes extends Disposable {
 	public Node getCenter();

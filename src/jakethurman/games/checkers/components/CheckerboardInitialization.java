@@ -1,12 +1,21 @@
+package jakethurman.games.checkers.components;
+
+import java.util.LinkedList;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.layout.GridPane;
 import javafx.scene.Node;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.RowConstraints;
-import java.util.LinkedList;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
+import jakethurman.components.CellIndex;
+import jakethurman.components.CircleFactory;
+import jakethurman.foundation.CleanupHandler;
+import jakethurman.foundation.Disposable;
+import jakethurman.games.checkers.CellSearchResult;
+import jakethurman.games.checkers.CheckerInteractionManager;
+import jakethurman.games.checkers.Settings;
 
 public class CheckerboardInitialization implements Disposable {    
 	private final CircleFactory circleFactory;

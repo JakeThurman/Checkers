@@ -1,3 +1,7 @@
+package jakethurman.games.checkers.components;
+
+import jakethurman.foundation.Disposable;
+
 public class CheckerboardSquare implements Disposable {
 	private Checker checker = null;
 	

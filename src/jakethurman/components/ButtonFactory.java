@@ -1,6 +1,9 @@
+package jakethurman.components;
+
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import jakethurman.foundation.Disposable;
 
 public class ButtonFactory implements Disposable {
 	public Node create(String text, Runnable onclick) {

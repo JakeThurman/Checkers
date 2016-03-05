@@ -1,6 +1,12 @@
+package jakethurman.games.checkers;
+
 import java.util.function.Consumer;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
+import jakethurman.foundation.CleanupHandler;
+import jakethurman.foundation.Disposable;
+import jakethurman.components.SafeSceneInteraction;
+import jakethurman.games.checkers.components.Checker;
 
 public class CheckerInteractionManager implements Disposable {
 	private final SafeSceneInteraction scene;

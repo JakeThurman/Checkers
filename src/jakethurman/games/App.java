@@ -1,7 +1,12 @@
+package jakethurman.games;
+
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import jakethurman.components.ReadOnlyPositionedNodes;
+import jakethurman.components.SafeSceneInteraction;
+import jakethurman.games.checkers.components.CheckerboardRenderer;
 
 public class App extends Application {
     public static void main(String[] args) {
