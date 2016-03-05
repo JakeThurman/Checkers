@@ -65,8 +65,8 @@ public class Checkerboard {
 	}
 
 	public void movePieceToCell(Checker checker, CellIndex pos) {
-		checker.setPos(pos); // Record the new position to the checker
 		remove(checker); // Remove it from it's old location
+		checker.setPos(pos); // Record the new position to the checker
 		pieceIsInCell(checker); // Move it to the new piece
 		handleKingship(checker, pos); // Handle Kingship
 		turnManager.endTurn(); // This was this players turn so call it over
