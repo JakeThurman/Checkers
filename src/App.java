@@ -1,7 +1,6 @@
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class App extends Application {
@@ -13,9 +12,13 @@ public class App extends Application {
     	final BorderPane pane = new BorderPane();
     	final Scene scene = new Scene(pane);
     	
-    	Pane visual = Rendering.renderCheckerboard(new SafeSceneInteraction(scene));
+    	ReadOnlyPositionedNodes board = Rendering.renderCheckerboard(new SafeSceneInteraction(scene));
     	
-    	pane.setCenter(visual);
+    	pane.setCenter(board.getCenter());
+    	pane.setLeft(board.getLeft());
+    	pane.setRight(board.getRight());
+    	pane.setTop(board.getTop());
+    	pane.setBottom(board.getBottom());
     	
         primaryStage.setScene(scene);
         primaryStage.show();    	

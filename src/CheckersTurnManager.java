@@ -1,8 +1,13 @@
-import java.util.function.ObjIntConsumer;
+import java.util.LinkedList;
+import java.util.function.Consumer;
 
 public class CheckersTurnManager {
-	private boolean                 isPlayer1sTurn = true;
-	private ObjIntConsumer<Boolean> onChange       = null;
+	private boolean                         isPlayer1sTurn   = true;
+	private LinkedList<Consumer<ScoreInfo>> onChangeHandlers = null;
+	
+	public CheckersTurnManager() {
+		this.onChangeHandlers = new LinkedList<Consumer<ScoreInfo>>();
+	}
 	
 	private int player1CheckersRemaining = Settings.NUM_PIECES;
 	private int player2CheckersRemaining = Settings.NUM_PIECES;
@@ -16,13 +21,19 @@ public class CheckersTurnManager {
 		triggerOnChangeHandlers();
 	}
 	
-	public void triggerOnChangeHandlers() {
-		if (this.onChange != null)
-			onChange.accept(this.isPlayer1sTurn, this.isPlayer1sTurn ? player1CheckersRemaining : player2CheckersRemaining);
+	public ScoreInfo getCurrentScore() {
+		return new ScoreInfo(this.isPlayer1sTurn, player1CheckersRemaining, player2CheckersRemaining);
 	}
 	
-	public void setOnChange(ObjIntConsumer<Boolean> onTurnStart) {
-		this.onChange = onTurnStart;
+	public void triggerOnChangeHandlers() {
+		ScoreInfo score = this.getCurrentScore();
+		
+		for (Consumer<ScoreInfo> handler : this.onChangeHandlers)
+			handler.accept(score);
+	}
+	
+	public void addOnChangeHandler(Consumer<ScoreInfo> handler) {
+		this.onChangeHandlers.add(handler);
 	}
 
 	public void recordDeadChecker(boolean isPlayer1) {
