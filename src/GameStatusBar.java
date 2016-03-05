@@ -1,28 +1,33 @@
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 
-public class GameStatusBar {
+public class GameStatusBar implements Disposable {
 	private final CheckersTurnManager turnManager;
 	private final PlayAgainHandler    playAgainHandler;
+	private final ButtonFactory       buttonFactory;
 	private final Messages            msgs;
+	private final CleanupHandler      cleanup;
+	
 	private final BorderPane          parent;
 	private final Text                score;
 	private final Text                turn;
 	
-	public GameStatusBar(Messages msgs, CheckersTurnManager turnManager, PlayAgainHandler playAgain) {
+	public GameStatusBar(Messages msgs, CheckersTurnManager turnManager, PlayAgainHandler playAgain, ButtonFactory buttonFactory) {
 		this.turnManager      = turnManager;
 		this.playAgainHandler = playAgain;
+		this.buttonFactory    = buttonFactory;
 		this.msgs             = msgs;
+		this.cleanup          = new CleanupHandler(turnManager, playAgain, buttonFactory, msgs);
+		
 		this.score            = new Text();
 		this.turn             = new Text();
 		this.parent           = new BorderPane();
+		
 		init();
 	}
 	
@@ -61,12 +66,7 @@ public class GameStatusBar {
 		this.score.setText("");
 		this.turn.setText(msg);
 		
-		Button playAgain = new Button();
-		playAgain.setText(msgs.getPlayAgain());
-		playAgain.setAlignment(Pos.CENTER);
-		playAgain.setOnMouseClicked((e) -> {
-			playAgainHandler.run();
-		});
+		Node playAgain = buttonFactory.create(msgs.getPlayAgain(), playAgainHandler);		
 		
 		parent.setPadding(new Insets(10));
 		parent.setRight(playAgain);
@@ -74,5 +74,9 @@ public class GameStatusBar {
 	
 	public Node getNode() {
 		return parent;
+	}
+	
+	public void dispose() {
+		cleanup.dispose();
 	}
 }

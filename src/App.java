@@ -22,12 +22,14 @@ public class App extends Application {
     }
     
     private void renderGame(Renderer renderer, SafeSceneInteraction scene, BorderPane content) {
-    	ReadOnlyPositionedNodes board = renderer.render(scene, () -> this.renderGame(renderer, scene, content));
+    	ReadOnlyPositionedNodes data = renderer.render(scene, () -> this.renderGame(renderer, scene, content));
     	
-    	content.setCenter(board.getCenter());
-    	content.setLeft(board.getLeft());
-    	content.setRight(board.getRight());
-    	content.setTop(board.getTop());
-    	content.setBottom(board.getBottom());
+    	content.setCenter(data.getCenter());
+    	content.setLeft(data.getLeft());
+    	content.setRight(data.getRight());
+    	content.setTop(data.getTop());
+    	content.setBottom(data.getBottom());
+    	
+    	data.dispose();
     }
 }

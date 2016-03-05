@@ -15,7 +15,7 @@ public class CheckerInteractionManager implements Disposable {
 		this.scene = scene;
 		this.selection = selection;
 		this.turnManager = turnManager;
-		this.cleanup = new CleanupHandler(scene, selection, turnManager);
+		this.cleanup = new CleanupHandler(selection, turnManager);
 	}
 	
 	public void setAfterSelect(Consumer<Checker> afterSelect) {

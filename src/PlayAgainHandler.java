@@ -1,4 +1,4 @@
-public class PlayAgainHandler {
+public class PlayAgainHandler implements Runnable, Disposable {
 	private final CleanupHandler cleanup;
 	private final Runnable       rerender;
 	
@@ -10,5 +10,9 @@ public class PlayAgainHandler {
 	public void run() {
 		cleanup.dispose();
 		rerender.run();
+	}
+	
+	public void dispose() {
+		cleanup.dispose();
 	}
 }

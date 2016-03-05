@@ -1,7 +1,7 @@
 import javafx.scene.Scene;
 import javafx.scene.Cursor;
 
-public class SafeSceneInteraction implements Disposable {
+public class SafeSceneInteraction {
 	private final Scene scene;
 	
 	public SafeSceneInteraction(Scene scene) {
@@ -10,9 +10,5 @@ public class SafeSceneInteraction implements Disposable {
 	
 	public void setCursor(Cursor c) {
 		scene.setCursor(c);
-	}
-	
-	public void dispose() {
-		//Nothing to cleanup
 	}
 }

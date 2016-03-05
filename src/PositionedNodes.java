@@ -50,4 +50,12 @@ public class PositionedNodes implements ReadOnlyPositionedNodes {
 	public Node getRight() {
 		return right;
 	}
+	
+	public void dispose() {
+		this.center = null;
+		this.bottom = null;
+		this.top    = null;
+		this.left   = null;
+		this.right  = null;
+	}
 }
