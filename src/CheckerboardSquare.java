@@ -1,4 +1,4 @@
-public class CheckerboardSquare {
+public class CheckerboardSquare implements Disposable {
 	private Checker checker = null;
 	
 	public boolean isEmpty() {
@@ -21,5 +21,12 @@ public class CheckerboardSquare {
 		return isEmpty() 
 			? "CheckerboardSquare: { Empty }" 
 			: "CheckerboardSquare: { " + this.checker.toString() + " }";
+	}
+	
+	public void dispose() {
+		if (!isEmpty()) {
+			this.checker.dispose();
+			this.checker = null;
+		}
 	}
 }	

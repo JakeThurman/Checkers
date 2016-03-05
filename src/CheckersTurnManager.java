@@ -1,16 +1,16 @@
 import java.util.LinkedList;
 import java.util.function.Consumer;
 
-public class CheckersTurnManager {
+public class CheckersTurnManager implements Disposable {
 	private boolean                         isPlayer1sTurn   = true;
 	private LinkedList<Consumer<ScoreInfo>> onChangeHandlers = null;
+	
+	private int player1CheckersRemaining = Settings.NUM_PIECES;
+	private int player2CheckersRemaining = Settings.NUM_PIECES;
 	
 	public CheckersTurnManager() {
 		this.onChangeHandlers = new LinkedList<Consumer<ScoreInfo>>();
 	}
-	
-	private int player1CheckersRemaining = Settings.NUM_PIECES;
-	private int player2CheckersRemaining = Settings.NUM_PIECES;
 		
 	public boolean isPlayer1sTurn() {
 		return this.isPlayer1sTurn;
@@ -43,5 +43,10 @@ public class CheckersTurnManager {
 			player2CheckersRemaining--;
 		
 		triggerOnChangeHandlers();
+	}
+	
+	public void dispose() {
+		// Clear out stored handlers
+		onChangeHandlers = null;
 	}
 }

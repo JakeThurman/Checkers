@@ -1,4 +1,4 @@
-public class Rendering  {    
+public class Rendering  {
     public static ReadOnlyPositionedNodes renderCheckerboard(final SafeSceneInteraction scene) {
         final CheckersTurnManager ctm  = new CheckersTurnManager();
         final Checkerboard        data = new Checkerboard(ctm);
@@ -12,10 +12,15 @@ public class Rendering  {
         
         ci.initialize(data);
         
-        // Init the status bar
+        // Initialize the status bar's dependencies 
+        Messages       msgs    = new Messages();
+        CleanupHandler cleanup = new CleanupHandler(ctm, data, ci, msgs);       
+        
+        // Initialize the status bar
         GameStatusBar statusBar = new GameStatusBar(
-            new Messages(),
-        	ctm);
+            msgs,
+            ctm,
+            new PlayAgainHandler(cleanup));
                 
         return new PositionedNodes()
         	.setCenter(data.visual)

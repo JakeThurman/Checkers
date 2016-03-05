@@ -8,13 +8,15 @@ import java.util.LinkedList;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 
-public class CheckerboardInitialization {    
+public class CheckerboardInitialization implements Disposable {    
 	private final CircleFactory circleFactory;
 	private final CheckerInteractionManager interactions;
+	private final CleanupHandler cleanup;
 	
 	public CheckerboardInitialization(CircleFactory circleFactory, CheckerInteractionManager interactions) {
 		this.circleFactory = circleFactory;
 		this.interactions  = interactions;
+		this.cleanup = new CleanupHandler(circleFactory, interactions);
 	}
 	
     public void initialize(Checkerboard data) {
@@ -114,4 +116,8 @@ public class CheckerboardInitialization {
     			currPiece%(Settings.BOARD_SIZE/2) * 2 + (2*currPiece/Settings.BOARD_SIZE)%2, // X
     			Settings.BOARD_SIZE - 1 - (currPiece*2)/Settings.BOARD_SIZE);                // Y
     }
+
+	public void dispose() {
+		cleanup.dispose();
+	}
 }

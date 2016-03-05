@@ -1,13 +1,15 @@
 import java.util.LinkedList;
 import javafx.scene.layout.GridPane;
 
-public class Checkerboard {
+public class Checkerboard implements Disposable {
 	private final CheckerboardSquare[][] cells;
 	private final CheckersTurnManager    turnManager;
+	private final CleanupHandler         cleanup;
 	public  final GridPane               visual;
 	
 	public Checkerboard(CheckersTurnManager turnManager) {
 		this.turnManager = turnManager;
+		this.cleanup     = new CleanupHandler(turnManager);
 		this.cells       = new CheckerboardSquare[Settings.BOARD_SIZE][Settings.BOARD_SIZE];		
 		this.visual      = new GridPane();
 		
@@ -49,6 +51,7 @@ public class Checkerboard {
 		
 		remove(jumped);
 		turnManager.recordDeadChecker(jumped.getIsPlayer1());
+		jumped.dispose();
 	}
 		
 	public void pieceIsInCell(Checker checker) {
@@ -128,5 +131,14 @@ public class Checkerboard {
 		}
 		
 		return results;
+	}
+	
+	public void dispose() {
+		cleanup.dispose();
+		for (CheckerboardSquare[] arr : cells) {
+			for (CheckerboardSquare cell : arr) {
+				cell.dispose();
+			}
+		}
 	}
 }

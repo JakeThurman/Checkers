@@ -1,7 +1,7 @@
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Shape;
 
-public class Checker {
+public class Checker implements Disposable {
 	public  final Shape   node;
 	private final boolean isPlayer1;
 	private final Paint   kingFill;
@@ -45,5 +45,10 @@ public class Checker {
 	
 	public String toString() {
 		return "Checker: { Pos: {" + pos.toString() + "}, isPlayer1: " + isPlayer1 + " }"; 
+	}
+	
+	public void dispose() {
+		this.pos.dispose();
+		this.pos = null;
 	}
 }

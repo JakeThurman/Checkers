@@ -2,10 +2,11 @@ import java.util.function.Consumer;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 
-public class CheckerInteractionManager {
+public class CheckerInteractionManager implements Disposable {
 	private final SafeSceneInteraction scene;
 	private final SelectionManager     selection;
 	private final CheckersTurnManager  turnManager;
+	private final CleanupHandler       cleanup;
 	
 	private Consumer<Checker> afterSelect    = null;
 	private Runnable          afterUnselect = null;
@@ -14,6 +15,7 @@ public class CheckerInteractionManager {
 		this.scene = scene;
 		this.selection = selection;
 		this.turnManager = turnManager;
+		this.cleanup = new CleanupHandler(scene, selection, turnManager);
 	}
 	
 	public void setAfterSelect(Consumer<Checker> afterSelect) {
@@ -67,5 +69,13 @@ public class CheckerInteractionManager {
 		
 		if (this.afterUnselect != null)
 			afterUnselect.run();
+	}
+
+	public void dispose() {
+		cleanup.dispose();
+		
+		// Clear out stored handlers
+		afterSelect   = null;
+		afterUnselect = null;
 	}
 }

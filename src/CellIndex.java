@@ -1,4 +1,4 @@
-public class CellIndex {
+public class CellIndex implements Disposable {
 	public final int x;
 	public final int y;
 	
@@ -18,5 +18,9 @@ public class CellIndex {
 	
 	public boolean equals(Object obj) {		
 		return obj instanceof CellIndex && ((CellIndex)obj).x == this.x && ((CellIndex)obj).y == this.y;
+	}
+	
+	public void dispose() {
+		// Nothing to dispose
 	}
 }

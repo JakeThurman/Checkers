@@ -1,7 +1,7 @@
 import javafx.scene.shape.Shape;
 import javafx.scene.paint.Paint;
 
-public class SelectionManager {	
+public class SelectionManager implements Disposable {	
 	private Paint originalColor = null;
 	private Shape selected      = null;
 			
@@ -27,5 +27,11 @@ public class SelectionManager {
 			this.selected.setFill(originalColor);
 		
 		this.selected = null;
+	}
+	
+	public void dispose() {
+		// Clear out stored variables
+		originalColor = null;
+		selected      = null;
 	}
 }

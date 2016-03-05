@@ -1,7 +1,7 @@
 import javafx.scene.shape.Circle;
 import javafx.scene.paint.Color;
 
-public class CircleFactory {    	
+public class CircleFactory implements Disposable {    	
 	public Circle create(final Color fill) {
 		// Draw the circle
 		Circle c = new Circle(Settings.CIRCLE_RADIUS, fill);
@@ -15,5 +15,9 @@ public class CircleFactory {
 		Circle c = create(fill);
 		c.setOpacity(0.7);
 		return c;
+	}
+	
+	public void dispose() {
+		//Nothing to dispose
 	}
 }
