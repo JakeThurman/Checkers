@@ -1,3 +1,4 @@
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -35,6 +36,8 @@ public class GameStatusBar {
 		score.setTextAlignment(TextAlignment.LEFT);
 		score.setFont(Font.font("Tahoma", 20));
 		
+		parent.setPadding(new Insets(4));
+		
 		parent.setCenter(this.turn);
 		parent.setBottom(this.score);
 	}
@@ -64,7 +67,9 @@ public class GameStatusBar {
 		playAgain.setOnMouseClicked((e) -> {
 			playAgainHandler.run();
 		});
-		parent.setBottom(playAgain);
+		
+		parent.setPadding(new Insets(10));
+		parent.setRight(playAgain);
 	}
 	
 	public Node getNode() {
