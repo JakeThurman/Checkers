@@ -1,8 +1,8 @@
 package jakethurman.games.checkers.components;
 
 import jakethurman.foundation.CleanupHandler;
-import jakethurman.components.ButtonFactory;
-import jakethurman.components.CircleFactory;
+import jakethurman.components.factories.ButtonFactory;
+import jakethurman.components.factories.CircleFactory;
 import jakethurman.components.PositionedNodes;
 import jakethurman.components.ReadOnlyPositionedNodes;
 import jakethurman.components.SafeSceneInteraction;

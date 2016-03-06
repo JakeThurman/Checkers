@@ -1,4 +1,4 @@
-package jakethurman.components;
+package jakethurman.components.factories;
 
 import javafx.geometry.Pos;
 import javafx.scene.Node;

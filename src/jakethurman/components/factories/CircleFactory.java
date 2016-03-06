@@ -1,9 +1,11 @@
-package jakethurman.components;
+package jakethurman.components.factories;
 
 import javafx.scene.shape.Circle;
+import javafx.scene.paint.Color;
+import jakethurman.components.SafePaint;
+import jakethurman.components.SafeShape;
 import jakethurman.foundation.Disposable;
 import jakethurman.games.checkers.Settings;
-import javafx.scene.paint.Color;
 
 public class CircleFactory implements Disposable {    
 	private Circle createUnsafe(final SafePaint fill) {

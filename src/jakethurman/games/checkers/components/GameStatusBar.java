@@ -9,7 +9,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import jakethurman.foundation.CleanupHandler;
 import jakethurman.foundation.Disposable;
-import jakethurman.components.ButtonFactory;
+import jakethurman.components.factories.ButtonFactory;
 import jakethurman.components.SafeNode;
 import jakethurman.games.PlayAgainHandler;
 import jakethurman.games.checkers.CheckersTurnManager;

@@ -7,7 +7,7 @@ import javafx.scene.layout.RowConstraints;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 import jakethurman.components.CellIndex;
-import jakethurman.components.CircleFactory;
+import jakethurman.components.factories.CircleFactory;
 import jakethurman.components.SafeGridPane;
 import jakethurman.components.SafeNode;
 import jakethurman.components.SafePaint;
