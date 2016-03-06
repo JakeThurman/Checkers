@@ -41,6 +41,7 @@ public class CellSearchData implements CellSearchResult {
 		return new CellSearchData(deltaX * 2, deltaY * 2, source, jumpedCells);
 	}
 	
+	@SuppressWarnings("unchecked")
 	public List<CellSearchData> getDoubleJumpOptions(Iterable<CellSearchData> deltas, Predicate<CellIndex> isValid) {
 		LinkedList<CellSearchData> results = new LinkedList<CellSearchData>();
 			
