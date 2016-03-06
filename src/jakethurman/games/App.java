@@ -4,7 +4,6 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import jakethurman.components.ReadOnlyPositionedNodes;
 import jakethurman.components.SafeBorderPane;
 import jakethurman.components.SafeSceneInteraction;
 import jakethurman.games.checkers.components.CheckerboardRenderer;
@@ -18,20 +17,13 @@ public class App extends Application {
     	final BorderPane content = new BorderPane();
     	final Scene      scene   = new Scene(content);
     	
-    	renderGame(
+    	new RenderingHandler(
     		new CheckerboardRenderer(), 
     		new SafeSceneInteraction(scene), 
-    		new SafeBorderPane(content));
+    		new SafeBorderPane(content))
+    			.render();
     	
         primaryStage.setScene(scene);
         primaryStage.show();    	
-    }
-    
-    private void renderGame(Renderer renderer, SafeSceneInteraction scene, SafeBorderPane content) {
-    	ReadOnlyPositionedNodes data = renderer.render(scene, () -> this.renderGame(renderer, scene, content));
-    	
-    	content.setChildren(data);
-    	
-    	data.dispose();
     }
 }
