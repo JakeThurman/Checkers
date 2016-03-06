@@ -57,7 +57,7 @@ public class GameStatusBar implements Disposable {
 			return;
 		}
 
-		String currScore  = msgs.getScoreStatus(score.player1CheckersRemaining, score.player2CheckersRemaining);
+		String currScore  = msgs.getScoreStatus(score.player1CheckersRemaining, score.player2CheckersRemaining, score.player1Kings, score.player2Kings);
 		String currPlayer = msgs.getTurnStatus(score.currentPlayerIsPlayer1);
 		
 		this.score.setText(currScore);
@@ -74,7 +74,8 @@ public class GameStatusBar implements Disposable {
 		parent.setPadding(10);
 		parent.setChildren(new PositionedNodes()
 			.setCenter(this.turn)
-			.setRight(playAgain));
+			.setRight(playAgain)
+			.setBottom(this.score));
 	}
 	
 	public SafeNode getNode() {

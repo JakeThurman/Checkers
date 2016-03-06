@@ -15,7 +15,7 @@ import jakethurman.games.checkers.Messages;
 import jakethurman.games.checkers.SelectionManager;
 import jakethurman.games.checkers.Settings;
 
-public class CheckerboardRenderer implements Renderer {
+public class CheckerboardRenderer implements Renderer {	
     public ReadOnlyPositionedNodes render(final SafeSceneInteraction scene, Runnable rerender) {
         final CheckersTurnManager ctm  = new CheckersTurnManager();
         final Checkerboard        data = new Checkerboard(ctm);

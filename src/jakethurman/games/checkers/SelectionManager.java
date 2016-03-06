@@ -18,7 +18,8 @@ public class SelectionManager implements Disposable {
 	}
 	
 	public void setSelected(Checker c) {
-		this.selected = c.getNode();
+		this.selected      = c.getNode();
+		this.originalColor = this.selected.getFill();
 		
 		//Color management
 		this.selected.setFill(Settings.SELECTED_COLOR);

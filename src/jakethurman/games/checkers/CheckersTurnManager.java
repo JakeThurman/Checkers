@@ -10,6 +10,8 @@ public class CheckersTurnManager implements Disposable {
 	
 	private int player1CheckersRemaining = Settings.NUM_PIECES;
 	private int player2CheckersRemaining = Settings.NUM_PIECES;
+	private int player1Kings = 0;
+	private int player2Kings = 0;
 	
 	public CheckersTurnManager() {
 		this.onChangeHandlers = new LinkedList<Consumer<ScoreInfo>>();
@@ -25,7 +27,7 @@ public class CheckersTurnManager implements Disposable {
 	}
 	
 	public ScoreInfo getCurrentScore() {
-		return new ScoreInfo(this.isPlayer1sTurn, player1CheckersRemaining, player2CheckersRemaining);
+		return new ScoreInfo(this.isPlayer1sTurn, player1CheckersRemaining, player2CheckersRemaining, player1Kings, player2Kings);
 	}
 	
 	public void triggerOnChangeHandlers() {
@@ -39,12 +41,29 @@ public class CheckersTurnManager implements Disposable {
 		this.onChangeHandlers.add(handler);
 	}
 
-	public void recordDeadChecker(boolean isPlayer1) {
+	public void recordDeadChecker(boolean isPlayer1, boolean wasKing) {
 		if (isPlayer1)
 			player1CheckersRemaining--;
 		else 
 			player2CheckersRemaining--;
 		
+		//If this was a king, kill that
+		if (wasKing) {
+			if (isPlayer1)
+				player1Kings--;
+			else 
+				player2Kings--;
+		}
+		
+		triggerOnChangeHandlers();
+	}
+	
+	public void playerHasKing(boolean isPlayer1) {
+		if (isPlayer1)
+			this.player1Kings++;
+		else 
+			this.player2Kings++;
+
 		triggerOnChangeHandlers();
 	}
 	

@@ -12,7 +12,7 @@ public class SafeShape extends SafeNode {
 	}
 	
 	public void setFill(SafePaint fill) {
-		shape.setFill(fill.getUnsafe());
+		shape.setFill(fill == null ? null : fill.getUnsafe());
 	}
 	
 	public SafePaint getFill() {

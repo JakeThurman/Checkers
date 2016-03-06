@@ -1,6 +1,7 @@
 package jakethurman.components;
 
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.layout.BorderPane;
 
 public class SafeBorderPane extends SafeNode {
@@ -16,11 +17,15 @@ public class SafeBorderPane extends SafeNode {
 	}
 	
 	public void setChildren(ReadOnlyPositionedNodes pn) {
-		pane.setCenter(pn.getCenter().getUnsafe());
-		pane.setBottom(pn.getBottom().getUnsafe());
-		pane.setTop(pn.getTop().getUnsafe());
-		pane.setRight(pn.getRight().getUnsafe());
-		pane.setLeft(pn.getLeft().getUnsafe());
+		pane.setCenter(getUnsafe(pn.getCenter()));
+		pane.setBottom(getUnsafe(pn.getBottom()));
+		pane.setTop(getUnsafe(pn.getTop()));
+		pane.setRight(getUnsafe(pn.getRight()));
+		pane.setLeft(getUnsafe(pn.getLeft()));
+	}
+	
+	private Node getUnsafe(SafeNode node) {
+		return node == null ? null : node.getUnsafe();
 	}
 
 	public void setPadding(double width) {

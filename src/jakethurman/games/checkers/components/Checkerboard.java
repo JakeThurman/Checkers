@@ -67,7 +67,7 @@ public class Checkerboard implements Disposable {
 		Checker            jumped = cell.getPiece();
 		
 		remove(jumped);
-		turnManager.recordDeadChecker(jumped.getIsPlayer1());
+		turnManager.recordDeadChecker(jumped.getIsPlayer1(), jumped.getIsKing());
 		jumped.dispose();
 	}
 	
@@ -93,8 +93,10 @@ public class Checkerboard implements Disposable {
 	}
 	
 	public void handleKingship(Checker c, CellIndex pos) {
-		if ((c.getIsPlayer1() && pos.y == 0) || (!c.getIsPlayer1() && pos.y == (Settings.BOARD_SIZE - 1)))
+		if ((c.getIsPlayer1() && pos.y == 0) || (!c.getIsPlayer1() && pos.y == (Settings.BOARD_SIZE - 1))) {
 			c.kingMe();
+			turnManager.playerHasKing(c.getIsPlayer1());
+		}
 	}
 	
 	public Iterable<CellSearchResult> getAvailableSpaces(Checker checker) {
