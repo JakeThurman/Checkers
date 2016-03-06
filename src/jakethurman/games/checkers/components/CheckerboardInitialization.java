@@ -39,9 +39,9 @@ public class CheckerboardInitialization implements Disposable {
     			interactions.initializeMoveOption(circle, () -> {
     				data.movePieceToCell(checker, pos);
     				
-    				if (searchData.getIsJump()) {
-    					data.setJumped(searchData.getJumpedCellIndex());
-    				}
+    				// Set any jumped pieces as such
+    				for (CellIndex i : searchData.getJumpedCells())
+    					data.setJumped(i);
     			});
     			data.visual.add(circle, pos);
     			choiceNodes.add(circle);

@@ -1,6 +1,8 @@
 # Java Class files
 *.class
 
+src/homework/
+
 # Windows image file caches
 Thumbs.db
 ehthumbs.db

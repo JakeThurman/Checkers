@@ -1,6 +1,7 @@
 package jakethurman.games.checkers.components;
 
 import java.util.LinkedList;
+import java.util.List;
 import jakethurman.foundation.CleanupHandler;
 import jakethurman.foundation.Disposable;
 import jakethurman.foundation.Logging;
@@ -100,17 +101,20 @@ public class Checkerboard implements Disposable {
 	}
 	
 	public Iterable<CellSearchResult> getAvailableSpaces(Checker checker) {
-		LinkedList<CellSearchResult> results = new LinkedList<CellSearchResult>();
-		LinkedList<CellSearchData> toCheck = new LinkedList<CellSearchData>();
+		LinkedList<CellSearchResult> results  = new LinkedList<CellSearchResult>();
+		LinkedList<CellSearchData>   original = new LinkedList<CellSearchData>();
+		LinkedList<CellSearchData>   toCheck  = new LinkedList<CellSearchData>();
 		
 		if (!checker.getIsPlayer1() || checker.getIsKing()) {
-			toCheck.add(new CellSearchData(1, 1, checker.getPos()));
-			toCheck.add(new CellSearchData(-1, 1, checker.getPos()));
+			original.add(new CellSearchData(1, 1, checker.getPos()));
+			original.add(new CellSearchData(-1, 1, checker.getPos()));
 		}
 		if (checker.getIsPlayer1() || checker.getIsKing()) {
-			toCheck.add(new CellSearchData(-1, -1, checker.getPos()));
-			toCheck.add(new CellSearchData(1, -1, checker.getPos()));
+			original.add(new CellSearchData(-1, -1, checker.getPos()));
+			original.add(new CellSearchData(1, -1, checker.getPos()));
 		}
+		
+		toCheck.addAll(original);
 		
 		boolean iAmPlayer1 = checker.getIsPlayer1();
 		
@@ -129,22 +133,22 @@ public class Checkerboard implements Disposable {
 					results.add(checking);
 				
 				// Check if we can double jump
-				// TODO handle double jumps in a different direction from the first
 				if (checking.getIsJump()) {
 					// Check if the next square from here has another piece in it
 					// If it does add it to the queue to be checker for jumpage
-					CellSearchData doubleJump      = checking.withJumpOffset();
-					CellIndex      doubleJumpIndex = doubleJump.getCellIndex();
-					if (doubleJumpIndex.isValid()) {
+					List<CellSearchData> toCheckForDouble = checking.getDoubleJumpOptions(original, (doubleJumpIndex) -> {
+						if (!doubleJumpIndex.isValid())
+							return false;
 						CheckerboardSquare doubleJumpCell = getCell(doubleJumpIndex);
 						
-						if (!doubleJumpCell.isEmpty() && doubleJumpCell.getPiece().getIsPlayer1() != iAmPlayer1)
-							toCheck.add(doubleJump.withJumpOffset());
-					}
+						return !doubleJumpCell.isEmpty() && doubleJumpCell.getPiece().getIsPlayer1() != iAmPlayer1;
+					});
+					
+					toCheck.addAll(toCheckForDouble);
 				}
 			}
 			// If we aren't already doing so, see if we can jump this piece and it's not our own piece
-			else if (!checking.isJump && cell.getPiece().getIsPlayer1() != iAmPlayer1) {
+			else if (!checking.getIsJump() && cell.getPiece().getIsPlayer1() != iAmPlayer1) {
 				toCheck.add(checking.withJumpOffset());
 			}
 		}
