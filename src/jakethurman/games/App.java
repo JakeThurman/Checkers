@@ -5,6 +5,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import jakethurman.components.ReadOnlyPositionedNodes;
+import jakethurman.components.SafeBorderPane;
 import jakethurman.components.SafeSceneInteraction;
 import jakethurman.games.checkers.components.CheckerboardRenderer;
 
@@ -20,20 +21,16 @@ public class App extends Application {
     	renderGame(
     		new CheckerboardRenderer(), 
     		new SafeSceneInteraction(scene), 
-    		content);
+    		new SafeBorderPane(content));
     	
         primaryStage.setScene(scene);
         primaryStage.show();    	
     }
     
-    private void renderGame(Renderer renderer, SafeSceneInteraction scene, BorderPane content) {
+    private void renderGame(Renderer renderer, SafeSceneInteraction scene, SafeBorderPane content) {
     	ReadOnlyPositionedNodes data = renderer.render(scene, () -> this.renderGame(renderer, scene, content));
     	
-    	content.setCenter(data.getCenter());
-    	content.setLeft(data.getLeft());
-    	content.setRight(data.getRight());
-    	content.setTop(data.getTop());
-    	content.setBottom(data.getBottom());
+    	content.setChildren(data);
     	
     	data.dispose();
     }

@@ -1,7 +1,5 @@
 package jakethurman.components;
 
-import javafx.scene.Node;
-
 public class PositionedNodes implements ReadOnlyPositionedNodes {
 	private SafeNode center;
 	private SafeNode bottom;
@@ -14,8 +12,8 @@ public class PositionedNodes implements ReadOnlyPositionedNodes {
 		return this;
 	}
 	
-	public Node getCenter() {
-		return center.getUnsafe();
+	public SafeNode getCenter() {
+		return center;
 	}
 	
 	public PositionedNodes setBottom(final SafeNode n) {
@@ -23,8 +21,8 @@ public class PositionedNodes implements ReadOnlyPositionedNodes {
 		return this;
 	}
 	
-	public Node getBottom() {
-		return bottom.getUnsafe();
+	public SafeNode getBottom() {
+		return bottom;
 	}
 
 	public PositionedNodes setTop(final SafeNode n) {
@@ -32,8 +30,8 @@ public class PositionedNodes implements ReadOnlyPositionedNodes {
 		return this;
 	}
 	
-	public Node getTop() {
-		return top.getUnsafe();
+	public SafeNode getTop() {
+		return top;
 	}
 
 	public PositionedNodes setLeft(final SafeNode n) {
@@ -41,8 +39,8 @@ public class PositionedNodes implements ReadOnlyPositionedNodes {
 		return this;
 	}
 	
-	public Node getLeft() {
-		return left.getUnsafe();
+	public SafeNode getLeft() {
+		return left;
 	}
 
 	public PositionedNodes setRight(final SafeNode n) {
@@ -50,8 +48,8 @@ public class PositionedNodes implements ReadOnlyPositionedNodes {
 		return this;
 	}
 	
-	public Node getRight() {
-		return right.getUnsafe();
+	public SafeNode getRight() {
+		return right;
 	}
 	
 	public void dispose() {

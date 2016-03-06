@@ -1,7 +1,6 @@
 package jakethurman.games.checkers;
 
 import java.util.function.Consumer;
-import javafx.scene.Cursor;
 import jakethurman.foundation.CleanupHandler;
 import jakethurman.foundation.Disposable;
 import jakethurman.components.SafeNode;
@@ -36,16 +35,16 @@ public class CheckerInteractionManager implements Disposable {
 		final SafeNode node = c.getNode();
 		node.setOnMouseClicked(() -> doSelection(c));
 
-        node.setOnMouseExited(() -> scene.setCursor(Cursor.DEFAULT));
+        node.setOnMouseExited(() -> scene.setDefaultCursor());
         node.setOnMouseEntered(() -> { 
         	if(c.getIsPlayer1() == turnManager.isPlayer1sTurn()) 
-        		scene.setCursor(Cursor.HAND); 
+        		scene.setSelectableCursor(); 
         });
 	}
 	
 	public void initializeMoveOption(SafeNode node, Runnable moveHere) {
-        node.setOnMouseEntered(() -> scene.setCursor(Cursor.HAND));
-        node.setOnMouseExited(() -> scene.setCursor(Cursor.DEFAULT));
+        node.setOnMouseEntered(() -> scene.setSelectableCursor());
+        node.setOnMouseExited(() -> scene.setDefaultCursor());
 		
 		node.setOnMouseClicked(() -> {
 			doUnselect();

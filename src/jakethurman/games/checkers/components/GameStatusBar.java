@@ -1,16 +1,13 @@
 package jakethurman.games.checkers.components;
 
-import javafx.geometry.Insets;
-import javafx.scene.Node;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import jakethurman.foundation.CleanupHandler;
 import jakethurman.foundation.Disposable;
 import jakethurman.components.factories.ButtonFactory;
+import jakethurman.components.factories.TextFactory;
+import jakethurman.components.PositionedNodes;
+import jakethurman.components.SafeBorderPane;
 import jakethurman.components.SafeNode;
+import jakethurman.components.SafeText;
 import jakethurman.games.PlayAgainHandler;
 import jakethurman.games.checkers.CheckersTurnManager;
 import jakethurman.games.checkers.Messages;
@@ -23,38 +20,34 @@ public class GameStatusBar implements Disposable {
 	private final Messages            msgs;
 	private final CleanupHandler      cleanup;
 	
-	private final BorderPane          parent;
-	private final Text                score;
-	private final Text                turn;
+	private final SafeBorderPane parent;
+	private final SafeText       score;
+	private final SafeText       turn;
 	
-	public GameStatusBar(Messages msgs, CheckersTurnManager turnManager, PlayAgainHandler playAgain, ButtonFactory buttonFactory) {
+	public GameStatusBar(Messages msgs, CheckersTurnManager turnManager, PlayAgainHandler playAgain, ButtonFactory buttonFactory, TextFactory textFactory) {
 		this.turnManager      = turnManager;
 		this.playAgainHandler = playAgain;
 		this.buttonFactory    = buttonFactory;
 		this.msgs             = msgs;
-		this.cleanup          = new CleanupHandler(turnManager, playAgain, buttonFactory, msgs);
-		
-		this.score            = new Text();
-		this.turn             = new Text();
-		this.parent           = new BorderPane();
+		this.cleanup          = new CleanupHandler(turnManager, playAgain, buttonFactory, msgs, textFactory);
+
+		this.score            = textFactory.createLeftAlign();
+		this.turn             = textFactory.createCenteredBold();
+		this.parent           = new SafeBorderPane();
 		
 		init();
 	}
 	
 	//Holds basic initialization logic
 	public void init() {
-		updateText(turnManager.getCurrentScore());		
+		updateText(turnManager.getCurrentScore());
 		turnManager.addOnChangeHandler((s) -> updateText(s));
 		
-		turn.setTextAlignment(TextAlignment.CENTER);
-		turn.setFont(Font.font("Tahoma", FontWeight.BOLD, 20));
-		score.setTextAlignment(TextAlignment.LEFT);
-		score.setFont(Font.font("Tahoma", 20));
+		parent.setPadding(4);
 		
-		parent.setPadding(new Insets(4));
-		
-		parent.setCenter(this.turn);
-		parent.setBottom(this.score);
+		parent.setChildren(new PositionedNodes()
+			.setCenter(this.turn)
+			.setBottom(this.score));
 	}
 	
 	private void updateText(ScoreInfo score) {
@@ -76,14 +69,16 @@ public class GameStatusBar implements Disposable {
 		this.score.setText("");
 		this.turn.setText(msg);
 		
-		Node playAgain = buttonFactory.create(msgs.getPlayAgain(), playAgainHandler);		
+		SafeNode playAgain = buttonFactory.create(msgs.getPlayAgain(), playAgainHandler);		
 		
-		parent.setPadding(new Insets(10));
-		parent.setRight(playAgain);
+		parent.setPadding(10);
+		parent.setChildren(new PositionedNodes()
+			.setCenter(this.turn)
+			.setRight(playAgain));
 	}
 	
 	public SafeNode getNode() {
-		return new SafeNode(parent);
+		return parent;
 	}
 	
 	public void dispose() {

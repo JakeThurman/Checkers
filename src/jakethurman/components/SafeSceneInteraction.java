@@ -10,7 +10,10 @@ public class SafeSceneInteraction {
 		this.scene = scene;
 	}
 	
-	public void setCursor(Cursor c) {
-		scene.setCursor(c);
+	public void setDefaultCursor() {
+		scene.setCursor(Cursor.DEFAULT);
+	}
+	public void setSelectableCursor() {
+		scene.setCursor(Cursor.HAND);
 	}
 }

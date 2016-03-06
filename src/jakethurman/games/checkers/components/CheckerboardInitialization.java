@@ -1,9 +1,8 @@
 package jakethurman.games.checkers.components;
 
 import java.util.LinkedList;
-import javafx.scene.shape.Rectangle;
 import jakethurman.components.CellIndex;
-import jakethurman.components.factories.CircleFactory;
+import jakethurman.components.factories.ShapeFactory;
 import jakethurman.components.SafeGridPane;
 import jakethurman.components.SafeNode;
 import jakethurman.components.SafePaint;
@@ -14,14 +13,14 @@ import jakethurman.games.checkers.CheckerInteractionManager;
 import jakethurman.games.checkers.Settings;
 
 public class CheckerboardInitialization implements Disposable {    
-	private final CircleFactory circleFactory;
+	private final ShapeFactory              shapeFactory;
 	private final CheckerInteractionManager interactions;
-	private final CleanupHandler cleanup;
+	private final CleanupHandler            cleanup;
 	
-	public CheckerboardInitialization(CircleFactory circleFactory, CheckerInteractionManager interactions) {
-		this.circleFactory = circleFactory;
+	public CheckerboardInitialization(ShapeFactory shapeFactory, CheckerInteractionManager interactions) {
+		this.shapeFactory  = shapeFactory;
 		this.interactions  = interactions;
-		this.cleanup = new CleanupHandler(circleFactory, interactions);
+		this.cleanup = new CleanupHandler(shapeFactory, interactions);
 	}
 	
     public void initialize(Checkerboard data) {
@@ -35,7 +34,7 @@ public class CheckerboardInitialization implements Disposable {
     	
     	interactions.setAfterSelect((checker) -> {    		
     		for (CellSearchResult searchData : data.getAvailableSpaces(checker)) {
-    			SafeNode  circle = circleFactory.createOpaque(SafePaint.LIGHTBLUE);
+    			SafeNode  circle = shapeFactory.createOpaqueCircle(SafePaint.LIGHTBLUE);
     			CellIndex pos    = searchData.getCellIndex();
     			interactions.initializeMoveOption(circle, () -> {
     				data.movePieceToCell(checker, pos);
@@ -61,7 +60,7 @@ public class CheckerboardInitialization implements Disposable {
     	SafePaint[] squareColors = new SafePaint[] {SafePaint.WHITE, SafePaint.BLACK};
         for (int row = 0; row < Settings.BOARD_SIZE; row++) {
             for (int col = 0; col < Settings.BOARD_SIZE; col++) {
-                visual.add(new SafeNode(new Rectangle(Settings.SQUARE_SIZE, Settings.SQUARE_SIZE, squareColors[(row+col)%2].getUnsafe())), new CellIndex(col, row));
+                visual.add(shapeFactory.createRect(squareColors[(row+col)%2]), new CellIndex(col, row));
             }
         }
     }
@@ -72,7 +71,7 @@ public class CheckerboardInitialization implements Disposable {
         	Checker p1Checker = new Checker(
         		true, // isPlayer1
         		SafePaint.DEEPPINK, // King Fill
-        		circleFactory.create(SafePaint.RED), 
+        		shapeFactory.createCircle(SafePaint.RED), 
         		getPlayer1Cell(i));
 
         	interactions.initalizeChecker(p1Checker);
@@ -82,7 +81,7 @@ public class CheckerboardInitialization implements Disposable {
         	Checker p2Checker = new Checker(
 	    		false, // isPlayer1
 	    		SafePaint.DARKSLATEGRAY, // King Fill
-	    		circleFactory.create(SafePaint.BLACK),
+	    		shapeFactory.createCircle(SafePaint.BLACK),
 	    		getPlayer2Cell(i));
         	
             interactions.initalizeChecker(p2Checker);

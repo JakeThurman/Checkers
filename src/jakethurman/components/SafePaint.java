@@ -18,7 +18,6 @@ public class SafePaint {
 		this.paint = p;
 	}
 	
-	//TODO: make protected
 	public Paint getUnsafe() {
 		return paint;
 	}
