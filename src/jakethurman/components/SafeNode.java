@@ -9,7 +9,7 @@ public class SafeNode {
 		this.node = node;
 	}
 	
-	public Node getUnsafe() {
+	protected Node getUnsafe() {
 		return node;
 	}
 	

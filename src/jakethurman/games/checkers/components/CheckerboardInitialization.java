@@ -1,15 +1,14 @@
 package jakethurman.games.checkers.components;
 
 import java.util.LinkedList;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.RowConstraints;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 import jakethurman.components.CellIndex;
 import jakethurman.components.CircleFactory;
+import jakethurman.components.SafeGridPane;
 import jakethurman.components.SafeNode;
 import jakethurman.components.SafePaint;
 import jakethurman.foundation.CleanupHandler;
@@ -41,7 +40,7 @@ public class CheckerboardInitialization implements Disposable {
     	
     	interactions.setAfterSelect((checker) -> {    		
     		for (CellSearchResult searchData : data.getAvailableSpaces(checker)) {
-    			SafeNode  circle = circleFactory.createOpaque(Color.LIGHTBLUE);
+    			SafeNode  circle = circleFactory.createOpaque(SafePaint.LIGHTBLUE);
     			CellIndex pos    = searchData.getCellIndex();
     			interactions.initializeMoveOption(circle, () -> {
     				data.movePieceToCell(checker, pos);
@@ -50,43 +49,42 @@ public class CheckerboardInitialization implements Disposable {
     					data.setJumped(searchData.getJumpedCellIndex());
     				}
     			});
-    			data.visual.add(circle.getUnsafe(), pos.x, pos.y);
+    			data.visual.add(circle, pos);
     			choiceNodes.add(circle);
     		}
     	});
     	
     	interactions.setAfterUnselect(() -> {
-    		for (SafeNode node : choiceNodes) {
-    			data.visual.getChildren().remove(node.getUnsafe());
-    		}
+    		for (SafeNode node : choiceNodes)
+    			data.visual.remove(node);
     		
     		choiceNodes.clear();
     	});
     }
         
-    private void configureBoardLayout(GridPane visual) {
+    private void configureBoardLayout(SafeGridPane visual) {
         for (int i=0; i < Settings.BOARD_SIZE; i++) {
             RowConstraints rowConstraints = new RowConstraints();
             rowConstraints.setMinHeight(Settings.SQUARE_SIZE);
             rowConstraints.setPrefHeight(Settings.SQUARE_SIZE);
             rowConstraints.setMaxHeight(Settings.SQUARE_SIZE);
             rowConstraints.setValignment(VPos.CENTER);
-            visual.getRowConstraints().add(rowConstraints);
+            visual.addRowConstraint(rowConstraints);
 
             ColumnConstraints colConstraints = new ColumnConstraints();
             colConstraints.setMinWidth(Settings.SQUARE_SIZE);
             colConstraints.setMaxWidth(Settings.SQUARE_SIZE);
             colConstraints.setPrefWidth(Settings.SQUARE_SIZE);
             colConstraints.setHalignment(HPos.CENTER);
-            visual.getColumnConstraints().add(colConstraints);
+            visual.addColumnConstraint(colConstraints);
         }
     }
     
-    private void addSquaresToBoard(GridPane visual) {
-        Color[] squareColors = new Color[] {Color.WHITE, Color.BLACK};
+    private void addSquaresToBoard(SafeGridPane visual) {
+    	SafePaint[] squareColors = new SafePaint[] {SafePaint.WHITE, SafePaint.BLACK};
         for (int row = 0; row < Settings.BOARD_SIZE; row++) {
             for (int col = 0; col < Settings.BOARD_SIZE; col++) {
-                visual.add(new Rectangle(Settings.SQUARE_SIZE, Settings.SQUARE_SIZE, squareColors[(row+col)%2]), col, row);
+                visual.add(new SafeNode(new Rectangle(Settings.SQUARE_SIZE, Settings.SQUARE_SIZE, squareColors[(row+col)%2].getUnsafe())), new CellIndex(col, row));
             }
         }
     }
@@ -97,7 +95,7 @@ public class CheckerboardInitialization implements Disposable {
         	Checker p1Checker = new Checker(
         		true, // isPlayer1
         		SafePaint.DEEPPINK, // King Fill
-        		circleFactory.create(Color.RED), 
+        		circleFactory.create(SafePaint.RED), 
         		getPlayer1Cell(i));
 
         	interactions.initalizeChecker(p1Checker);
@@ -107,7 +105,7 @@ public class CheckerboardInitialization implements Disposable {
         	Checker p2Checker = new Checker(
 	    		false, // isPlayer1
 	    		SafePaint.DARKSLATEGRAY, // King Fill
-	    		circleFactory.create(Color.BLACK),
+	    		circleFactory.create(SafePaint.BLACK),
 	    		getPlayer2Cell(i));
         	
             interactions.initalizeChecker(p2Checker);

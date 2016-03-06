@@ -10,6 +10,7 @@ import javafx.scene.text.TextAlignment;
 import jakethurman.foundation.CleanupHandler;
 import jakethurman.foundation.Disposable;
 import jakethurman.components.ButtonFactory;
+import jakethurman.components.SafeNode;
 import jakethurman.games.PlayAgainHandler;
 import jakethurman.games.checkers.CheckersTurnManager;
 import jakethurman.games.checkers.Messages;
@@ -81,8 +82,8 @@ public class GameStatusBar implements Disposable {
 		parent.setRight(playAgain);
 	}
 	
-	public Node getNode() {
-		return parent;
+	public SafeNode getNode() {
+		return new SafeNode(parent);
 	}
 	
 	public void dispose() {

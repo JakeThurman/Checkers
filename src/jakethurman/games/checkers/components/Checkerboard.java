@@ -1,11 +1,11 @@
 package jakethurman.games.checkers.components;
 
 import java.util.LinkedList;
-import javafx.scene.layout.GridPane;
 import jakethurman.foundation.CleanupHandler;
 import jakethurman.foundation.Disposable;
 import jakethurman.foundation.Logging;
 import jakethurman.components.CellIndex;
+import jakethurman.components.SafeGridPane;
 import jakethurman.games.checkers.CellSearchData;
 import jakethurman.games.checkers.CellSearchResult;
 import jakethurman.games.checkers.CheckersTurnManager;
@@ -15,13 +15,13 @@ public class Checkerboard implements Disposable {
 	private final CheckerboardSquare[][] cells;
 	private final CheckersTurnManager    turnManager;
 	private final CleanupHandler         cleanup;
-	public  final GridPane               visual;
+	public  final SafeGridPane           visual;
 	
 	public Checkerboard(CheckersTurnManager turnManager) {
 		this.turnManager = turnManager;
 		this.cleanup     = new CleanupHandler(turnManager);
 		this.cells       = new CheckerboardSquare[Settings.BOARD_SIZE][Settings.BOARD_SIZE];		
-		this.visual      = new GridPane();
+		this.visual      = new SafeGridPane();
 		
 		init();
 	}
@@ -69,12 +69,12 @@ public class Checkerboard implements Disposable {
 		getCell(pos).setPiece(checker);
 		
 		// Add visually
-		visual.add(checker.getNode().getUnsafe(), pos.x, pos.y);
+		visual.add(checker.getNode(), pos);
 	}
 	
 	private void remove(Checker c) {
 		getCell(c.getPos()).setEmpty(); // Record that the cell is now empty
-		visual.getChildren().remove(c.getNode().getUnsafe()); // Remove the node
+		visual.remove(c.getNode()); // Remove the node
 	}
 
 	public void movePieceToCell(Checker checker, CellIndex pos) {

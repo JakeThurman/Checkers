@@ -1,56 +1,57 @@
 package jakethurman.components;
 
 import javafx.scene.Node;
+
 public class PositionedNodes implements ReadOnlyPositionedNodes {
-	private Node center;
-	private Node bottom;
-	private Node top;
-	private Node left;
-	private Node right;
+	private SafeNode center;
+	private SafeNode bottom;
+	private SafeNode top;
+	private SafeNode left;
+	private SafeNode right;
 	
-	public PositionedNodes setCenter(final Node n) {
+	public PositionedNodes setCenter(final SafeNode n) {
 		this.center = n;
 		return this;
 	}
 	
 	public Node getCenter() {
-		return center;
+		return center.getUnsafe();
 	}
 	
-	public PositionedNodes setBottom(final Node n) {
+	public PositionedNodes setBottom(final SafeNode n) {
 		this.bottom = n;
 		return this;
 	}
 	
 	public Node getBottom() {
-		return bottom;
+		return bottom.getUnsafe();
 	}
 
-	public PositionedNodes setTop(final Node n) {
+	public PositionedNodes setTop(final SafeNode n) {
 		this.top = n;
 		return this;
 	}
 	
 	public Node getTop() {
-		return top;
+		return top.getUnsafe();
 	}
 
-	public PositionedNodes setLeft(final Node n) {
+	public PositionedNodes setLeft(final SafeNode n) {
 		this.left = n;
 		return this;
 	}
 	
 	public Node getLeft() {
-		return left;
+		return left.getUnsafe();
 	}
 
-	public PositionedNodes setRight(final Node n) {
+	public PositionedNodes setRight(final SafeNode n) {
 		this.right = n;
 		return this;
 	}
 	
 	public Node getRight() {
-		return right;
+		return right.getUnsafe();
 	}
 	
 	public void dispose() {
