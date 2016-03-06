@@ -42,9 +42,16 @@ public class Checkerboard implements Disposable {
 	
 	// Simple required initialization logic
 	private void init() {
+		// Create the objects for each cell in our "Virtual DOM"
     	for (int x = 0; x < Settings.BOARD_SIZE; x++)
 			for (int y = 0; y < Settings.BOARD_SIZE; y++)
 				cells[x][y] = new CheckerboardSquare();
+    	
+    	//Add {Settings.BOARD_SIZE} rows and columns
+        for (int i=0; i < Settings.BOARD_SIZE; i++) {
+        	visual.addRow(Settings.SQUARE_SIZE);
+        	visual.addColumn(Settings.SQUARE_SIZE);
+        }
 	}
 		
 	private CheckerboardSquare getCell(CellIndex i) {

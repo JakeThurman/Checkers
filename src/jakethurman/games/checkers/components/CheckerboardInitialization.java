@@ -2,10 +2,6 @@ package jakethurman.games.checkers.components;
 
 import java.util.LinkedList;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.RowConstraints;
-import javafx.geometry.HPos;
-import javafx.geometry.VPos;
 import jakethurman.components.CellIndex;
 import jakethurman.components.factories.CircleFactory;
 import jakethurman.components.SafeGridPane;
@@ -30,7 +26,6 @@ public class CheckerboardInitialization implements Disposable {
 	
     public void initialize(Checkerboard data) {
     	showAvailableMovesOnClick(data);
-        configureBoardLayout(data.visual);
         addSquaresToBoard(data.visual);
         addPiecesToBoard(data);
     }
@@ -60,24 +55,6 @@ public class CheckerboardInitialization implements Disposable {
     		
     		choiceNodes.clear();
     	});
-    }
-        
-    private void configureBoardLayout(SafeGridPane visual) {
-        for (int i=0; i < Settings.BOARD_SIZE; i++) {
-            RowConstraints rowConstraints = new RowConstraints();
-            rowConstraints.setMinHeight(Settings.SQUARE_SIZE);
-            rowConstraints.setPrefHeight(Settings.SQUARE_SIZE);
-            rowConstraints.setMaxHeight(Settings.SQUARE_SIZE);
-            rowConstraints.setValignment(VPos.CENTER);
-            visual.addRowConstraint(rowConstraints);
-
-            ColumnConstraints colConstraints = new ColumnConstraints();
-            colConstraints.setMinWidth(Settings.SQUARE_SIZE);
-            colConstraints.setMaxWidth(Settings.SQUARE_SIZE);
-            colConstraints.setPrefWidth(Settings.SQUARE_SIZE);
-            colConstraints.setHalignment(HPos.CENTER);
-            visual.addColumnConstraint(colConstraints);
-        }
     }
     
     private void addSquaresToBoard(SafeGridPane visual) {
