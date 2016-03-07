@@ -14,7 +14,8 @@ public class ButtonFactory implements Disposable {
 		return new SafeNode(bttn);
 	}
 	
+	@Override
 	public void dispose() {
 		// Nothing to dispose
 	}
-};
+}

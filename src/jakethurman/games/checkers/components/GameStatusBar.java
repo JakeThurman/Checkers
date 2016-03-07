@@ -50,18 +50,18 @@ public class GameStatusBar implements Disposable {
 			.setBottom(this.score));
 	}
 	
-	private void updateText(ScoreInfo score) {
+	private void updateText(ScoreInfo currScore) {
 		// Check for a win first.
-		if (score.player1CheckersRemaining == 0 || score.player2CheckersRemaining == 0) {
-			handleWin(score.player2CheckersRemaining == 0);
+		if (currScore.player1CheckersRemaining == 0 || currScore.player2CheckersRemaining == 0) {
+			handleWin(currScore.player2CheckersRemaining == 0);
 			return;
 		}
 
-		String currScore  = msgs.getScoreStatus(score.player1CheckersRemaining, score.player2CheckersRemaining, score.player1Kings, score.player2Kings);
-		String currPlayer = msgs.getTurnStatus(score.currentPlayerIsPlayer1);
+		String scoreText  = msgs.getScoreStatus(currScore.player1CheckersRemaining, currScore.player2CheckersRemaining, currScore.player1Kings, currScore.player2Kings);
+		String playerText = msgs.getTurnStatus(currScore.currentPlayerIsPlayer1);
 		
-		this.score.setText(currScore);
-		this.turn.setText(currPlayer);
+		this.score.setText(scoreText);
+		this.turn.setText(playerText);
 	}
 	
 	private void handleWin(boolean isPlayer1) {
@@ -81,7 +81,8 @@ public class GameStatusBar implements Disposable {
 	public SafeNode getNode() {
 		return parent;
 	}
-	
+
+	@Override
 	public void dispose() {
 		cleanup.dispose();
 	}

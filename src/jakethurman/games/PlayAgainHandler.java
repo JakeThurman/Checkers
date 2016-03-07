@@ -11,12 +11,14 @@ public class PlayAgainHandler implements Runnable, Disposable {
 		this.cleanup  = cleanup;
 		this.rerender = rerender;
 	}
-	
+
+	@Override
 	public void run() {
 		cleanup.dispose();
 		rerender.run();
 	}
-	
+
+	@Override
 	public void dispose() {
 		cleanup.dispose();
 	}

@@ -24,14 +24,17 @@ public class CellSearchData implements CellSearchResult {
 		this.jumpedCells = jumpedCells;
 	}
 	
+	@Override
 	public boolean getIsJump() {		
 		return jumpedCells.toArray().length > 0;
 	}
 	
+	@Override
 	public Iterable<CellIndex> getJumpedCells() {		
 		return jumpedCells;
 	}
 	
+	@Override
 	public CellIndex getCellIndex() {
 		return new CellIndex(source.x + deltaX, source.y + deltaY);
 	}
@@ -43,7 +46,7 @@ public class CellSearchData implements CellSearchResult {
 	
 	@SuppressWarnings("unchecked")
 	public List<CellSearchData> getDoubleJumpOptions(Iterable<CellSearchData> deltas, Predicate<CellIndex> isValid) {
-		LinkedList<CellSearchData> results = new LinkedList<CellSearchData>();
+		LinkedList<CellSearchData> results = new LinkedList<>();
 			
 		for (CellSearchData d : deltas) {
 			CellIndex toDoubleJump = new CellSearchData(deltaX + (d.deltaX), deltaY + (d.deltaY), source).getCellIndex();

@@ -32,7 +32,8 @@ public class SelectionManager implements Disposable {
 		
 		this.selected = null;
 	}
-	
+
+	@Override
 	public void dispose() {
 		// Clear out stored variables
 		originalColor = null;

@@ -5,7 +5,8 @@ public class CleanupHandler implements Disposable {
 	public CleanupHandler(Disposable...toDispose) {
 		this.toDispose = toDispose;
 	}
-	
+
+	@Override
 	public void dispose() {
 		for (Disposable d : toDispose)
 			d.dispose();

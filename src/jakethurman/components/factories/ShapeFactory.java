@@ -37,7 +37,8 @@ public class ShapeFactory implements Disposable {
 		Rectangle r = new Rectangle(squareSize, squareSize, fill.getUnsafe());
 		return new SafeShape(r);
 	}
-	
+
+	@Override
 	public void dispose() {
 		settings.dispose();
 	}

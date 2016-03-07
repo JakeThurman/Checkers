@@ -22,7 +22,7 @@ public class Checker implements Disposable {
 	}
 	
 	public SafeShape getNode() {
-		return node;
+		return this.node;
 	}
 	
 	public CellIndex getPos() {
@@ -34,22 +34,24 @@ public class Checker implements Disposable {
 	}
 	
 	public boolean getIsPlayer1() {
-		return isPlayer1;
+		return this.isPlayer1;
 	}
 	
 	public boolean getIsKing() {
-		return isKing;
+		return this.isKing;
 	}
 	
 	public void kingMe() {
 		this.isKing = true;
-		this.node.setFill(kingFill);
+		this.node.setFill(this.kingFill);
 	}
 	
+	@Override
 	public String toString() {
-		return "Checker: { Pos: {" + pos.toString() + "}, isPlayer1: " + isPlayer1 + " }"; 
+		return "Checker: { Pos: {" + this.pos.toString() + "}, isPlayer1: " + this.isPlayer1 + " }"; 
 	}
 	
+	@Override
 	public void dispose() {
 		this.pos.dispose();
 		this.pos    = null;

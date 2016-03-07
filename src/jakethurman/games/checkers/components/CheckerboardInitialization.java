@@ -30,7 +30,7 @@ public class CheckerboardInitialization implements Disposable {
     }
         
     private void showAvailableMovesOnClick(Checkerboard data) {
-    	LinkedList<SafeNode> choiceNodes = new LinkedList<SafeNode>();
+    	LinkedList<SafeNode> choiceNodes = new LinkedList<>();
     	
     	interactions.setAfterSelect((checker) -> {    		
     		for (CellSearchResult searchData : data.getAvailableSpaces(checker)) {
@@ -101,6 +101,7 @@ public class CheckerboardInitialization implements Disposable {
     			Settings.BOARD_SIZE - 1 - (currPiece*2)/Settings.BOARD_SIZE);                // Y
     }
 
+	@Override
 	public void dispose() {
 		cleanup.dispose();
 	}

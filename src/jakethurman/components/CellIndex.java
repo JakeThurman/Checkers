@@ -17,14 +17,17 @@ public class CellIndex implements Disposable {
 			&& y < Settings.BOARD_SIZE && y >= 0;
 	}
 	
+	@Override
 	public String toString() {
 		return "CellIndex: { x = " + x + ", y = " + y + " }";
 	}
 	
+	@Override
 	public boolean equals(Object obj) {		
 		return obj instanceof CellIndex && ((CellIndex)obj).x == this.x && ((CellIndex)obj).y == this.y;
 	}
 	
+	@Override
 	public void dispose() {
 		// Nothing to dispose
 	}

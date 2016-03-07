@@ -14,7 +14,7 @@ public class CheckersTurnManager implements Disposable {
 	private int player2Kings = 0;
 	
 	public CheckersTurnManager() {
-		this.onChangeHandlers = new LinkedList<Consumer<ScoreInfo>>();
+		this.onChangeHandlers = new LinkedList<>();
 	}
 		
 	public boolean isPlayer1sTurn() {
@@ -66,7 +66,8 @@ public class CheckersTurnManager implements Disposable {
 
 		triggerOnChangeHandlers();
 	}
-	
+
+	@Override
 	public void dispose() {
 		// Clear out stored handlers
 		onChangeHandlers = null;

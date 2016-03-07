@@ -66,21 +66,22 @@ public class CheckerInteractionManager implements Disposable {
 			selection.setSelected(c);
 		
 		if (shouldSelect && this.afterSelect != null)
-			afterSelect.accept(c);
+			this.afterSelect.accept(c);
 	}
 	
 	private void doUnselect() {
-		selection.unselect();
+		this.selection.unselect();
 		
 		if (this.afterUnselect != null)
-			afterUnselect.run();
+			this.afterUnselect.run();
 	}
 
+	@Override
 	public void dispose() {
-		cleanup.dispose();
+		this.cleanup.dispose();
 		
 		// Clear out stored handlers
-		afterSelect   = null;
-		afterUnselect = null;
+		this.afterSelect   = null;
+		this.afterUnselect = null;
 	}
 }

@@ -27,6 +27,7 @@ public class Checkerboard implements Disposable {
 		init();
 	}
 	
+	@Override
 	public String toString() {
 		String output = "Checkerboard:\n";
 		for (int row = 0; row < cells.length; row++) {
@@ -101,9 +102,9 @@ public class Checkerboard implements Disposable {
 	}
 	
 	public Iterable<CellSearchResult> getAvailableSpaces(Checker checker) {
-		LinkedList<CellSearchResult> results  = new LinkedList<CellSearchResult>();
-		LinkedList<CellSearchData>   original = new LinkedList<CellSearchData>();
-		LinkedList<CellSearchData>   toCheck  = new LinkedList<CellSearchData>();
+		LinkedList<CellSearchResult> results  = new LinkedList<>();
+		LinkedList<CellSearchData>   original = new LinkedList<>();
+		LinkedList<CellSearchData>   toCheck  = new LinkedList<>();
 		
 		if (!checker.getIsPlayer1() || checker.getIsKing()) {
 			original.add(new CellSearchData(1, 1, checker.getPos()));
@@ -156,6 +157,7 @@ public class Checkerboard implements Disposable {
 		return results;
 	}
 	
+	@Override
 	public void dispose() {
 		cleanup.dispose();
 		for (CheckerboardSquare[] arr : cells) {

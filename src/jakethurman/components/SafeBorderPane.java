@@ -24,7 +24,7 @@ public class SafeBorderPane extends SafeNode {
 		pane.setLeft(getUnsafe(pn.getLeft()));
 	}
 	
-	private Node getUnsafe(SafeNode node) {
+	private static Node getUnsafe(SafeNode node) {
 		return node == null ? null : node.getUnsafe();
 	}
 

@@ -15,6 +15,7 @@ public class Messages implements Disposable {
 		return String.format(TURNSTATUS, isPlayer1 ? PLAYER1 : PLAYER2);
 	}
 	
+	@SuppressWarnings("boxing") // It's okay that we're boxing ints to Integers here
 	public String getScoreStatus(int player1Checkers, int player2Checkers, int player1Kings, int player2Kings) {
 		// Use the kings format string if either player has a king
 		String src = player1Kings == 0 && player2Kings == 0 ? SCORESTATUS : SCORESTATUS_KINGS;
@@ -29,6 +30,7 @@ public class Messages implements Disposable {
 		return PLAYAGAIN;
 	}
 	
+	@Override
 	public void dispose() {
 		// Nothing to dispose
 	}

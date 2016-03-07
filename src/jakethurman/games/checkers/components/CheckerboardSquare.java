@@ -20,13 +20,15 @@ public class CheckerboardSquare implements Disposable {
 	public Checker getPiece() {
 		return this.checker;
 	}
-	
+
+	@Override
 	public String toString() {
 		return isEmpty() 
 			? "CheckerboardSquare: { Empty }" 
 			: "CheckerboardSquare: { " + this.checker.toString() + " }";
 	}
 	
+	@Override
 	public void dispose() {
 		if (!isEmpty()) {
 			this.checker.dispose();

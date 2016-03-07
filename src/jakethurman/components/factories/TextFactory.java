@@ -19,13 +19,14 @@ public class TextFactory implements Disposable {
 		return create_impl(Font.font(FONT_FAMILY, FontWeight.BOLD, FONT_SIZE), TextAlignment.CENTER);
 	}
 
-	private SafeText create_impl(Font f, TextAlignment ta) {
+	private static SafeText create_impl(Font f, TextAlignment ta) {
 		Text t = new Text();
 		t.setTextAlignment(ta);
 		t.setFont(f);
 		return new SafeText(t);
 	}
 	
+	@Override
 	public void dispose() {
 		// Nothing to dispose
 	}
