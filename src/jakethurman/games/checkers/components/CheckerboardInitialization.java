@@ -3,7 +3,6 @@ package jakethurman.games.checkers.components;
 import java.util.LinkedList;
 import jakethurman.components.CellIndex;
 import jakethurman.components.factories.ShapeFactory;
-import jakethurman.components.SafeGridPane;
 import jakethurman.components.SafeNode;
 import jakethurman.components.SafePaint;
 import jakethurman.foundation.CleanupHandler;
@@ -25,7 +24,7 @@ public class CheckerboardInitialization implements Disposable {
 	
     public void initialize(Checkerboard data) {
     	showAvailableMovesOnClick(data);
-        addSquaresToBoard(data.visual);
+        addSquaresToBoard(data);
         addPiecesToBoard(data);
     }
         
@@ -43,24 +42,24 @@ public class CheckerboardInitialization implements Disposable {
     				for (CellIndex i : searchData.getJumpedCells())
     					data.setJumped(i);
     			});
-    			data.visual.add(circle, pos);
+    			data.getNode().add(circle, pos);
     			choiceNodes.add(circle);
     		}
     	});
     	
     	interactions.setAfterUnselect(() -> {
     		for (SafeNode node : choiceNodes)
-    			data.visual.remove(node);
+    			data.getNode().remove(node);
     		
     		choiceNodes.clear();
     	});
     }
     
-    private void addSquaresToBoard(SafeGridPane visual) {
+    private void addSquaresToBoard(Checkerboard data) {
     	SafePaint[] squareColors = new SafePaint[] {SafePaint.WHITE, SafePaint.BLACK};
         for (int row = 0; row < Settings.BOARD_SIZE; row++) {
             for (int col = 0; col < Settings.BOARD_SIZE; col++) {
-                visual.add(shapeFactory.createRect(squareColors[(row+col)%2]), new CellIndex(col, row));
+                data.getNode().add(shapeFactory.createRect(squareColors[(row+col)%2]), new CellIndex(col, row));
             }
         }
     }

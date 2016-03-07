@@ -16,7 +16,7 @@ public class Checkerboard implements Disposable {
 	private final CheckerboardSquare[][] cells;
 	private final CheckersTurnManager    turnManager;
 	private final CleanupHandler         cleanup;
-	public  final SafeGridPane           visual;
+	private final SafeGridPane           visual;
 	
 	public Checkerboard(CheckersTurnManager turnManager) {
 		this.turnManager = turnManager;
@@ -165,5 +165,9 @@ public class Checkerboard implements Disposable {
 				cell.dispose();
 			}
 		}
+	}
+
+	public SafeGridPane getNode() {
+		return this.visual;
 	}
 }

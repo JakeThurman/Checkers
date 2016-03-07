@@ -16,7 +16,8 @@ import jakethurman.games.checkers.SelectionManager;
 import jakethurman.games.checkers.Settings;
 
 public class CheckerboardRenderer implements Renderer {	
-    public ReadOnlyPositionedNodes render(final SafeSceneInteraction scene, Runnable rerender) {
+    @Override
+	public ReadOnlyPositionedNodes render(final SafeSceneInteraction scene, Runnable rerender) {
         final CheckersTurnManager ctm  = new CheckersTurnManager();
         final Checkerboard        data = new Checkerboard(ctm);
         
@@ -44,7 +45,7 @@ public class CheckerboardRenderer implements Renderer {
             textFactory);
                 
         return new PositionedNodes()
-        	.setCenter(data.visual)
+        	.setCenter(data.getNode())
         	.setBottom(statusBar.getNode());
     }
 }
