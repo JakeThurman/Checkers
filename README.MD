@@ -3,8 +3,9 @@
 I wrote this simply to help me learn JavaFX.
 
 Here's a screenshot:
-[![Screenshot][images/screenshot.png]][images/screenshot.png]
-* []()
+[![Screenshot][example-image]][example-url]
+[example-image]: https://raw.githubusercontent.com/JakeThurman/Checkers/master/images/screenshot.png
+[example-url]: https://raw.githubusercontent.com/JakeThurman/Checkers/master/images/screenshot.png
 
 Thanks for checking it out!
 
