@@ -13,7 +13,7 @@ public class App extends Application {
 		launch(args);
 	}
 
-@Override
+	@Override
 	public void start(Stage primaryStage) {
 		final BorderPane content = new BorderPane();
 		final Scene      scene   = new Scene(content);
