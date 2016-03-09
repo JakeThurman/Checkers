@@ -9,22 +9,22 @@ import jakethurman.components.SafeSceneInteraction;
 import jakethurman.games.checkers.components.CheckerboardRenderer;
 
 public class App extends Application {
-    public static void main(String[] args) {
-        launch(args);
-    }
+	public static void main(String[] args) {
+		launch(args);
+	}
 
-    @Override
+@Override
 	public void start(Stage primaryStage) {
-    	final BorderPane content = new BorderPane();
-    	final Scene      scene   = new Scene(content);
-    	
-    	new RenderingHandler(
-    		new CheckerboardRenderer(), 
-    		new SafeSceneInteraction(scene), 
-    		new SafeBorderPane(content))
-    			.render();
-    	
-        primaryStage.setScene(scene);
-        primaryStage.show();    	
-    }
+		final BorderPane content = new BorderPane();
+		final Scene      scene   = new Scene(content);
+		
+		new RenderingHandler(
+			new CheckerboardRenderer(), 
+			new SafeSceneInteraction(scene), 
+			new SafeBorderPane(content))
+				.render();
+		
+		primaryStage.setScene(scene);
+		primaryStage.show();    	
+	}
 }
