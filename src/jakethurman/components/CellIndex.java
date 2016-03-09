@@ -12,6 +12,7 @@ public class CellIndex implements Disposable {
 		this.y = y;
 	}
 	
+	//TODO: Export this to a CheckerValidator class to remove the jakethurman.games dependency
 	public boolean isValid() {
 		return x < Settings.BOARD_SIZE && x >= 0 
 			&& y < Settings.BOARD_SIZE && y >= 0;
