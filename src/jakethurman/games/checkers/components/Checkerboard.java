@@ -9,6 +9,7 @@ import jakethurman.components.CellIndex;
 import jakethurman.components.SafeGridPane;
 import jakethurman.games.checkers.CellSearchData;
 import jakethurman.games.checkers.CellSearchResult;
+import jakethurman.games.checkers.CheckerCellValidator;
 import jakethurman.games.checkers.CheckersTurnManager;
 import jakethurman.games.checkers.Settings;
 
@@ -17,11 +18,15 @@ public class Checkerboard implements Disposable {
 	private final CheckersTurnManager    turnManager;
 	private final CleanupHandler         cleanup;
 	private final SafeGridPane           visual;
+	private final CheckerCellValidator   validator;
+	private final Settings               settings;
 	
-	public Checkerboard(CheckersTurnManager turnManager) {
+	public Checkerboard(CheckerCellValidator validator, CheckersTurnManager turnManager, Settings settings) {
 		this.turnManager = turnManager;
-		this.cleanup     = new CleanupHandler(turnManager);
-		this.cells       = new CheckerboardSquare[Settings.BOARD_SIZE][Settings.BOARD_SIZE];		
+		this.validator   = validator;
+		this.settings    = settings;
+		this.cleanup     = new CleanupHandler(turnManager, validator, settings);
+		this.cells       = new CheckerboardSquare[settings.getBoardSize()][settings.getBoardSize()];
 		this.visual      = new SafeGridPane();
 		
 		init();
@@ -44,20 +49,23 @@ public class Checkerboard implements Disposable {
 	
 	// Simple required initialization logic
 	private void init() {
+		int boardSize = settings.getBoardSize();
+		int squareSize = settings.getSquareSize();
+		
 		// Create the objects for each cell in our "Virtual DOM"
-    	for (int x = 0; x < Settings.BOARD_SIZE; x++)
-			for (int y = 0; y < Settings.BOARD_SIZE; y++)
+    	for (int x = 0; x < boardSize; x++)
+			for (int y = 0; y < boardSize; y++)
 				cells[x][y] = new CheckerboardSquare();
     	
     	//Add {Settings.BOARD_SIZE} rows and columns
-        for (int i=0; i < Settings.BOARD_SIZE; i++) {
-        	visual.addRow(Settings.SQUARE_SIZE);
-        	visual.addColumn(Settings.SQUARE_SIZE);
+        for (int i=0; i < boardSize; i++) {
+        	visual.addRow(squareSize);
+        	visual.addColumn(squareSize);
         }
 	}
 		
 	private CheckerboardSquare getCell(CellIndex i) {
-		if (!i.isValid()) {
+		if (!validator.isValid(i)) {
 			Logging.report("Attempted Invalid Access! " + i.toString());
 			return null;
 		}
@@ -95,7 +103,7 @@ public class Checkerboard implements Disposable {
 	}
 	
 	public void handleKingship(Checker c, CellIndex pos) {
-		if ((c.getIsPlayer1() && pos.y == 0) || (!c.getIsPlayer1() && pos.y == (Settings.BOARD_SIZE - 1))) {
+		if ((c.getIsPlayer1() && pos.y == 0) || (!c.getIsPlayer1() && pos.y == (settings.getBoardSize() - 1))) {
 			c.kingMe();
 			turnManager.playerHasKing(c.getIsPlayer1());
 		}
@@ -123,7 +131,7 @@ public class Checkerboard implements Disposable {
 			CellSearchData checking = toCheck.poll();
 			CellIndex      index    = checking.getCellIndex();
 			
-			if (!index.isValid())
+			if (!validator.isValid(index))
 				continue;
 						
 			// See if this is an empty space
@@ -138,7 +146,7 @@ public class Checkerboard implements Disposable {
 					// Check if the next square from here has another piece in it
 					// If it does add it to the queue to be checker for jumpage
 					List<CellSearchData> toCheckForDouble = checking.getDoubleJumpOptions(original, (doubleJumpIndex) -> {
-						if (!doubleJumpIndex.isValid())
+						if (!validator.isValid(doubleJumpIndex))
 							return false;
 						CheckerboardSquare doubleJumpCell = getCell(doubleJumpIndex);
 						

@@ -8,12 +8,16 @@ public class CheckersTurnManager implements Disposable {
 	private boolean                         isPlayer1sTurn   = true;
 	private LinkedList<Consumer<ScoreInfo>> onChangeHandlers = null;
 	
-	private int player1CheckersRemaining = Settings.NUM_PIECES;
-	private int player2CheckersRemaining = Settings.NUM_PIECES;
+	private int player1CheckersRemaining;
+	private int player2CheckersRemaining;
 	private int player1Kings = 0;
 	private int player2Kings = 0;
 	
-	public CheckersTurnManager() {
+	public CheckersTurnManager(Settings settings) {
+		//Initialize scores
+		this.player2CheckersRemaining = this.player1CheckersRemaining = settings.getNumPieces();
+		this.player1Kings = this.player2Kings = 0;
+		
 		this.onChangeHandlers = new LinkedList<>();
 	}
 		

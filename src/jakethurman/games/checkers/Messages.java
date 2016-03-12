@@ -11,6 +11,12 @@ public class Messages implements Disposable {
 	                            PLAYER2           = "Black",
 	                            PLAYAGAIN         = "Play Again";
 	
+	private final Settings settings;
+	
+	public Messages(Settings settings) {
+		this.settings = settings;
+	}
+	
 	public String getTurnStatus(boolean isPlayer1) {
 		return String.format(TURNSTATUS, isPlayer1 ? PLAYER1 : PLAYER2);
 	}
@@ -19,7 +25,7 @@ public class Messages implements Disposable {
 	public String getScoreStatus(int player1Checkers, int player2Checkers, int player1Kings, int player2Kings) {
 		// Use the kings format string if either player has a king
 		String src = player1Kings == 0 && player2Kings == 0 ? SCORESTATUS : SCORESTATUS_KINGS;
-		return String.format(src, Settings.NUM_PIECES, PLAYER1, player1Checkers, player1Kings, PLAYER2, player2Checkers, player2Kings, player1Checkers == 1 ? "" : "s", player2Checkers == 1 ? "" : "s");
+		return String.format(src, settings.getNumPieces(), PLAYER1, player1Checkers, player1Kings, PLAYER2, player2Checkers, player2Kings, player1Checkers == 1 ? "" : "s", player2Checkers == 1 ? "" : "s");
 	}
 	
 	public String getWinnerMessage(boolean isPlayer1) {
