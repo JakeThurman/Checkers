@@ -35,7 +35,7 @@ public class CheckerboardRenderer implements Renderer {
         
         // Initialize the status bar's dependencies 
         Messages       msgs         = new Messages(settings);
-        ButtonFactory  bttnFactory  = new ButtonFactory();
+        ButtonFactory  bttnFactory  = new ButtonFactory(scene);
         TextFactory    textFactory  = new TextFactory();
         CleanupHandler endGameClean = new CleanupHandler(ctm, data, ci, msgs, bttnFactory, textFactory);       
         
