@@ -3,13 +3,13 @@ package jakethurman.components.factories;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import jakethurman.components.SafeNode;
-import jakethurman.components.SafeSceneInteraction;
+import jakethurman.components.SafeScene;
 import jakethurman.foundation.Disposable;
 
 public class ButtonFactory implements Disposable {
-	private final SafeSceneInteraction scene;
+	private final SafeScene scene;
 	
-	public ButtonFactory(SafeSceneInteraction scene) {
+	public ButtonFactory(SafeScene scene) {
 		this.scene = scene;
 	}
 	

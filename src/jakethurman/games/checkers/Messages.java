@@ -1,15 +1,17 @@
 package jakethurman.games.checkers;
 
-import jakethurman.foundation.Disposable;
+import jakethurman.games.GameMessages;
 
-public class Messages implements Disposable {
+public class Messages implements GameMessages {
 	private static final String TURNSTATUS        = "It's %1$ss turn.",
 	                            SCORESTATUS_KINGS = "%2$s has %3$d/%1$d checkers remaining with %4$d king%8$s.\n%5$s has %6$d/%1$d checkers remaining with %7$d king%9$s.",
 	                            SCORESTATUS       = "%2$s has %3$d/%1$d checkers remaining.\n%5$s has %6$d/%1$d checkers remaining.",
 	                            YOUWIN            = "Congratulations %1$s! You won!",
 	                            PLAYER1           = "Red",
 	                            PLAYER2           = "Black",
-	                            PLAYAGAIN         = "Play Again";
+	                            PLAYAGAIN         = "Play Again",
+                                VIEW_GAME_STATS   = "View Game Statistics",
+                                BACK_BUTTON       = "Back";
 	
 	private final Settings settings;
 	
@@ -34,6 +36,15 @@ public class Messages implements Disposable {
 	
 	public String getPlayAgain() {
 		return PLAYAGAIN;
+	}
+	
+	public String getViewGameStats() {
+		return VIEW_GAME_STATS;
+	}
+	
+	@Override
+	public String getBackButton() {
+		return BACK_BUTTON;
 	}
 	
 	@Override

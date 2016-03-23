@@ -8,14 +8,14 @@ import jakethurman.components.PositionedNodes;
 import jakethurman.components.SafeBorderPane;
 import jakethurman.components.SafeNode;
 import jakethurman.components.SafeText;
-import jakethurman.games.PlayAgainHandler;
+import jakethurman.games.EndGameHandler;
 import jakethurman.games.checkers.CheckersTurnManager;
 import jakethurman.games.checkers.Messages;
 import jakethurman.games.checkers.ScoreInfo;
 
 public class GameStatusBar implements Disposable {
 	private final CheckersTurnManager turnManager;
-	private final PlayAgainHandler    playAgainHandler;
+	private final EndGameHandler      endGameHandler;
 	private final ButtonFactory       buttonFactory;
 	private final Messages            msgs;
 	private final CleanupHandler      cleanup;
@@ -24,16 +24,16 @@ public class GameStatusBar implements Disposable {
 	private final SafeText       score;
 	private final SafeText       turn;
 	
-	public GameStatusBar(Messages msgs, CheckersTurnManager turnManager, PlayAgainHandler playAgain, ButtonFactory buttonFactory, TextFactory textFactory) {
-		this.turnManager      = turnManager;
-		this.playAgainHandler = playAgain;
-		this.buttonFactory    = buttonFactory;
-		this.msgs             = msgs;
-		this.cleanup          = new CleanupHandler(turnManager, playAgain, buttonFactory, msgs, textFactory);
+	public GameStatusBar(Messages msgs, CheckersTurnManager turnManager, EndGameHandler endGameHandler, ButtonFactory buttonFactory, TextFactory textFactory) {
+		this.turnManager    = turnManager;
+		this.endGameHandler = endGameHandler;
+		this.buttonFactory  = buttonFactory;
+		this.msgs           = msgs;
+		this.cleanup        = new CleanupHandler(turnManager, endGameHandler, buttonFactory, msgs, textFactory);
 
-		this.score            = textFactory.createLeftAlign();
-		this.turn             = textFactory.createCenteredBold();
-		this.parent           = new SafeBorderPane();
+		this.score          = textFactory.createLeftAlign();
+		this.turn           = textFactory.createCenteredBold();
+		this.parent         = new SafeBorderPane();
 		
 		init();
 	}
@@ -72,13 +72,18 @@ public class GameStatusBar implements Disposable {
 		this.score.setText("");
 		this.turn.setText(msg);
 		
-		SafeNode playAgain = buttonFactory.create(msgs.getPlayAgain(), playAgainHandler);		
+		SafeNode playAgain = buttonFactory.create(msgs.getPlayAgain(), endGameHandler::playAgain);	
+		SafeNode gameStats = buttonFactory.create(msgs.getViewGameStats(), endGameHandler::viewStats);
+		
+		SafeBorderPane bottom = new SafeBorderPane();
+		bottom.setChildren(new PositionedNodes()
+			.setLeft(gameStats)
+			.setRight(playAgain));
 		
 		parent.setPadding(10);
 		parent.setChildren(new PositionedNodes()
 			.setCenter(this.turn)
-			.setRight(playAgain)
-			.setBottom(this.score));
+			.setBottom(bottom));
 	}
 	
 	public SafeNode getNode() {

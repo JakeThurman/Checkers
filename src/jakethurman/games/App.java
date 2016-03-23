@@ -5,7 +5,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import jakethurman.components.SafeBorderPane;
-import jakethurman.components.SafeSceneInteraction;
+import jakethurman.components.SafeScene;
 import jakethurman.games.checkers.components.CheckerboardRenderer;
 
 public class App extends Application {
@@ -20,9 +20,9 @@ public class App extends Application {
 		
 		new RenderingHandler(
 			new CheckerboardRenderer(), 
-			new SafeSceneInteraction(scene), 
+			new SafeScene(scene), 
 			new SafeBorderPane(content))
-				.render();
+				.render(s -> primaryStage.setScene(s.getUnsafe()));
 		
 		primaryStage.setScene(scene);
 		primaryStage.show();    	

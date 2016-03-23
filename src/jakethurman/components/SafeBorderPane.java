@@ -4,7 +4,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.layout.BorderPane;
 
-public class SafeBorderPane extends SafeNode {
+public class SafeBorderPane extends SafeParent {
 	private final BorderPane pane;
 	
 	public SafeBorderPane() {

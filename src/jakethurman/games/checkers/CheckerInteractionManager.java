@@ -4,19 +4,19 @@ import java.util.function.Consumer;
 import jakethurman.foundation.CleanupHandler;
 import jakethurman.foundation.Disposable;
 import jakethurman.components.SafeNode;
-import jakethurman.components.SafeSceneInteraction;
+import jakethurman.components.SafeScene;
 import jakethurman.games.checkers.components.Checker;
 
 public class CheckerInteractionManager implements Disposable {
-	private final SafeSceneInteraction scene;
-	private final SelectionManager     selection;
-	private final CheckersTurnManager  turnManager;
-	private final CleanupHandler       cleanup;
+	private final SafeScene           scene;
+	private final SelectionManager    selection;
+	private final CheckersTurnManager turnManager;
+	private final CleanupHandler      cleanup;
 	
 	private Consumer<Checker> afterSelect    = null;
 	private Runnable          afterUnselect = null;
 	
-	public CheckerInteractionManager(SafeSceneInteraction scene, SelectionManager selection, CheckersTurnManager turnManager) {
+	public CheckerInteractionManager(SafeScene scene, SelectionManager selection, CheckersTurnManager turnManager) {
 		this.scene = scene;
 		this.selection = selection;
 		this.turnManager = turnManager;
