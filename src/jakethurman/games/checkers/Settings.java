@@ -10,8 +10,7 @@ public class Settings implements ShapeSettings {
                              CIRCLE_RADIUS = SQUARE_SIZE/2-6,
                              CIRCLE_BORDER = 2;
         
-    //TODO: make this private
-    public static final SafePaint SELECTED_COLOR = SafePaint.BLUE;
+    private static final SafePaint SELECTED_COLOR = SafePaint.BLUE;
 
     //Get methods
 	@Override public int getCircleRadius() { return CIRCLE_RADIUS; }

@@ -6,9 +6,15 @@ import jakethurman.foundation.Disposable;
 import jakethurman.games.checkers.components.Checker;
 
 public class SelectionManager implements Disposable {	
+	private final Settings settings;
+	
 	private SafePaint originalColor = null;
 	private SafeShape selected      = null;
-			
+	
+	public SelectionManager(Settings settings) {
+		this.settings = settings;
+	}
+	
 	public boolean hasSelected() {
 		return this.selected != null;
 	}
@@ -22,7 +28,7 @@ public class SelectionManager implements Disposable {
 		this.originalColor = this.selected.getFill();
 		
 		//Color management
-		this.selected.setFill(Settings.SELECTED_COLOR);
+		this.selected.setFill(settings.getSelectColor());
 	}
 	
 	public void unselect() {

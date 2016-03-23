@@ -27,7 +27,7 @@ public class CheckerboardRenderer implements Renderer {
     		new ShapeFactory(settings), 
     		new CheckerInteractionManager(
     			scene, 
-    			new SelectionManager(),
+    			new SelectionManager(settings),
     			ctm), 
     		settings);
         
