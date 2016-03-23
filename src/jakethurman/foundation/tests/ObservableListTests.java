@@ -35,7 +35,7 @@ public class ObservableListTests extends TestUnit {
 				ValueContainer<Boolean> subscriber2RecievedNewestValue = new ValueContainer<>(Boolean.FALSE);
 								
 				ol.subscribe(s -> subscriber1RecievedNewestValue.setValue(Boolean.TRUE));
-				ol.subscribe(s -> subscriber1RecievedNewestValue.setValue(Boolean.TRUE));
+				ol.subscribe(s -> subscriber2RecievedNewestValue.setValue(Boolean.TRUE));
 				ol.dispatch("Test string");
 				
 				if (!subscriber1RecievedNewestValue.getValue().booleanValue() || !subscriber2RecievedNewestValue.getValue().booleanValue())
@@ -60,8 +60,8 @@ public class ObservableListTests extends TestUnit {
 					ol.dispatch(value);
 				
 				String[] output = {};
-				ol.getState().toArray(output);
-				
+				output = ol.getState().toArray(output);
+								
 				if (!Arrays.deepEquals(output, values))
 					throw new TestFailureException("getState did not respond with what it was inputed.");
 			}),

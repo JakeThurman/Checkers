@@ -27,9 +27,7 @@ public class TestRunner {
 		String testName = testCase.getTestTitle();
 		
 		this.messages.dispatch("Running Test #" + i + ": " + classPath + " - " + testName);
-		
-		String message = "Success";
-		
+				
 		currentTestUnit.beforeEach();
 		
 		try {
@@ -37,13 +35,11 @@ public class TestRunner {
 		}
 		catch(Exception e) {
 			testFailures++;
-			message = new TestExcpetionStringBuilder(e).toString();
+			this.messages.dispatch(new TestExcpetionStringBuilder(e).toString());
 		}
 		finally {
 			currentTestUnit.afterEach();
 		}
-		
-		this.messages.dispatch(message);
 	}
 	
 	public void runAll() {
