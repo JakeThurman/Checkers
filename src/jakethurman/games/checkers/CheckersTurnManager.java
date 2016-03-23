@@ -5,20 +5,25 @@ import java.util.function.Consumer;
 import jakethurman.foundation.Disposable;
 
 public class CheckersTurnManager implements Disposable {
-	private boolean                         isPlayer1sTurn   = true;
-	private LinkedList<Consumer<ScoreInfo>> onChangeHandlers = null;
+	private boolean isPlayer1sTurn;
 	
-	private int player1CheckersRemaining;
-	private int player2CheckersRemaining;
-	private int player1Kings = 0;
-	private int player2Kings = 0;
+	private final PlayerInfo player1;
+	private final PlayerInfo player2;
+	private final LinkedList<Consumer<ScoreInfo>> onChangeHandlers;	
+	private final LinkedList<TurnInfo> turns;
 	
 	public CheckersTurnManager(Settings settings) {
-		//Initialize scores
-		this.player2CheckersRemaining = this.player1CheckersRemaining = settings.getNumPieces();
-		this.player1Kings = this.player2Kings = 0;
+		this.player1 = new PlayerInfo(settings.getNumPieces());		
+		this.player2 = new PlayerInfo(settings.getNumPieces());
 		
 		this.onChangeHandlers = new LinkedList<>();
+		this.turns            = new LinkedList<>();
+		
+		//Randomly decide if player 1 should go first
+		this.isPlayer1sTurn = Math.random() < 0.5;
+		
+		//Start the first turn
+		turns.add(new TurnInfo(getCurrentScore()));
 	}
 		
 	public boolean isPlayer1sTurn() {
@@ -26,12 +31,17 @@ public class CheckersTurnManager implements Disposable {
 	}
 	
 	public void endTurn() {
+		turns.getLast().setEnd(getCurrentScore());
+		
 		this.isPlayer1sTurn = !this.isPlayer1sTurn;
+				
 		triggerOnChangeHandlers();
+		
+		turns.add(new TurnInfo(getCurrentScore()));
 	}
 	
 	public ScoreInfo getCurrentScore() {
-		return new ScoreInfo(this.isPlayer1sTurn, player1CheckersRemaining, player2CheckersRemaining, player1Kings, player2Kings);
+		return new ScoreInfo(this.isPlayer1sTurn, this.player1, this.player2);
 	}
 	
 	public void triggerOnChangeHandlers() {
@@ -47,33 +57,25 @@ public class CheckersTurnManager implements Disposable {
 
 	public void recordDeadChecker(boolean isPlayer1, boolean wasKing) {
 		if (isPlayer1)
-			player1CheckersRemaining--;
+			player1.playerLostPiece(wasKing);
 		else 
-			player2CheckersRemaining--;
-		
-		//If this was a king, kill that
-		if (wasKing) {
-			if (isPlayer1)
-				player1Kings--;
-			else 
-				player2Kings--;
-		}
+			player2.playerLostPiece(wasKing);
 		
 		triggerOnChangeHandlers();
 	}
 	
 	public void playerHasKing(boolean isPlayer1) {
 		if (isPlayer1)
-			this.player1Kings++;
+			player1.playerHasKing();
 		else 
-			this.player2Kings++;
-
+			player2.playerHasKing();
+		
 		triggerOnChangeHandlers();
 	}
 
 	@Override
 	public void dispose() {
 		// Clear out stored handlers
-		onChangeHandlers = null;
+		onChangeHandlers.clear();
 	}
 }

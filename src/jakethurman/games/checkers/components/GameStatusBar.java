@@ -52,12 +52,15 @@ public class GameStatusBar implements Disposable {
 	
 	private void updateText(ScoreInfo currScore) {
 		// Check for a win first.
-		if (currScore.player1CheckersRemaining == 0 || currScore.player2CheckersRemaining == 0) {
-			handleWin(currScore.player2CheckersRemaining == 0);
+		if (currScore.player1.getPiecesRemaining() == 0 || currScore.player2.getPiecesRemaining() == 0) {
+			handleWin(currScore.player2.getPiecesRemaining() == 0);
 			return;
 		}
 
-		String scoreText  = msgs.getScoreStatus(currScore.player1CheckersRemaining, currScore.player2CheckersRemaining, currScore.player1Kings, currScore.player2Kings);
+		String scoreText  = msgs.getScoreStatus(
+				currScore.player1.getPiecesRemaining(), currScore.player2.getPiecesRemaining(), 
+				currScore.player1.getKingCount(), currScore.player2.getKingCount());
+		
 		String playerText = msgs.getTurnStatus(currScore.currentPlayerIsPlayer1);
 		
 		this.score.setText(scoreText);
