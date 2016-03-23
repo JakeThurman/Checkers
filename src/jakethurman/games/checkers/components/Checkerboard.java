@@ -110,6 +110,7 @@ public class Checkerboard implements Disposable {
 	}
 	
 	public Iterable<CellSearchResult> getAvailableSpaces(Checker checker) {
+		LinkedList<CellIndex>        seenCells = new LinkedList<>();
 		LinkedList<CellSearchResult> results  = new LinkedList<>();
 		LinkedList<CellSearchData>   original = new LinkedList<>();
 		LinkedList<CellSearchData>   toCheck  = new LinkedList<>();
@@ -127,9 +128,12 @@ public class Checkerboard implements Disposable {
 		
 		boolean iAmPlayer1 = checker.getIsPlayer1();
 		
-		while (!toCheck.isEmpty()) {
+		while (!toCheck.isEmpty()) {			
 			CellSearchData checking = toCheck.poll();
 			CellIndex      index    = checking.getCellIndex();
+			
+			//Record that we've seen this cell
+			seenCells.add(index);
 			
 			if (!validator.isValid(index))
 				continue;
@@ -145,9 +149,16 @@ public class Checkerboard implements Disposable {
 				if (checking.getIsJump()) {
 					// Check if the next square from here has another piece in it
 					// If it does add it to the queue to be checker for jumpage
-					List<CellSearchData> toCheckForDouble = checking.getDoubleJumpOptions(original, (doubleJumpIndex) -> {
+					List<CellSearchData> toCheckForDouble = checking.getDoubleJumpOptions(original, (doubleJumpIndex) -> {	
 						if (!validator.isValid(doubleJumpIndex))
 							return false;
+												
+						//Don't go back to a cell we've already been to or any cell we've already seen. That will cause an infinite loop.
+						if (doubleJumpIndex.equals(checker.getPos()) || seenCells.contains(doubleJumpIndex))
+							return false;
+						
+						seenCells.add(doubleJumpIndex);
+						
 						CheckerboardSquare doubleJumpCell = getCell(doubleJumpIndex);
 						
 						return !doubleJumpCell.isEmpty() && doubleJumpCell.getPiece().getIsPlayer1() != iAmPlayer1;

@@ -13,7 +13,7 @@ public class CellIndex implements Disposable {
 	
 	@Override
 	public String toString() {
-		return "CellIndex: { x = " + x + ", y = " + y + " }";
+		return "{ x: " + x + ", y: " + y + " }";
 	}
 	
 	@Override

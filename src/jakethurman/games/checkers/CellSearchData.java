@@ -50,7 +50,7 @@ public class CellSearchData implements CellSearchResult {
 			
 		for (CellSearchData d : deltas) {
 			CellIndex toDoubleJump = new CellSearchData(deltaX + (d.deltaX), deltaY + (d.deltaY), source).getCellIndex();
-						
+				
 			if(isValid.test(toDoubleJump)) {
 				jumpedCells.add(toDoubleJump);
 				results.add(new CellSearchData(deltaX + (d.deltaX * 2), deltaY + (d.deltaY * 2), source, (LinkedList<CellIndex>)jumpedCells.clone()));
@@ -64,5 +64,10 @@ public class CellSearchData implements CellSearchResult {
 	@Override
 	public boolean equals(Object obj) {
 		return obj instanceof CellSearchData && ((CellSearchData)obj).getCellIndex() == getCellIndex();
+	}
+	
+	@Override
+	public String toString() {
+		return "{ source: " + source.toString() + ", deltaX: " + deltaX + ", deltaY: " + deltaY + " }";
 	}
 }
