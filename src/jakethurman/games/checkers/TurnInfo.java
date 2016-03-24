@@ -8,11 +8,11 @@ public class TurnInfo {
 	
 	public TurnInfo(ScoreInfo startScore) {
 		this.startScore = startScore;
-		this.startTime  = System.nanoTime();
+		this.startTime  = System.currentTimeMillis();
 	}
 	
-	public long getLength() {
-		return endTime - startTime; //divide by 1000000 to get milliseconds.
+	public long getLengthMS() {
+		return endTime - startTime;
 	}
 	
 	public long getStart() {
@@ -21,7 +21,7 @@ public class TurnInfo {
 	
 	public void setEnd(ScoreInfo endScore) {
 		this.endScore = endScore;
-		this.endTime  = System.nanoTime();
+		this.endTime  = System.currentTimeMillis();
 	}
 	
 	public long getEnd() {
@@ -34,5 +34,11 @@ public class TurnInfo {
 	
 	public ScoreInfo getScoreAtEnd() {
 		return endScore;
+	}
+	
+	@Override
+	public String toString() {
+		return "{ \"statrtTime\": " + startTime + ", \"startScore\": " + startScore + 
+				", \"endTime\": " + endTime + ", \"endScore\": " + endScore + " }";
 	}
 }

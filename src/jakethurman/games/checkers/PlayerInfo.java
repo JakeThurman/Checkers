@@ -27,4 +27,9 @@ public class PlayerInfo {
 	public void playerHasKing() {
 		this.kingCount++;
 	}
+	
+	@Override
+	public String toString() {
+		return "{ \"piecesRemaining\": " + piecesRemaining + ", \"kingCount\": " + kingCount + " }"; 
+	}
 }

@@ -12,6 +12,9 @@ public class CheckersTurnManager implements Disposable {
 	private final LinkedList<Consumer<ScoreInfo>> onChangeHandlers;	
 	private final LinkedList<TurnInfo> turns;
 	
+	private final long startTimeMS;
+	private       long endTimeMS;
+	
 	public CheckersTurnManager(Settings settings) {
 		this.player1 = new PlayerInfo(settings.getNumPieces());		
 		this.player2 = new PlayerInfo(settings.getNumPieces());
@@ -19,11 +22,14 @@ public class CheckersTurnManager implements Disposable {
 		this.onChangeHandlers = new LinkedList<>();
 		this.turns            = new LinkedList<>();
 		
+		this.startTimeMS = System.currentTimeMillis();
+		
 		//Randomly decide if player 1 should go first
 		this.isPlayer1sTurn = Math.random() < 0.5;
 		
 		//Start the first turn
 		turns.add(new TurnInfo(getCurrentScore()));
+		
 	}
 		
 	public boolean isPlayer1sTurn() {
@@ -69,13 +75,24 @@ public class CheckersTurnManager implements Disposable {
 			player1.playerHasKing();
 		else 
 			player2.playerHasKing();
-		
 		triggerOnChangeHandlers();
+	}
+	
+	public LinkedList<TurnInfo> getTurnData() {
+		return this.turns;
 	}
 
 	@Override
 	public void dispose() {
 		// Clear out stored handlers
 		onChangeHandlers.clear();
+	}
+
+	public void gameDidEnd() {
+		this.endTimeMS = System.currentTimeMillis();
+	}
+	
+	public long getGameLengthMS() {
+		return this.endTimeMS - this.startTimeMS;
 	}
 }

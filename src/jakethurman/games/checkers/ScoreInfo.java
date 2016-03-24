@@ -10,4 +10,15 @@ public class ScoreInfo {
 		this.player1 = player1;
 		this.player2 = player2;
 	}
+	
+	public PlayerInfo getCurrentPlayer() {
+		return currentPlayerIsPlayer1 ? player1 : player2;
+	}
+	
+	@Override
+	public String toString() {
+		return "{ \"currentPlayerIsPlayer1\": " + currentPlayerIsPlayer1 + 
+				", \"player1\": " + player1 + 
+				", \"player2\": " + player2 + " }";
+	}
 }

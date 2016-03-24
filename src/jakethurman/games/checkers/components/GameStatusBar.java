@@ -53,6 +53,7 @@ public class GameStatusBar implements Disposable {
 	private void updateText(ScoreInfo currScore) {
 		// Check for a win first.
 		if (currScore.player1.getPiecesRemaining() == 0 || currScore.player2.getPiecesRemaining() == 0) {
+			turnManager.gameDidEnd();
 			handleWin(currScore.player2.getPiecesRemaining() == 0);
 			return;
 		}

@@ -11,7 +11,11 @@ public class Messages implements GameMessages {
 	                            PLAYER2           = "Black",
 	                            PLAYAGAIN         = "Play Again",
                                 VIEW_GAME_STATS   = "View Game Statistics",
-                                BACK_BUTTON       = "Back";
+                                BACK_BUTTON       = "Back",
+                                NONE              = "none",
+                                WAS_KING_PLURAL   = "were kings",
+                                WAS_KING_SINGULAR = "was a king",
+                                GAME_STATS_MSG    = "%1$s won with %2$d/%3$d checkers remaining, %4$s of which %5$s. The game lasted a total of %6$.1fs";
 	
 	private final Settings settings;
 	
@@ -28,6 +32,15 @@ public class Messages implements GameMessages {
 		// Use the kings format string if either player has a king
 		String src = player1Kings == 0 && player2Kings == 0 ? SCORESTATUS : SCORESTATUS_KINGS;
 		return String.format(src, settings.getNumPieces(), PLAYER1, player1Checkers, player1Kings, PLAYER2, player2Checkers, player2Kings, player1Checkers == 1 ? "" : "s", player2Checkers == 1 ? "" : "s");
+	}
+	
+	@SuppressWarnings("boxing")
+	public String getGameStatsMessage(boolean player1Won, int kings, int checkers, double gameLengthMS) {
+		String playerName  = player1Won ? PLAYER1 : PLAYER2;
+		String kingsString = kings == 0 ? NONE : Integer.toString(kings);
+		String wereKings   = kings == 1 ? WAS_KING_SINGULAR : WAS_KING_PLURAL;
+		
+		return String.format(GAME_STATS_MSG, playerName, checkers, settings.getNumPieces(), kingsString, wereKings, (gameLengthMS / 100));
 	}
 	
 	public String getWinnerMessage(boolean isPlayer1) {

@@ -42,7 +42,7 @@ public class EndGameHandler implements Disposable {
 	
 	public void viewStats() {
 		SafeNode back  = buttonFactory.create(msgs.getBackButton(), () -> setScene.accept(gameScene));
-		SafeNode chart = statsGen.getChart();
+		SafeNode chart = statsGen.getChart(StatChartType.PIECES_OVER_TIME);
 		SafeText text  = textFactory.createLeftAlign();
 		
 		text.setText(statsGen.getStatusText());
