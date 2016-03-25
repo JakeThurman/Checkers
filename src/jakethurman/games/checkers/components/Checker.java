@@ -1,6 +1,6 @@
 package jakethurman.games.checkers.components;
 
-import jakethurman.components.CellIndex;
+import jakethurman.components.Point;
 import jakethurman.components.SafePaint;
 import jakethurman.components.SafeShape;
 import jakethurman.foundation.Disposable;
@@ -10,10 +10,10 @@ public class Checker implements Disposable {
 	private final boolean   isPlayer1;
 	private final SafePaint kingFill;
 
-	private boolean   isKing;
-	private CellIndex pos;
+	private boolean isKing;
+	private Point   pos;
 	
-	public Checker(boolean isPlayer1, SafePaint kingFill, SafeShape node, CellIndex initialPos) {
+	public Checker(boolean isPlayer1, SafePaint kingFill, SafeShape node, Point initialPos) {
 		this.isPlayer1 = isPlayer1;
 		this.kingFill  = kingFill;
 		this.node      = node;
@@ -25,11 +25,11 @@ public class Checker implements Disposable {
 		return this.node;
 	}
 	
-	public CellIndex getPos() {
+	public Point getPos() {
 		return this.pos;
 	}
 	
-	public void setPos(CellIndex pos) {
+	public void setPos(Point pos) {
 		this.pos = pos;
 	}
 	

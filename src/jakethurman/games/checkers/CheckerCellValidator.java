@@ -1,6 +1,6 @@
 package jakethurman.games.checkers;
 
-import jakethurman.components.CellIndex;
+import jakethurman.components.Point;
 import jakethurman.foundation.Disposable;
 
 public class CheckerCellValidator implements Disposable {
@@ -10,7 +10,7 @@ public class CheckerCellValidator implements Disposable {
 		this.settings = s;
 	}
 	
-	public boolean isValid(CellIndex c) {
+	public boolean isValid(Point c) {
 		int boardSize = settings.getBoardSize();
 		
 		return c.x < boardSize && c.x >= 0 

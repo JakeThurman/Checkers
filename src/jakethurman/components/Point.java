@@ -2,11 +2,11 @@ package jakethurman.components;
 
 import jakethurman.foundation.Disposable;
 
-public class CellIndex implements Disposable {
+public class Point implements Disposable {
 	public final int x;
 	public final int y;
 	
-	public CellIndex(int x, int y) {
+	public Point(int x, int y) {
 		this.x = x;
 		this.y = y;
 	}
@@ -18,7 +18,7 @@ public class CellIndex implements Disposable {
 	
 	@Override
 	public boolean equals(Object obj) {		
-		return obj instanceof CellIndex && ((CellIndex)obj).x == this.x && ((CellIndex)obj).y == this.y;
+		return obj instanceof Point && ((Point)obj).x == this.x && ((Point)obj).y == this.y;
 	}
 	
 	@Override

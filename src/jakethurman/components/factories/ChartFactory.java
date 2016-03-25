@@ -3,12 +3,12 @@ package jakethurman.components.factories;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-import jakethurman.components.CellIndex;
+import jakethurman.components.Point;
 import jakethurman.components.SafeNode;
 import jakethurman.foundation.Disposable;
 
 public class ChartFactory implements Disposable {
-	public ChartDataSeries createDataSeries(String name, CellIndex...points) {
+	public ChartDataSeries createDataSeries(String name, Point...points) {
 		return new ChartDataSeries(name, points);
 	}
 	
@@ -29,7 +29,7 @@ public class ChartFactory implements Disposable {
             XYChart.Series<Number, Number> series = new XYChart.Series<>();
             series.setName(cds.name);
             
-            for (CellIndex point : cds.points) {
+            for (Point point : cds.points) {
             	series.getData().add(new XYChart.Data<>(point.x, point.y));
             }
             
@@ -40,10 +40,10 @@ public class ChartFactory implements Disposable {
 	}
 	
 	public class ChartDataSeries {
-		protected final String      name;
-		protected final CellIndex[] points;
+		protected final String  name;
+		protected final Point[] points;
 		
-		public ChartDataSeries(String name, CellIndex...points) {
+		public ChartDataSeries(String name, Point...points) {
 			this.name   = name;
 			this.points = points;
 		}

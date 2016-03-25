@@ -1,9 +1,9 @@
 package jakethurman.games.checkers;
 
-import jakethurman.components.CellIndex;
+import jakethurman.components.Point;
 
 public interface CellSearchResult {
 	public boolean getIsJump();
-	public Iterable<CellIndex> getJumpedCells();
-	public CellIndex getCellIndex();
+	public Iterable<Point> getJumpedCells();
+	public Point getPoint();
 }

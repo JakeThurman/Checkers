@@ -1,7 +1,7 @@
 package jakethurman.games.checkers.components;
 
 import java.util.LinkedList;
-import jakethurman.components.CellIndex;
+import jakethurman.components.Point;
 import jakethurman.components.factories.ShapeFactory;
 import jakethurman.components.SafeNode;
 import jakethurman.components.SafePaint;
@@ -35,13 +35,13 @@ public class CheckerboardInitialization implements Disposable {
     	
     	interactions.setAfterSelect((checker) -> {    		
     		for (CellSearchResult searchData : data.getAvailableSpaces(checker)) {
-    			SafeNode  circle = shapeFactory.createOpaqueCircle(SafePaint.LIGHTBLUE);
-    			CellIndex pos    = searchData.getCellIndex();
+    			SafeNode circle = shapeFactory.createOpaqueCircle(SafePaint.LIGHTBLUE);
+    			Point    pos    = searchData.getPoint();
     			interactions.initializeMoveOption(circle, () -> {
     				data.movePieceToCell(checker, pos);
     				
     				// Set any jumped pieces as such
-    				for (CellIndex i : searchData.getJumpedCells())
+    				for (Point i : searchData.getJumpedCells())
     					data.setJumped(i);
     			});
     			data.getNode().add(circle, pos);
@@ -62,7 +62,7 @@ public class CheckerboardInitialization implements Disposable {
     	SafePaint[] squareColors = new SafePaint[] {SafePaint.WHITE, SafePaint.BLACK};
         for (int row = 0; row < boardSize; row++) {
             for (int col = 0; col < boardSize; col++) {
-                data.getNode().add(shapeFactory.createRect(squareColors[(row+col)%2]), new CellIndex(col, row));
+                data.getNode().add(shapeFactory.createRect(squareColors[(row+col)%2]), new Point(col, row));
             }
         }
     }
@@ -94,14 +94,14 @@ public class CheckerboardInitialization implements Disposable {
         }
     }
     
-    private static CellIndex getPlayer2Cell(int currPiece, int boardSize) {
-        return new CellIndex(
+    private static Point getPlayer2Cell(int currPiece, int boardSize) {
+        return new Point(
         	currPiece%(boardSize/2) * 2 + (1 + 2*currPiece/boardSize)%2, // X
         	(currPiece*2)/boardSize);                                     // Y
     }
     
-    private static CellIndex getPlayer1Cell(int currPiece, int boardSize) {
-    	return new CellIndex(
+    private static Point getPlayer1Cell(int currPiece, int boardSize) {
+    	return new Point(
     			currPiece%(boardSize/2) * 2 + (2*currPiece/boardSize)%2, // X
     			boardSize - 1 - (currPiece*2)/boardSize);                // Y
     }

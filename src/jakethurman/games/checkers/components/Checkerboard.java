@@ -5,7 +5,7 @@ import java.util.List;
 import jakethurman.foundation.CleanupHandler;
 import jakethurman.foundation.Disposable;
 import jakethurman.foundation.Logging;
-import jakethurman.components.CellIndex;
+import jakethurman.components.Point;
 import jakethurman.components.SafeGridPane;
 import jakethurman.games.checkers.CellSearchData;
 import jakethurman.games.checkers.CellSearchResult;
@@ -64,7 +64,7 @@ public class Checkerboard implements Disposable {
         }
 	}
 		
-	private CheckerboardSquare getCell(CellIndex i) {
+	private CheckerboardSquare getCell(Point i) {
 		if (!validator.isValid(i)) {
 			Logging.report("Attempted Invalid Access! " + i.toString());
 			return null;
@@ -72,7 +72,7 @@ public class Checkerboard implements Disposable {
 		return cells[i.x][i.y];
 	}
 	
-	public void setJumped(CellIndex i) {
+	public void setJumped(Point i) {
 		CheckerboardSquare cell   = getCell(i);
 		Checker            jumped = cell.getPiece();
 		
@@ -82,7 +82,7 @@ public class Checkerboard implements Disposable {
 	}
 	
 	public void pieceIsInCell(Checker checker) {
-		CellIndex pos = checker.getPos();
+		Point pos = checker.getPos();
 		getCell(pos).setPiece(checker);
 		
 		// Add visually
@@ -94,7 +94,7 @@ public class Checkerboard implements Disposable {
 		visual.remove(c.getNode()); // Remove the node
 	}
 
-	public void movePieceToCell(Checker checker, CellIndex pos) {
+	public void movePieceToCell(Checker checker, Point pos) {
 		remove(checker); // Remove it from it's old location
 		checker.setPos(pos); // Record the new position to the checker
 		pieceIsInCell(checker); // Move it to the new piece
@@ -102,7 +102,7 @@ public class Checkerboard implements Disposable {
 		turnManager.endTurn(); // This was this players turn so call it over
 	}
 	
-	public void handleKingship(Checker c, CellIndex pos) {
+	public void handleKingship(Checker c, Point pos) {
 		if ((c.getIsPlayer1() && pos.y == 0) || (!c.getIsPlayer1() && pos.y == (settings.getBoardSize() - 1))) {
 			c.kingMe();
 			turnManager.playerHasKing(c.getIsPlayer1());
@@ -110,10 +110,10 @@ public class Checkerboard implements Disposable {
 	}
 	
 	public Iterable<CellSearchResult> getAvailableSpaces(Checker checker) {
-		LinkedList<CellIndex>        seenCells = new LinkedList<>();
-		LinkedList<CellSearchResult> results  = new LinkedList<>();
-		LinkedList<CellSearchData>   original = new LinkedList<>();
-		LinkedList<CellSearchData>   toCheck  = new LinkedList<>();
+		LinkedList<Point>            seenCells = new LinkedList<>();
+		LinkedList<CellSearchResult> results   = new LinkedList<>();
+		LinkedList<CellSearchData>   original  = new LinkedList<>();
+		LinkedList<CellSearchData>   toCheck   = new LinkedList<>();
 		
 		if (!checker.getIsPlayer1() || checker.getIsKing()) {
 			original.add(new CellSearchData(1, 1, checker.getPos()));
@@ -130,7 +130,7 @@ public class Checkerboard implements Disposable {
 		
 		while (!toCheck.isEmpty()) {			
 			CellSearchData checking = toCheck.poll();
-			CellIndex      index    = checking.getCellIndex();
+			Point          index    = checking.getPoint();
 			
 			//Record that we've seen this cell
 			seenCells.add(index);

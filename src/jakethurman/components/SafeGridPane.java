@@ -18,7 +18,7 @@ public class SafeGridPane extends SafeNode {
 		this.pane = pane;
 	}
 	
-	public void add(SafeNode n, CellIndex i) {
+	public void add(SafeNode n, Point i) {
 		pane.add(n.getUnsafe(), i.x, i.y);
 	}
 	
