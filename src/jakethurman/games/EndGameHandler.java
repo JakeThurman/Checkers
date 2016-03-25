@@ -8,7 +8,6 @@ import jakethurman.components.PositionedNodes;
 import jakethurman.components.SafeBorderPane;
 import jakethurman.components.SafeNode;
 import jakethurman.components.SafeScene;
-import jakethurman.components.SafeText;
 import jakethurman.components.factories.ButtonFactory;
 import jakethurman.components.factories.TextFactory;
 import jakethurman.foundation.CleanupHandler;
