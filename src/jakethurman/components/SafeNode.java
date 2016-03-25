@@ -3,6 +3,8 @@ package jakethurman.components;
 import javafx.scene.Node;
 
 public class SafeNode {
+	public static final SafeNode NONE = new SafeNode(null);
+	
 	private final Node node;
 	
 	public SafeNode(Node node) {

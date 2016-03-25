@@ -1,12 +1,11 @@
 package jakethurman.games.checkers.components;
 
+import java.util.function.Consumer;
 import jakethurman.foundation.CleanupHandler;
 import jakethurman.components.factories.ButtonFactory;
+import jakethurman.components.factories.ChartFactory;
 import jakethurman.components.factories.ShapeFactory;
 import jakethurman.components.factories.TextFactory;
-
-import java.util.function.Consumer;
-
 import jakethurman.components.PositionedNodes;
 import jakethurman.components.ReadOnlyPositionedNodes;
 import jakethurman.components.SafeScene;
@@ -50,7 +49,8 @@ public class CheckerboardRenderer implements Renderer {
             	endGameClean, 
             	new CheckersStatsGenerator(
             		ctm, 
-            		msgs), 
+            		msgs,
+            		new ChartFactory()), 
             	msgs, 
             	bttnFactory, 
             	textFactory, 

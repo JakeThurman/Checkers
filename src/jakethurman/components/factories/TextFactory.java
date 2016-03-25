@@ -4,12 +4,19 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import jakethurman.components.SafeNode;
 import jakethurman.components.SafeText;
 import jakethurman.foundation.Disposable;
 
 public class TextFactory implements Disposable {
 	private static final String FONT_FAMILY = "Tahoma";
 	private static final int    FONT_SIZE   = 20;
+	
+	public SafeNode createLeftAlign(String text) {
+		SafeText t = createLeftAlign();
+		t.setText(text);
+		return t;
+	}
 	
 	public SafeText createLeftAlign() {
 		return create_impl(Font.font(FONT_FAMILY, FONT_SIZE), TextAlignment.LEFT);
