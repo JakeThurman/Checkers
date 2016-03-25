@@ -6,7 +6,7 @@ import jakethurman.components.factories.ShapeSettings;
 public class Settings implements ShapeSettings {
     private static final int BOARD_SIZE    = 8,
                              SQUARE_SIZE   = 60,
-                             NUM_PIECES    = 12,
+                             NUM_PIECES    = 1,
                              CIRCLE_RADIUS = SQUARE_SIZE/2-6,
                              CIRCLE_BORDER = 2;
         

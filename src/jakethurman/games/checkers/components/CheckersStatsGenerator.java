@@ -1,6 +1,8 @@
 package jakethurman.games.checkers.components;
 
 import java.util.LinkedList;
+
+import jakethurman.components.CellIndex;
 import jakethurman.components.SafeNode;
 import jakethurman.components.factories.ChartFactory;
 import jakethurman.foundation.CleanupHandler;
@@ -29,7 +31,10 @@ public class CheckersStatsGenerator implements StatsGenerator {
 	public SafeNode getChart(StatChartType type) {
 		switch(type) {
 			case PIECES_OVER_TIME:
-				return chartFactory.createLineChart();
+				ChartFactory.ChartDataSeries redData   = chartFactory.createDataSeries("Red", new CellIndex(0, 0), new CellIndex(1, 5), new CellIndex(2, 10));
+				ChartFactory.ChartDataSeries blackData = chartFactory.createDataSeries("Black", new CellIndex(15, 0), new CellIndex(7, 10));
+				//TODO: Factor strings out to Messages instance
+				return chartFactory.createLineChart("Title", "Time (Seconds)", "Pieces", redData, blackData);
 			default:
 				return SafeNode.NONE;
 		}
