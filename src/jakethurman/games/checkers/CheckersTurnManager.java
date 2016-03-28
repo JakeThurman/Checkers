@@ -91,8 +91,19 @@ public class CheckersTurnManager implements Disposable {
 	public void gameDidEnd() {
 		this.endTimeMS = System.currentTimeMillis();
 	}
+
+	public long getGameEndMS() {
+		return this.endTimeMS;
+	}
 	
-	public long getGameLengthMS() {
-		return this.endTimeMS - this.startTimeMS;
+	public long getGameStartMS() {
+		return this.startTimeMS;
+	}
+	
+	//DANGEROUS DEBUG FUNCTION
+	public void hackPlayer2ToZeroPieces() {
+		while(this.player2.getPiecesRemaining() > 0) {
+			this.player2.playerLostPiece(false);
+		}
 	}
 }

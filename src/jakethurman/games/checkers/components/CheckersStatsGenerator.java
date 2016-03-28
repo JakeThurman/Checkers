@@ -1,7 +1,7 @@
 package jakethurman.games.checkers.components;
 
 import java.util.LinkedList;
-
+import java.util.HashSet;
 import jakethurman.components.Point;
 import jakethurman.components.SafeNode;
 import jakethurman.components.factories.ChartFactory;
@@ -31,13 +31,37 @@ public class CheckersStatsGenerator implements StatsGenerator {
 	public SafeNode getChart(StatChartType type) {
 		switch(type) {
 			case PIECES_OVER_TIME:
-				ChartFactory.ChartDataSeries redData   = chartFactory.createDataSeries("Red", new Point(0, 0), new Point(1, 5), new Point(2, 10));
-				ChartFactory.ChartDataSeries blackData = chartFactory.createDataSeries("Black", new Point(15, 0), new Point(7, 10));
-				//TODO: Factor strings out to Messages instance
-				return chartFactory.createLineChart("Title", "Time (Seconds)", "Pieces", redData, blackData);
+				return getPiecesOverTime();
 			default:
 				return SafeNode.NONE;
 		}
+	}
+	
+	public SafeNode getPiecesOverTime() {
+		HashSet<Point> player1CheckerChanges = new HashSet<>();
+		HashSet<Point> player2CheckerChanges = new HashSet<>();
+		HashSet<Point> player1KingChanges = new HashSet<>();
+		HashSet<Point> player2KingsChange = new HashSet<>();
+		
+		for (TurnInfo turn : ctm.getTurnData()) {
+			ScoreInfo score = turn.getScoreAtStart();
+			
+			double secAfterStart = (turn.getStart() - ctm.getGameStartMS()) / 1000;
+			
+			(score.currentPlayerIsPlayer1 ? player1CheckerChanges : player2CheckerChanges)
+				.add(new Point((int)secAfterStart, score.getCurrentPlayer().getPiecesRemaining()));
+			
+			(score.currentPlayerIsPlayer1 ? player1KingChanges : player2KingsChange)
+				.add(new Point((int)secAfterStart, score.getCurrentPlayer().getKingCount()));
+		}
+		
+		//TODO: Factor strings out to Messages instance
+		ChartFactory.ChartDataSeries player1      = chartFactory.createDataSeries("Red", player1CheckerChanges);
+		ChartFactory.ChartDataSeries player2      = chartFactory.createDataSeries("Black", player2CheckerChanges);
+		ChartFactory.ChartDataSeries player1Kings = chartFactory.createDataSeries("Red Kings", player1KingChanges);
+		ChartFactory.ChartDataSeries player2Kings = chartFactory.createDataSeries("Black Kings", player2KingsChange);
+		
+		return chartFactory.createLineChart("Pieces Over Time", "Time (Seconds)", "Pieces", player1, player2, player1Kings, player2Kings);
 	}
 	
 	@Override

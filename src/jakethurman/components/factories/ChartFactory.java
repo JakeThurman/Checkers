@@ -1,5 +1,6 @@
 package jakethurman.components.factories;
 
+import java.util.Set;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
@@ -8,8 +9,8 @@ import jakethurman.components.SafeNode;
 import jakethurman.foundation.Disposable;
 
 public class ChartFactory implements Disposable {
-	public ChartDataSeries createDataSeries(String name, Point...points) {
-		return new ChartDataSeries(name, points);
+	public ChartDataSeries createDataSeries(String name, Set<Point> points) {
+		return new ChartDataSeries(name, points.toArray(new Point[0]));
 	}
 	
 	@SuppressWarnings("boxing")

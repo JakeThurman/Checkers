@@ -6,9 +6,11 @@ import jakethurman.components.factories.ShapeSettings;
 public class Settings implements ShapeSettings {
     private static final int BOARD_SIZE    = 8,
                              SQUARE_SIZE   = 60,
-                             NUM_PIECES    = 1,
+                             NUM_PIECES    = 12,
                              CIRCLE_RADIUS = SQUARE_SIZE/2-6,
                              CIRCLE_BORDER = 2;
+    
+    private static final boolean IS_DEBUG = true;
         
     private static final SafePaint SELECTED_COLOR = SafePaint.BLUE;
 
@@ -18,6 +20,7 @@ public class Settings implements ShapeSettings {
 	@Override public int getSquareSize()   { return SQUARE_SIZE;   }
 	public int getNumPieces() { return NUM_PIECES; }
 	public int getBoardSize() { return BOARD_SIZE; }
+	public boolean isDebug() { return IS_DEBUG; }
 	
 	public SafePaint getSelectColor() { return SELECTED_COLOR; }
 	

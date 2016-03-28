@@ -8,6 +8,7 @@ import jakethurman.components.factories.ShapeFactory;
 import jakethurman.components.factories.TextFactory;
 import jakethurman.components.PositionedNodes;
 import jakethurman.components.ReadOnlyPositionedNodes;
+import jakethurman.components.SafeNode;
 import jakethurman.components.SafeScene;
 import jakethurman.games.EndGameHandler;
 import jakethurman.games.Renderer;
@@ -62,6 +63,14 @@ public class CheckerboardRenderer implements Renderer {
                 
         return new PositionedNodes()
         	.setCenter(data.getNode())
-        	.setBottom(statusBar.getNode());
+        	.setBottom(statusBar.getNode())
+        	.setTop(maybeGetDebugBar(settings, ctm, bttnFactory));
     }
+
+	private static SafeNode maybeGetDebugBar(Settings settings, CheckersTurnManager ctm, ButtonFactory bttnFactory) {
+		if (!settings.isDebug())
+			return SafeNode.NONE;
+		
+		return bttnFactory.create("End Game", ctm::hackPlayer2ToZeroPieces);
+	}
 }
