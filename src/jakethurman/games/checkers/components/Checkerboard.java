@@ -56,7 +56,7 @@ public class Checkerboard implements Disposable {
     	for (int x = 0; x < boardSize; x++)
 			for (int y = 0; y < boardSize; y++)
 				cells[x][y] = new CheckerboardSquare();
-    	
+    	    	
     	//Add {Settings.BOARD_SIZE} rows and columns
         for (int i=0; i < boardSize; i++) {
         	visual.addRow(squareSize);

@@ -11,6 +11,7 @@ import jakethurman.components.ReadOnlyPositionedNodes;
 import jakethurman.components.SafeNode;
 import jakethurman.components.SafeScene;
 import jakethurman.games.EndGameHandler;
+import jakethurman.games.GlobalSettings;
 import jakethurman.games.GridHelpers;
 import jakethurman.games.Renderer;
 import jakethurman.games.checkers.CheckerCellValidator;
@@ -48,7 +49,6 @@ public class CheckersRenderer implements Renderer {
         // Initialize the status bar
         GameStatusBar statusBar = new GameStatusBar(
             msgs,
-            settings,
             ctm, 
             new EndGameHandler(
             	endGameClean, 
@@ -68,11 +68,11 @@ public class CheckersRenderer implements Renderer {
         return new PositionedNodes()
         	.setCenter(data.getNode())
         	.setBottom(statusBar.getNode())
-        	.setTop(maybeGetDebugBar(settings, ctm, bttnFactory));
+        	.setTop(maybeGetDebugBar(ctm, bttnFactory));
     }
 
-	private static SafeNode maybeGetDebugBar(Settings settings, CheckersTurnManager ctm, ButtonFactory bttnFactory) {
-		if (!settings.isDebug())
+	private static SafeNode maybeGetDebugBar(CheckersTurnManager ctm, ButtonFactory bttnFactory) {
+		if (!GlobalSettings.IS_DEBUG)
 			return SafeNode.NONE;
 		
 		return bttnFactory.create("End Game", ctm::hackPlayer2ToZeroPieces);

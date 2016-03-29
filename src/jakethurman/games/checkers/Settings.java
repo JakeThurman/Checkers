@@ -9,9 +9,7 @@ public class Settings implements ShapeSettings {
                              NUM_PIECES    = 12,
                              CIRCLE_RADIUS = SQUARE_SIZE/2-6,
                              CIRCLE_BORDER = 2;
-    
-    private static final boolean IS_DEBUG = false;
-        
+            
     private static final SafePaint SELECTED_COLOR = SafePaint.BLUE;
     
     //Get methods
@@ -19,9 +17,7 @@ public class Settings implements ShapeSettings {
 	@Override public int getCircleBorder() { return CIRCLE_BORDER; }
 	@Override public int getSquareSize()   { return SQUARE_SIZE;   }
 	public int getNumPieces() { return NUM_PIECES; }
-	public int getBoardSize() { return BOARD_SIZE; }
-	public boolean isDebug() { return IS_DEBUG; }
-	
+	public int getBoardSize() { return BOARD_SIZE; }	
 	public SafePaint getSelectColor() { return SELECTED_COLOR; }
 	
 	@Override public void dispose() { /* Nothing to dispose */ }

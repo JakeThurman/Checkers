@@ -9,30 +9,28 @@ import jakethurman.components.SafeBorderPane;
 import jakethurman.components.SafeNode;
 import jakethurman.components.SafeText;
 import jakethurman.games.EndGameHandler;
+import jakethurman.games.GlobalSettings;
 import jakethurman.games.checkers.CheckersTurnManager;
 import jakethurman.games.checkers.Messages;
 import jakethurman.games.checkers.ScoreInfo;
-import jakethurman.games.checkers.Settings;
 
 public class GameStatusBar implements Disposable {
 	private final CheckersTurnManager turnManager;
 	private final EndGameHandler      endGameHandler;
 	private final ButtonFactory       buttonFactory;
 	private final Messages            msgs;
-	private final Settings            settings;
 	private final CleanupHandler      cleanup;
 	
 	private final SafeBorderPane parent;
 	private final SafeText       score;
 	private final SafeText       turn;
 	
-	public GameStatusBar(Messages msgs, Settings settings, CheckersTurnManager turnManager, EndGameHandler endGameHandler, ButtonFactory buttonFactory, TextFactory textFactory) {
+	public GameStatusBar(Messages msgs, CheckersTurnManager turnManager, EndGameHandler endGameHandler, ButtonFactory buttonFactory, TextFactory textFactory) {
 		this.turnManager    = turnManager;
 		this.endGameHandler = endGameHandler;
 		this.buttonFactory  = buttonFactory;
 		this.msgs           = msgs;
-		this.settings       = settings;
-		this.cleanup        = new CleanupHandler(settings, turnManager, endGameHandler, buttonFactory, msgs, textFactory);
+		this.cleanup        = new CleanupHandler(turnManager, endGameHandler, buttonFactory, msgs, textFactory);
 
 		this.score          = textFactory.createLeftAlign();
 		this.turn           = textFactory.createCenteredBold();
@@ -81,7 +79,7 @@ public class GameStatusBar implements Disposable {
 		
 		SafeBorderPane bottom = new SafeBorderPane();
 		bottom.setChildren(new PositionedNodes()
-			.setLeft(settings.isDebug() ? gameStats : null)
+			.setLeft(GlobalSettings.IS_DEBUG ? gameStats : null)
 			.setRight(playAgain));
 		
 		parent.setPadding(10);
