@@ -17,17 +17,19 @@ public class CheckersInitialization implements Disposable {
 	private final CheckerInteractionManager interactions;
 	private final CleanupHandler            cleanup;
 	private final Settings                  settings;
+	private final GridHelpers               gridHelpers;
 	
-	public CheckersInitialization(ShapeFactory shapeFactory, CheckerInteractionManager interactions, Settings settings) {
+	public CheckersInitialization(ShapeFactory shapeFactory, GridHelpers gridHelpers, CheckerInteractionManager interactions, Settings settings) {
 		this.shapeFactory  = shapeFactory;
 		this.interactions  = interactions;
 		this.settings      = settings;
-		this.cleanup = new CleanupHandler(shapeFactory, interactions, settings);
+		this.gridHelpers   = gridHelpers;
+		this.cleanup = new CleanupHandler(shapeFactory, interactions, settings, gridHelpers);
 	}
 	
     public void initialize(Checkerboard data) {
     	showAvailableMovesOnClick(data);
-        GridHelpers.fillGridWithSquares(shapeFactory, data.getNode());
+        gridHelpers.fillGridWithSquares(data.getNode());
         addPiecesToBoard(data);
     }
         

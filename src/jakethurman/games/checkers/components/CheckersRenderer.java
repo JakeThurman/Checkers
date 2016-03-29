@@ -11,6 +11,7 @@ import jakethurman.components.ReadOnlyPositionedNodes;
 import jakethurman.components.SafeNode;
 import jakethurman.components.SafeScene;
 import jakethurman.games.EndGameHandler;
+import jakethurman.games.GridHelpers;
 import jakethurman.games.Renderer;
 import jakethurman.games.checkers.CheckerCellValidator;
 import jakethurman.games.checkers.CheckerInteractionManager;
@@ -19,15 +20,17 @@ import jakethurman.games.checkers.Messages;
 import jakethurman.games.checkers.SelectionManager;
 import jakethurman.games.checkers.Settings;
 
-public class CheckerboardRenderer implements Renderer {	
+public class CheckersRenderer implements Renderer {	
     @Override
 	public ReadOnlyPositionedNodes render(final SafeScene scene, final Runnable rerender, final Consumer<SafeScene> setScene) {
         final Settings            settings = new Settings();
         final CheckersTurnManager ctm      = new CheckersTurnManager(settings);
         final Checkerboard        data     = new Checkerboard(new CheckerCellValidator(settings), ctm, settings);
         
+        final ShapeFactory shapeFactory = new ShapeFactory(settings);
         final CheckersInitialization ci = new CheckersInitialization(
-    		new ShapeFactory(settings), 
+        	shapeFactory,
+        	new GridHelpers(shapeFactory),
     		new CheckerInteractionManager(
     			scene, 
     			new SelectionManager(settings),
