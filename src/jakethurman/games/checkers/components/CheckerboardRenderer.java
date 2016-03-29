@@ -44,7 +44,8 @@ public class CheckerboardRenderer implements Renderer {
         
         // Initialize the status bar
         GameStatusBar statusBar = new GameStatusBar(
-            msgs, 
+            msgs,
+            settings,
             ctm, 
             new EndGameHandler(
             	endGameClean, 
