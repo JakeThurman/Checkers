@@ -19,7 +19,7 @@ public class App extends Application {
 		final Scene      scene   = new Scene(content);
 		
 		new RenderingHandler(
-			new CheckerboardRenderer(), 
+			new CheckerboardRenderer(), //We will only ever render checkers at this time
 			new SafeScene(scene), 
 			new SafeBorderPane(content))
 				.render(s -> primaryStage.setScene(s.getUnsafe()));

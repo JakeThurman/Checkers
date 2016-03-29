@@ -26,7 +26,7 @@ public class CheckerboardRenderer implements Renderer {
         final CheckersTurnManager ctm      = new CheckersTurnManager(settings);
         final Checkerboard        data     = new Checkerboard(new CheckerCellValidator(settings), ctm, settings);
         
-        final CheckerboardInitialization ci = new CheckerboardInitialization(
+        final CheckersInitialization ci = new CheckersInitialization(
     		new ShapeFactory(settings), 
     		new CheckerInteractionManager(
     			scene, 

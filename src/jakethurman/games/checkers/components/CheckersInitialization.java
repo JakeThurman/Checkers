@@ -11,13 +11,13 @@ import jakethurman.games.checkers.CellSearchResult;
 import jakethurman.games.checkers.CheckerInteractionManager;
 import jakethurman.games.checkers.Settings;
 
-public class CheckerboardInitialization implements Disposable {    
+public class CheckersInitialization implements Disposable {    
 	private final ShapeFactory              shapeFactory;
 	private final CheckerInteractionManager interactions;
 	private final CleanupHandler            cleanup;
 	private final Settings                  settings;
 	
-	public CheckerboardInitialization(ShapeFactory shapeFactory, CheckerInteractionManager interactions, Settings settings) {
+	public CheckersInitialization(ShapeFactory shapeFactory, CheckerInteractionManager interactions, Settings settings) {
 		this.shapeFactory  = shapeFactory;
 		this.interactions  = interactions;
 		this.settings      = settings;
