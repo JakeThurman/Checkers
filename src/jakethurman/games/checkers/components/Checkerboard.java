@@ -63,7 +63,7 @@ public class Checkerboard implements Disposable {
         	visual.addColumn(squareSize);
         }
 	}
-		
+	
 	private CheckerboardSquare getCell(Point i) {
 		if (!validator.isValid(i)) {
 			Logging.report("Attempted Invalid Access! " + i.toString());

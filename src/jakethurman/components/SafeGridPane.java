@@ -43,4 +43,12 @@ public class SafeGridPane extends SafeNode {
         colConstraints.setHalignment(HPos.CENTER);
         pane.getColumnConstraints().add(colConstraints);
 	}
+	
+	public int getColumnCount() {
+		return pane.getColumnConstraints().size();
+	} 
+	
+	public int getRowCount() {
+		return pane.getRowConstraints().size();
+	} 
 }

@@ -7,6 +7,7 @@ import jakethurman.components.SafeNode;
 import jakethurman.components.SafePaint;
 import jakethurman.foundation.CleanupHandler;
 import jakethurman.foundation.Disposable;
+import jakethurman.games.GridHelpers;
 import jakethurman.games.checkers.CellSearchResult;
 import jakethurman.games.checkers.CheckerInteractionManager;
 import jakethurman.games.checkers.Settings;
@@ -26,7 +27,7 @@ public class CheckersInitialization implements Disposable {
 	
     public void initialize(Checkerboard data) {
     	showAvailableMovesOnClick(data);
-        addSquaresToBoard(data);
+        GridHelpers.fillGridWithSquares(shapeFactory, data.getNode());
         addPiecesToBoard(data);
     }
         
@@ -55,16 +56,6 @@ public class CheckersInitialization implements Disposable {
     		
     		choiceNodes.clear();
     	});
-    }
-    
-    private void addSquaresToBoard(Checkerboard data) {
-    	int boardSize = settings.getBoardSize();
-    	SafePaint[] squareColors = new SafePaint[] {SafePaint.WHITE, SafePaint.BLACK};
-        for (int row = 0; row < boardSize; row++) {
-            for (int col = 0; col < boardSize; col++) {
-                data.getNode().add(shapeFactory.createRect(squareColors[(row+col)%2]), new Point(col, row));
-            }
-        }
     }
     
     private void addPiecesToBoard(Checkerboard data) {
