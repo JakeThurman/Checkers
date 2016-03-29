@@ -23,9 +23,9 @@ public class CheckerboardSquare implements Disposable {
 
 	@Override
 	public String toString() {
-		return isEmpty() 
-			? "CheckerboardSquare: { Empty }" 
-			: "CheckerboardSquare: { " + this.checker.toString() + " }";
+		return isEmpty()
+			? "{ checker: null }" 
+			: "{ checker: " + this.checker.toString() + " }";
 	}
 	
 	@Override

@@ -1,4 +1,4 @@
-package jakethurman.games;
+package jakethurman.components.helpers;
 
 import jakethurman.components.Point;
 import jakethurman.components.SafeGridPane;

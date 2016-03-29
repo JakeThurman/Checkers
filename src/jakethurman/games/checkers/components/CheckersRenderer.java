@@ -12,7 +12,7 @@ import jakethurman.components.SafeNode;
 import jakethurman.components.SafeScene;
 import jakethurman.games.EndGameHandler;
 import jakethurman.games.GlobalSettings;
-import jakethurman.games.GridHelpers;
+import jakethurman.components.helpers.GridHelpers;
 import jakethurman.games.Renderer;
 import jakethurman.games.checkers.CheckerCellValidator;
 import jakethurman.games.checkers.CheckerInteractionManager;

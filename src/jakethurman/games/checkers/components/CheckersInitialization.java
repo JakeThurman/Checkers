@@ -7,7 +7,7 @@ import jakethurman.components.SafeNode;
 import jakethurman.components.SafePaint;
 import jakethurman.foundation.CleanupHandler;
 import jakethurman.foundation.Disposable;
-import jakethurman.games.GridHelpers;
+import jakethurman.components.helpers.GridHelpers;
 import jakethurman.games.checkers.CellSearchResult;
 import jakethurman.games.checkers.CheckerInteractionManager;
 import jakethurman.games.checkers.Settings;
