@@ -15,7 +15,8 @@ public class Messages implements GameMessages {
                                 NONE              = "none",
                                 WAS_KING_PLURAL   = "were kings",
                                 WAS_KING_SINGULAR = "was a king",
-                                GAME_STATS_MSG    = "%1$s won with %2$d/%3$d checkers remaining, %4$s of which %5$s. The game lasted a total of %6$.1fs";
+                                GAME_STATS_MSG    = "%1$s won with %2$d/%3$d checkers remaining, %4$s of which %5$s. The game lasted a total of %6$.1fs",
+                                GAME_TITLE        = "Checkers";
 	
 	private final Settings settings;
 	
@@ -53,6 +54,10 @@ public class Messages implements GameMessages {
 	
 	public String getViewGameStats() {
 		return VIEW_GAME_STATS;
+	}
+
+	public String getGameTitle() {
+		return GAME_TITLE;
 	}
 	
 	@Override

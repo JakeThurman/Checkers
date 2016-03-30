@@ -7,12 +7,12 @@ import jakethurman.components.factories.ChartFactory;
 import jakethurman.components.factories.ShapeFactory;
 import jakethurman.components.factories.TextFactory;
 import jakethurman.components.PositionedNodes;
-import jakethurman.components.ReadOnlyPositionedNodes;
+import jakethurman.components.SafeBorderPane;
 import jakethurman.components.SafeNode;
 import jakethurman.components.SafeScene;
+import jakethurman.components.helpers.GridHelpers;
 import jakethurman.games.EndGameHandler;
 import jakethurman.games.GlobalSettings;
-import jakethurman.components.helpers.GridHelpers;
 import jakethurman.games.Renderer;
 import jakethurman.games.checkers.CheckerCellValidator;
 import jakethurman.games.checkers.CheckerInteractionManager;
@@ -23,7 +23,10 @@ import jakethurman.games.checkers.Settings;
 
 public class CheckersRenderer implements Renderer {	
     @Override
-	public ReadOnlyPositionedNodes render(final SafeScene scene, final Runnable rerender, final Consumer<SafeScene> setScene) {
+	public void render(final Runnable rerender, final Consumer<SafeScene> setScene) {
+    	final SafeBorderPane      content  = new SafeBorderPane();
+    	final SafeScene           scene    = new SafeScene(content);
+    	
         final Settings            settings = new Settings();
         final CheckersTurnManager ctm      = new CheckersTurnManager(settings);
         final Checkerboard        data     = new Checkerboard(new CheckerCellValidator(settings), ctm, settings);
@@ -65,10 +68,13 @@ public class CheckersRenderer implements Renderer {
             bttnFactory,
             textFactory);
                 
-        return new PositionedNodes()
+        //Now actually handle content rendering
+        content.setChildren(new PositionedNodes()
         	.setCenter(data.getNode())
         	.setBottom(statusBar.getNode())
-        	.setTop(maybeGetDebugBar(ctm, bttnFactory));
+        	.setTop(maybeGetDebugBar(ctm, bttnFactory)));
+        
+        setScene.accept(scene);
     }
 
 	private static SafeNode maybeGetDebugBar(CheckersTurnManager ctm, ButtonFactory bttnFactory) {
@@ -76,5 +82,10 @@ public class CheckersRenderer implements Renderer {
 			return SafeNode.NONE;
 		
 		return bttnFactory.create("End Game", ctm::hackPlayer2ToZeroPieces);
+	}
+
+	@Override
+	public String getTitle() {
+		return new Messages(new Settings()).getGameTitle();
 	}
 }

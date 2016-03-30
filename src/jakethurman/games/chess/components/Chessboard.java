@@ -2,10 +2,12 @@ package jakethurman.games.chess.components;
 
 import java.util.Arrays;
 
+import jakethurman.components.Point;
 import jakethurman.components.SafeGridPane;
 import jakethurman.foundation.Disposable;
 import jakethurman.games.chess.Settings;
 import jakethurman.games.chess.components.ChessboardSquare;
+import jakethurman.games.chess.pieces.ChessPiece;
 
 public class Chessboard implements Disposable {
 	private final ChessboardSquare[][] cells;
@@ -35,8 +37,14 @@ public class Chessboard implements Disposable {
     	for (int x = 0; x < Settings.BOARD_SIZE; x++)
 			for (int y = 0; y < Settings.BOARD_SIZE; y++)
 				cells[x][y] = new ChessboardSquare();
-		
-		System.out.println(toString());
+	}
+	
+	private ChessboardSquare getCell(Point p) {
+		return cells[p.x][p.y];
+	}
+	
+	public void initPeice(ChessPiece piece, Point point) {
+		getCell(point).setPiece(piece);
 	}
 	
 	public SafeGridPane getNode() {

@@ -1,6 +1,7 @@
 package jakethurman.components;
 
 import javafx.geometry.HPos;
+import javafx.geometry.Insets;
 import javafx.geometry.VPos;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
@@ -26,6 +27,13 @@ public class SafeGridPane extends SafeNode {
 		pane.getChildren().remove(n.getUnsafe());
 	}
 
+
+	public void addColumn() {
+        final ColumnConstraints colConstraints = new ColumnConstraints();
+        colConstraints.setHalignment(HPos.CENTER);
+        pane.getColumnConstraints().add(colConstraints);
+	}
+	
 	public void addRow(final double size) {
         final RowConstraints rowConstraints = new RowConstraints();
         rowConstraints.setMinHeight(size);
@@ -50,5 +58,11 @@ public class SafeGridPane extends SafeNode {
 	
 	public int getRowCount() {
 		return pane.getRowConstraints().size();
-	} 
+	}
+	
+	public void setPadding(double width) {
+		pane.setPadding(new Insets(width));
+		pane.setHgap(width);
+		pane.setVgap(width);
+	}
 }

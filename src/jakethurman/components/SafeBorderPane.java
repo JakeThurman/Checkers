@@ -11,9 +11,14 @@ public class SafeBorderPane extends SafeParent {
 		this(new BorderPane());
 	}
 
-	public SafeBorderPane(BorderPane pane) {
+	private SafeBorderPane(BorderPane pane) {
 		super(pane);
 		this.pane = pane;
+	}
+	
+	public void setMinSize(double h, double w) {
+		pane.setMinHeight(h);
+		pane.setMinWidth(w);
 	}
 	
 	public void setChildren(ReadOnlyPositionedNodes pn) {
