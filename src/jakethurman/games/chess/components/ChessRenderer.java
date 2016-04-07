@@ -1,10 +1,10 @@
 package jakethurman.games.chess.components;
 
 import java.util.function.Consumer;
-
 import jakethurman.components.PositionedNodes;
 import jakethurman.components.SafeBorderPane;
 import jakethurman.components.SafeScene;
+import jakethurman.components.factories.ButtonFactory;
 import jakethurman.components.factories.ShapeFactory;
 import jakethurman.components.helpers.GridHelpers;
 import jakethurman.games.Renderer;
@@ -19,7 +19,9 @@ public class ChessRenderer implements Renderer {
 		SafeScene      scene   = new SafeScene(content);
 		
 		//Create dependencies
-		final ChessboardInitialization initialization = new ChessboardInitialization(new GridHelpers(new ShapeFactory(new Settings())));
+		final ChessboardInitialization initialization = new ChessboardInitialization(
+			new GridHelpers(new ShapeFactory(new Settings())), 
+			new ButtonFactory(scene));
 		
 		//Render the board
 		Chessboard chessboard = new Chessboard();

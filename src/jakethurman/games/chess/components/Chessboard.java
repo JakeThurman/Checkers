@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import jakethurman.components.Point;
 import jakethurman.components.SafeGridPane;
+import jakethurman.components.SafeNode;
 import jakethurman.foundation.Disposable;
 import jakethurman.games.chess.Settings;
 import jakethurman.games.chess.components.ChessboardSquare;
@@ -22,7 +23,7 @@ public class Chessboard implements Disposable {
 	
 	@Override
 	public String toString() {
-		String output = "{ cells: [";
+		String output = "{ \"cells\": [";
 		for (int row = 0; row < cells.length; row++) {
 			output += Arrays.toString(cells[row]);
 					    
@@ -43,8 +44,11 @@ public class Chessboard implements Disposable {
 		return cells[p.x][p.y];
 	}
 	
-	public void initPeice(ChessPiece piece, Point point) {
-		getCell(point).setPiece(piece);
+	public void initPiece(ChessPiece piece, SafeNode node) {
+		System.out.println(piece + " - " + node);
+		
+		getCell(piece.getPoint()).setPiece(piece);
+		visual.add(node, piece.getPoint());
 	}
 	
 	public SafeGridPane getNode() {

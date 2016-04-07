@@ -15,7 +15,7 @@ public class App extends Application {
 	@Override
 	public void start(Stage primaryStage) {		
 		Consumer<SafeScene> setScene = s -> primaryStage.setScene(s.getUnsafe());
-		
+				
 		new GameChoiceScene(
 			new CheckersRenderer(), 
 			new ChessRenderer())

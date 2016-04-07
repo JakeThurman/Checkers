@@ -1,35 +1,47 @@
 package jakethurman.games.chess.components;
 
+import java.util.function.BiConsumer;
+import jakethurman.components.Point;
 import jakethurman.components.SafeGridPane;
+import jakethurman.components.SafeNode;
+import jakethurman.components.factories.ButtonFactory;
+import jakethurman.components.helpers.GridHelpers;
 import jakethurman.foundation.CleanupHandler;
 import jakethurman.foundation.Disposable;
-import jakethurman.components.helpers.GridHelpers;
 import jakethurman.games.chess.Settings;
-import jakethurman.components.Point;
 import jakethurman.games.chess.pieces.*;
 
 public class ChessboardInitialization implements Disposable {
 	private final GridHelpers gridHelpers;
-	private CleanupHandler cleanup;
+	private final ButtonFactory buttonFactory;
+	private final CleanupHandler cleanup;
 	
-	public ChessboardInitialization(GridHelpers gridHelpers) {
+	public ChessboardInitialization(GridHelpers gridHelpers, ButtonFactory buttonFactory) {
 		this.gridHelpers = gridHelpers;
-		this.cleanup = new CleanupHandler(gridHelpers);
+		this.buttonFactory = buttonFactory;
+		this.cleanup = new CleanupHandler(gridHelpers, buttonFactory);
 	}
 	
 	public void init(Chessboard data) {
 		initGrid(data.getNode());
-		initPieces(data);
+		createPieces((peice, point) -> {
+			peice.setPoint(point);
+			
+			SafeNode node = buttonFactory.createImageButton(peice.getImagePath(), 
+				() -> System.out.println("You Clicked Me! - " + peice.toString()));
+			
+			data.initPiece(peice, node);
+		});
 	}
 	
-	private static void initPieces(Chessboard data) {
+	private static void createPieces(BiConsumer<ChessPiece, Point> initPiece) {
 		for (int i = 0; i < Settings.BOARD_SIZE; i++) {
-			data.initPeice(new Pawn(true), new Point(i, Settings.BOARD_SIZE - 2));
-			data.initPeice(new Pawn(false), new Point(i, 1));
-			data.initPeice(getOuterRowPeice(i, true), new Point(i, Settings.BOARD_SIZE - 1));
-			data.initPeice(getOuterRowPeice(i, false), new Point(i, 0));
+			initPiece.accept(new Pawn(true), new Point(i, Settings.BOARD_SIZE - 2));
+			initPiece.accept(new Pawn(false), new Point(i, 1));
+			initPiece.accept(getOuterRowPeice(i, true), new Point(i, Settings.BOARD_SIZE - 1));
+			initPiece.accept(getOuterRowPeice(i, false), new Point(i, 0));
 		}
-	}	
+	}
 	
 	private static ChessPiece getOuterRowPeice(int i, boolean isWhite) {
 		switch (i) {

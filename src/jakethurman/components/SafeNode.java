@@ -26,4 +26,9 @@ public class SafeNode {
 	public void setOnMouseClicked(Runnable handler) {
 		node.setOnMouseClicked(e -> handler.run());
 	}
+	
+	@Override
+	public String toString() {
+		return "SAFE_" + node.toString();
+	}
 }

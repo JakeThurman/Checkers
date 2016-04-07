@@ -1,7 +1,6 @@
 package jakethurman.games;
 
 import java.util.function.Consumer;
-
 import jakethurman.components.Point;
 import jakethurman.components.PositionedNodes;
 import jakethurman.components.SafeBorderPane;
@@ -28,12 +27,12 @@ public class GameChoiceScene {
 		
 		ButtonFactory bf = new ButtonFactory(scene);
 		TextFactory   tf = new TextFactory();
-				
+		
 		SafeGridPane buttons = new SafeGridPane();
 		buttons.setPadding(10);
 		content.setMinSize(200, 400);
-		
-		for (int i = 0; i < renderers.length; i++) {
+		int i = 0;
+		for (; i < renderers.length; i++) {
 			final Renderer r = renderers[i];
 			buttons.addColumn();
 			buttons.add(bf.create(r.getTitle(), () -> render.accept(r)), new Point(i, 0));
