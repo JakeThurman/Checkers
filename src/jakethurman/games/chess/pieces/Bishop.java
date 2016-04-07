@@ -14,6 +14,6 @@ public class Bishop extends ChessPiece {
 
 	@Override
 	public String toString() {
-		return "{ \"type\": \"bishop\", \"isWhite\": " + this.isWhite + " }";
+		return "{ \"type\": \"bishop\", \"isWhite\": " + this.isWhite + ", \"point\": " + getPoint() + " }";
 	}
 }

@@ -14,6 +14,6 @@ public class Rook extends ChessPiece {
 
 	@Override
 	public String toString() {
-		return "{ \"type\": \"rook\", \"isWhite\": " + this.isWhite + " }";
+		return "{ \"type\": \"rook\", \"isWhite\": " + this.isWhite + ", \"point\": " + getPoint() + " }";
 	}
 }

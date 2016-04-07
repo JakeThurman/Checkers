@@ -14,6 +14,6 @@ public class King extends ChessPiece {
 
 	@Override
 	public String toString() {
-		return "{ \"type\": \"king\", \"isWhite\": " + this.isWhite + " }";
+		return "{ \"type\": \"king\", \"isWhite\": " + this.isWhite + ", \"point\": " + getPoint() + " }";
 	}
 }
