@@ -1,5 +1,6 @@
 package jakethurman.components;
 
+import jakethurman.foundation.Point;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.VPos;

@@ -1,12 +1,13 @@
 package jakethurman.games.checkers.components;
 
 import java.util.LinkedList;
-import jakethurman.components.Point;
+
 import jakethurman.components.factories.ShapeFactory;
 import jakethurman.components.SafeNode;
 import jakethurman.components.SafePaint;
 import jakethurman.foundation.CleanupHandler;
 import jakethurman.foundation.Disposable;
+import jakethurman.foundation.Point;
 import jakethurman.components.helpers.GridHelpers;
 import jakethurman.games.checkers.CellSearchResult;
 import jakethurman.games.checkers.CheckerInteractionManager;

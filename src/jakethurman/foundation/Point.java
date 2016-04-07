@@ -1,6 +1,4 @@
-package jakethurman.components;
-
-import jakethurman.foundation.Disposable;
+package jakethurman.foundation;
 
 public class Point implements Disposable {
 	public final int x;

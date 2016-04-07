@@ -1,13 +1,14 @@
 package jakethurman.games;
 
 import java.util.function.Consumer;
-import jakethurman.components.Point;
+
 import jakethurman.components.PositionedNodes;
 import jakethurman.components.SafeBorderPane;
 import jakethurman.components.SafeGridPane;
 import jakethurman.components.SafeScene;
 import jakethurman.components.factories.ButtonFactory;
 import jakethurman.components.factories.TextFactory;
+import jakethurman.foundation.Point;
 
 public class GameChoiceScene {
 	private final Renderer[] renderers;

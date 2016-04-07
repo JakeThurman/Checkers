@@ -1,11 +1,11 @@
 package jakethurman.components.helpers;
 
-import jakethurman.components.Point;
 import jakethurman.components.SafeGridPane;
 import jakethurman.components.SafePaint;
 import jakethurman.components.factories.ShapeFactory;
 import jakethurman.foundation.CleanupHandler;
 import jakethurman.foundation.Disposable;
+import jakethurman.foundation.Point;
 
 public class GridHelpers implements Disposable {
 	private final ShapeFactory   shapeFactory;

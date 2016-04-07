@@ -1,13 +1,14 @@
 package jakethurman.games.chess.components;
 
 import java.util.function.BiConsumer;
-import jakethurman.components.Point;
+
 import jakethurman.components.SafeGridPane;
 import jakethurman.components.SafeNode;
 import jakethurman.components.factories.ButtonFactory;
 import jakethurman.components.helpers.GridHelpers;
 import jakethurman.foundation.CleanupHandler;
 import jakethurman.foundation.Disposable;
+import jakethurman.foundation.Point;
 import jakethurman.games.chess.Settings;
 import jakethurman.games.chess.pieces.*;
 

@@ -3,7 +3,8 @@ package jakethurman.games.checkers;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Predicate;
-import jakethurman.components.Point;
+
+import jakethurman.foundation.Point;
 
 public class CellSearchData implements CellSearchResult {
 	private final Point source;

@@ -5,7 +5,7 @@ import java.util.List;
 import jakethurman.foundation.CleanupHandler;
 import jakethurman.foundation.Disposable;
 import jakethurman.foundation.Logging;
-import jakethurman.components.Point;
+import jakethurman.foundation.Point;
 import jakethurman.components.SafeGridPane;
 import jakethurman.games.checkers.CellSearchData;
 import jakethurman.games.checkers.CellSearchResult;

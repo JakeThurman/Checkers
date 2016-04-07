@@ -2,10 +2,11 @@ package jakethurman.games.checkers.components;
 
 import java.util.LinkedList;
 import java.util.HashSet;
-import jakethurman.components.Point;
+
 import jakethurman.components.SafeNode;
 import jakethurman.components.factories.ChartFactory;
 import jakethurman.foundation.CleanupHandler;
+import jakethurman.foundation.Point;
 import jakethurman.games.StatChartType;
 import jakethurman.games.StatsGenerator;
 import jakethurman.games.checkers.CheckersTurnManager;

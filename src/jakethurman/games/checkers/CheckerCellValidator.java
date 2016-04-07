@@ -1,7 +1,7 @@
 package jakethurman.games.checkers;
 
-import jakethurman.components.Point;
 import jakethurman.foundation.Disposable;
+import jakethurman.foundation.Point;
 
 public class CheckerCellValidator implements Disposable {
 	private final Settings settings;

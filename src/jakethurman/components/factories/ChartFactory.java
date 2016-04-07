@@ -4,9 +4,9 @@ import java.util.Set;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-import jakethurman.components.Point;
 import jakethurman.components.SafeNode;
 import jakethurman.foundation.Disposable;
+import jakethurman.foundation.Point;
 
 public class ChartFactory implements Disposable {
 	public ChartDataSeries createDataSeries(String name, Set<Point> points) {

@@ -1,6 +1,6 @@
 package jakethurman.games.checkers;
 
-import jakethurman.components.Point;
+import jakethurman.foundation.Point;
 
 public interface CellSearchResult {
 	public boolean getIsJump();

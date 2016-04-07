@@ -2,10 +2,10 @@ package jakethurman.games.chess.components;
 
 import java.util.Arrays;
 
-import jakethurman.components.Point;
 import jakethurman.components.SafeGridPane;
 import jakethurman.components.SafeNode;
 import jakethurman.foundation.Disposable;
+import jakethurman.foundation.Point;
 import jakethurman.games.chess.Settings;
 import jakethurman.games.chess.components.ChessboardSquare;
 import jakethurman.games.chess.pieces.ChessPiece;

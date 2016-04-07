@@ -1,9 +1,9 @@
 package jakethurman.games.checkers.components;
 
-import jakethurman.components.Point;
 import jakethurman.components.SafePaint;
 import jakethurman.components.SafeShape;
 import jakethurman.foundation.Disposable;
+import jakethurman.foundation.Point;
 
 public class Checker implements Disposable {
 	private final SafeShape node;

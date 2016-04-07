@@ -1,7 +1,7 @@
 package jakethurman.games.chess.pieces;
 
-import jakethurman.components.Point;
 import jakethurman.foundation.Disposable;
+import jakethurman.foundation.Point;
 
 public abstract class ChessPiece implements Disposable {
 	protected final boolean isWhite;
