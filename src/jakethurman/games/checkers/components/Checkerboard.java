@@ -5,6 +5,7 @@ import java.util.List;
 import jakethurman.foundation.CleanupHandler;
 import jakethurman.foundation.Disposable;
 import jakethurman.foundation.Point;
+import jakethurman.foundation.datastructures.Queue;
 import jakethurman.foundation.datastructures.SquareFixedAndFilled2DArray;
 import jakethurman.components.SafeGridPane;
 import jakethurman.games.checkers.CellSearchData;
@@ -73,7 +74,7 @@ public class Checkerboard implements Disposable {
 		LinkedList<Point>            seenCells = new LinkedList<>();
 		LinkedList<CellSearchResult> results   = new LinkedList<>();
 		LinkedList<CellSearchData>   original  = new LinkedList<>();
-		LinkedList<CellSearchData>   toCheck   = new LinkedList<>();
+		Queue<CellSearchData>        toCheck   = new Queue<>();
 		
 		if (!checker.getIsPlayer1() || checker.getIsKing()) {
 			original.add(new CellSearchData(1, 1, checker.getPos()));
@@ -84,11 +85,11 @@ public class Checkerboard implements Disposable {
 			original.add(new CellSearchData(1, -1, checker.getPos()));
 		}
 		
-		toCheck.addAll(original);
+		toCheck.enqueue(original);
 		
 		boolean iAmPlayer1 = checker.getIsPlayer1();
 		
-		while (!toCheck.isEmpty()) {			
+		while (toCheck.hasNext()) {			
 			CellSearchData checking = toCheck.poll();
 			Point          index    = checking.getPoint();
 			
@@ -124,12 +125,12 @@ public class Checkerboard implements Disposable {
 						return !doubleJumpCell.isEmpty() && doubleJumpCell.getPiece().getIsPlayer1() != iAmPlayer1;
 					});
 					
-					toCheck.addAll(toCheckForDouble);
+					toCheck.enqueue(toCheckForDouble);
 				}
 			}
 			// If we aren't already doing so, see if we can jump this piece and it's not our own piece
 			else if (!checking.getIsJump() && cell.getPiece().getIsPlayer1() != iAmPlayer1) {
-				toCheck.add(checking.withJumpOffset());
+				toCheck.enqueue(checking.withJumpOffset());
 			}
 		}
 		
