@@ -13,6 +13,7 @@ import jakethurman.games.GlobalSettings;
 import jakethurman.games.checkers.CheckersTurnManager;
 import jakethurman.games.checkers.Messages;
 import jakethurman.games.checkers.ScoreInfo;
+import jakethurman.games.checkers.Settings;
 
 public class GameStatusBar implements Disposable {
 	private final CheckersTurnManager turnManager;
@@ -20,15 +21,17 @@ public class GameStatusBar implements Disposable {
 	private final ButtonFactory       buttonFactory;
 	private final Messages            msgs;
 	private final CleanupHandler      cleanup;
+	private final Settings            settings;
 	
 	private final SafeBorderPane parent;
 	private final SafeText       score;
 	private final SafeText       turn;
 	
-	public GameStatusBar(Messages msgs, CheckersTurnManager turnManager, EndGameHandler endGameHandler, ButtonFactory buttonFactory, TextFactory textFactory) {
+	public GameStatusBar(Messages msgs, Settings settings, CheckersTurnManager turnManager, EndGameHandler endGameHandler, ButtonFactory buttonFactory, TextFactory textFactory) {
 		this.turnManager    = turnManager;
 		this.endGameHandler = endGameHandler;
 		this.buttonFactory  = buttonFactory;
+		this.settings       = settings;
 		this.msgs           = msgs;
 		this.cleanup        = new CleanupHandler(turnManager, endGameHandler, buttonFactory, msgs, textFactory);
 
@@ -75,7 +78,7 @@ public class GameStatusBar implements Disposable {
 		this.turn.setText(msg);
 		
 		SafeNode playAgain = buttonFactory.create(msgs.getPlayAgain(), endGameHandler::playAgain);	
-		SafeNode gameStats = buttonFactory.create(msgs.getViewGameStats(), endGameHandler::viewStats);
+		SafeNode gameStats = buttonFactory.create(msgs.getViewGameStats(), () -> endGameHandler.viewStats(settings.getSaveFileLocation()));
 		
 		SafeBorderPane bottom = new SafeBorderPane();
 		bottom.setChildren(new PositionedNodes()

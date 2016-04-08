@@ -21,6 +21,12 @@ public class TextFactory implements Disposable {
 	public SafeText createLeftAlign() {
 		return create_impl(Font.font(FONT_FAMILY, FONT_SIZE), TextAlignment.LEFT);
 	}
+
+	public SafeNode createCenteredBold(String text) {
+		SafeText t = createCenteredBold();
+		t.setText(text);
+		return t;
+	}
 	
 	public SafeText createCenteredBold() {
 		return create_impl(Font.font(FONT_FAMILY, FontWeight.BOLD, FONT_SIZE), TextAlignment.CENTER);

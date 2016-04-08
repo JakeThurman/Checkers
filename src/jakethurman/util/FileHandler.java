@@ -1,8 +1,9 @@
 package jakethurman.util;
 
+import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -12,9 +13,7 @@ import java.util.function.Consumer;
 import jakethurman.foundation.Disposable;
 
 public class FileHandler implements Disposable {
-	private static final String UTF8 = "UTF-8";
-	private static final String ERROR_OCCURED = "------ AN ERROR OCCURED ------";
-	
+	private static final String UTF8 = "UTF-8";	
 	private final Consumer<Exception> errorHandler;
 	
 	public FileHandler(Consumer<Exception> errorHandler) {
@@ -33,19 +32,18 @@ public class FileHandler implements Disposable {
 		appendToFile(file, Arrays.asList(line));
 	}
 	
-	public String readFile(File f) throws IOException {
-		return ExceptionHelpers.tryGet(() -> {
-			try(FileInputStream fis = new FileInputStream(f)) {
-				byte[] data = new byte[(int) f.length()];
-				fis.read(data);
-				fis.close();
-				
-				return new String(data, UTF8);
+	public void readFile(File f, Runnable onFileNotFound, Consumer<String> handleLine) {
+		ExceptionHelpers.tryRun(() -> {
+			try (BufferedReader br = new BufferedReader(new FileReader(f))) {
+			    String line;
+			    while ((line = br.readLine()) != null) {
+			    	handleLine.accept(line);
+			    }
 			}
-		}, (e) -> { 
-			errorHandler.accept(e); 
-			return ERROR_OCCURED; 
-		});
+			catch(FileNotFoundException fnfe) {
+				onFileNotFound.run();
+			}
+		}, errorHandler);
 	}
 	
 	@Override

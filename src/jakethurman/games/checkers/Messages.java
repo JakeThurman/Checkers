@@ -16,7 +16,8 @@ public class Messages implements GameMessages {
                                 WAS_KING_PLURAL   = "were kings",
                                 WAS_KING_SINGULAR = "was a king",
                                 GAME_STATS_MSG    = "%1$s won with %2$d/%3$d checkers remaining, %4$s of which %5$s. The game lasted a total of %6$.1fs",
-                                GAME_TITLE        = "Checkers";
+                                GAME_TITLE        = "Checkers",
+                                HIGH_SCORES_LIST  = "High Scores";
 	
 	private final Settings settings;
 	
@@ -68,5 +69,10 @@ public class Messages implements GameMessages {
 	@Override
 	public void dispose() {
 		// Nothing to dispose
+	}
+
+	@Override
+	public String getHighScoreListHeader() {
+		return HIGH_SCORES_LIST;
 	}
 }

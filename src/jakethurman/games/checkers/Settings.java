@@ -10,7 +10,8 @@ public class Settings implements ShapeSettings {
                              CIRCLE_RADIUS = SQUARE_SIZE/2-6,
                              CIRCLE_BORDER = 2;
             
-    private static final SafePaint SELECTED_COLOR = SafePaint.BLUE;
+    private static final String    SAVE_FILE_LOCATION = "data.json";
+    private static final SafePaint SELECTED_COLOR     = SafePaint.BLUE;
     
     //Get methods
 	@Override public int getCircleRadius() { return CIRCLE_RADIUS; }
@@ -19,6 +20,7 @@ public class Settings implements ShapeSettings {
 	public int getNumPieces() { return NUM_PIECES; }
 	public int getBoardSize() { return BOARD_SIZE; }	
 	public SafePaint getSelectColor() { return SELECTED_COLOR; }
+	public String getSaveFileLocation() { return SAVE_FILE_LOCATION; }
 	
 	@Override public void dispose() { /* Nothing to dispose */ }
 }

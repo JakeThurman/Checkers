@@ -4,4 +4,5 @@ import jakethurman.foundation.Disposable;
 
 public interface GameMessages extends Disposable {
 	public String getBackButton();
+	public String getHighScoreListHeader();
 }

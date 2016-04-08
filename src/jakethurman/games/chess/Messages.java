@@ -20,4 +20,10 @@ public class Messages implements GameMessages {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public String getHighScoreListHeader() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
