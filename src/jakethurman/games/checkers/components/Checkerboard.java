@@ -8,6 +8,7 @@ import jakethurman.foundation.Point;
 import jakethurman.foundation.datastructures.Queue;
 import jakethurman.foundation.datastructures.SquareFixedAndFilled2DArray;
 import jakethurman.components.SafeGridPane;
+import jakethurman.games.BoardSpace;
 import jakethurman.games.checkers.CellSearchData;
 import jakethurman.games.checkers.CellSearchResult;
 import jakethurman.games.checkers.CheckersTurnManager;
@@ -18,7 +19,7 @@ public class Checkerboard implements Disposable {
 	private final CleanupHandler      cleanup;
 	private final Settings            settings;
 
-	private final SquareFixedAndFilled2DArray<CheckerboardSquare> cells;
+	private final SquareFixedAndFilled2DArray<BoardSpace<Checker>> cells;
 	private final SafeGridPane                                    visual;
 	
 	public Checkerboard(CheckersTurnManager turnManager, Settings settings) {
@@ -26,16 +27,12 @@ public class Checkerboard implements Disposable {
 		this.settings    = settings;
 		this.cleanup     = new CleanupHandler(turnManager, settings);
 		this.visual      = new SafeGridPane();
-		this.cells       = new SquareFixedAndFilled2DArray<>(settings.getBoardSize(), () -> new CheckerboardSquare());
+		this.cells       = new SquareFixedAndFilled2DArray<>(settings.getBoardSize(), () -> new BoardSpace<>());
 	}
 		
-	private CheckerboardSquare getCell(Point i) {
-		return cells.get(i);
-	}
-	
 	public void setJumped(Point i) {
-		CheckerboardSquare cell   = getCell(i);
-		Checker            jumped = cell.getPiece();
+		BoardSpace<Checker> cell   = cells.get(i);
+		Checker             jumped = cell.getPiece();
 		
 		remove(jumped);
 		turnManager.recordDeadChecker(jumped.getIsPlayer1(), jumped.getIsKing());
@@ -44,14 +41,14 @@ public class Checkerboard implements Disposable {
 	
 	public void pieceIsInCell(Checker checker) {
 		Point pos = checker.getPos();
-		getCell(pos).setPiece(checker);
+		cells.get(pos).setPiece(checker);
 		
 		// Add visually
 		visual.add(checker.getNode(), pos);
 	}
 	
 	private void remove(Checker c) {
-		getCell(c.getPos()).setEmpty(); // Record that the cell is now empty
+		cells.get(c.getPos()).setEmpty(); // Record that the cell is now empty
 		visual.remove(c.getNode()); // Remove the node
 	}
 
@@ -100,7 +97,7 @@ public class Checkerboard implements Disposable {
 				continue;
 						
 			// See if this is an empty space
-			CheckerboardSquare cell = getCell(index);
+			BoardSpace<Checker> cell = cells.get(index);
 			
 			if (cell.isEmpty()) {
 				if (!results.contains(checking))
@@ -120,7 +117,7 @@ public class Checkerboard implements Disposable {
 						
 						seenCells.add(doubleJumpIndex);
 						
-						CheckerboardSquare doubleJumpCell = getCell(doubleJumpIndex);
+						BoardSpace<Checker> doubleJumpCell = cells.get(doubleJumpIndex);
 						
 						return !doubleJumpCell.isEmpty() && doubleJumpCell.getPiece().getIsPlayer1() != iAmPlayer1;
 					});
@@ -140,9 +137,8 @@ public class Checkerboard implements Disposable {
 	@Override
 	public void dispose() {
 		cleanup.dispose();
-		for (CheckerboardSquare cell : cells) {
+		for (BoardSpace<Checker> cell : cells)
 			cell.dispose();
-		}
 	}
 
 	public SafeGridPane getNode() {

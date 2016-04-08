@@ -4,16 +4,16 @@ import jakethurman.components.SafeGridPane;
 import jakethurman.components.SafeNode;
 import jakethurman.foundation.Disposable;
 import jakethurman.foundation.datastructures.SquareFixedAndFilled2DArray;
+import jakethurman.games.BoardSpace;
 import jakethurman.games.chess.Settings;
-import jakethurman.games.chess.components.ChessboardSquare;
 import jakethurman.games.chess.pieces.ChessPiece;
 
 public class Chessboard implements Disposable {
-	private final SquareFixedAndFilled2DArray<ChessboardSquare> cells;
+	private final SquareFixedAndFilled2DArray<BoardSpace<ChessPiece>> cells;
 	private final SafeGridPane visual;
 	
 	public Chessboard() {
-		this.cells = new SquareFixedAndFilled2DArray<>(Settings.BOARD_SIZE, () -> new ChessboardSquare());
+		this.cells = new SquareFixedAndFilled2DArray<>(Settings.BOARD_SIZE, () -> new BoardSpace<>());
 		this.visual = new SafeGridPane();
 	}
 	
