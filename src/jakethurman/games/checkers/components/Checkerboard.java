@@ -6,45 +6,30 @@ import jakethurman.foundation.CleanupHandler;
 import jakethurman.foundation.Disposable;
 import jakethurman.foundation.Logging;
 import jakethurman.foundation.Point;
+import jakethurman.foundation.datastructures.SquareFixedAndFilled2DArray;
 import jakethurman.components.SafeGridPane;
 import jakethurman.games.checkers.CellSearchData;
 import jakethurman.games.checkers.CellSearchResult;
-import jakethurman.games.checkers.CheckerCellValidator;
 import jakethurman.games.checkers.CheckersTurnManager;
 import jakethurman.games.checkers.Settings;
 
 public class Checkerboard implements Disposable {
-	private final CheckerboardSquare[][] cells;
-	private final CheckersTurnManager    turnManager;
-	private final CleanupHandler         cleanup;
-	private final SafeGridPane           visual;
-	private final CheckerCellValidator   validator;
-	private final Settings               settings;
+	private final CheckersTurnManager turnManager;
+	private final CleanupHandler      cleanup;
+	private final Settings            settings;
+
+	private final SquareFixedAndFilled2DArray<CheckerboardSquare> cells;
+	private final SafeGridPane                                    visual;
 	
-	public Checkerboard(CheckerCellValidator validator, CheckersTurnManager turnManager, Settings settings) {
+	public Checkerboard(CheckersTurnManager turnManager, Settings settings) {
 		this.turnManager = turnManager;
-		this.validator   = validator;
 		this.settings    = settings;
-		this.cleanup     = new CleanupHandler(turnManager, validator, settings);
-		this.cells       = new CheckerboardSquare[settings.getBoardSize()][settings.getBoardSize()];
+		this.cleanup     = new CleanupHandler(turnManager, settings);
+
 		this.visual      = new SafeGridPane();
+		this.cells       = new SquareFixedAndFilled2DArray<>(settings.getBoardSize(), () -> new CheckerboardSquare());
 		
 		init();
-	}
-	
-	@Override
-	public String toString() {
-		String output = "Checkerboard:\n";
-		for (int row = 0; row < cells.length; row++) {
-			output += "  Row " + row + "";
-		    if (cells[row] != null && cells[row].length > 0) {
-		        for (int column = 0; column < cells[row].length; column++) {
-		            output += "\n    " + cells[row][column];
-		        }
-		    }
-		    output += "\n";
-		}
-		return output;
 	}
 	
 	// Simple required initialization logic
@@ -52,24 +37,19 @@ public class Checkerboard implements Disposable {
 		int boardSize = settings.getBoardSize();
 		int squareSize = settings.getSquareSize();
 		
-		// Create the objects for each cell in our "Virtual DOM"
-    	for (int x = 0; x < boardSize; x++)
-			for (int y = 0; y < boardSize; y++)
-				cells[x][y] = new CheckerboardSquare();
-    	    	
     	//Add {Settings.BOARD_SIZE} rows and columns
         for (int i=0; i < boardSize; i++) {
         	visual.addRow(squareSize);
         	visual.addColumn(squareSize);
         }
 	}
-	
+		
 	private CheckerboardSquare getCell(Point i) {
-		if (!validator.isValid(i)) {
+		if (!cells.isValid(i)) {
 			Logging.report("Attempted Invalid Access! " + i.toString());
 			return null;
 		}
-		return cells[i.x][i.y];
+		return cells.get(i);
 	}
 	
 	public void setJumped(Point i) {
@@ -135,7 +115,7 @@ public class Checkerboard implements Disposable {
 			//Record that we've seen this cell
 			seenCells.add(index);
 			
-			if (!validator.isValid(index))
+			if (!cells.isValid(index))
 				continue;
 						
 			// See if this is an empty space
@@ -150,7 +130,7 @@ public class Checkerboard implements Disposable {
 					// Check if the next square from here has another piece in it
 					// If it does add it to the queue to be checker for jumpage
 					List<CellSearchData> toCheckForDouble = checking.getDoubleJumpOptions(original, (doubleJumpIndex) -> {	
-						if (!validator.isValid(doubleJumpIndex))
+						if (!cells.isValid(doubleJumpIndex))
 							return false;
 												
 						//Don't go back to a cell we've already been to or any cell we've already seen. That will cause an infinite loop.
@@ -179,14 +159,17 @@ public class Checkerboard implements Disposable {
 	@Override
 	public void dispose() {
 		cleanup.dispose();
-		for (CheckerboardSquare[] arr : cells) {
-			for (CheckerboardSquare cell : arr) {
-				cell.dispose();
-			}
+		for (CheckerboardSquare cell : cells) {
+			cell.dispose();
 		}
 	}
 
 	public SafeGridPane getNode() {
 		return this.visual;
+	}
+
+	@Override
+	public String toString() {
+		return "{ \"cells\": " + cells + " }";
 	}
 }

@@ -14,7 +14,6 @@ import jakethurman.components.helpers.GridHelpers;
 import jakethurman.games.EndGameHandler;
 import jakethurman.games.GlobalSettings;
 import jakethurman.games.Renderer;
-import jakethurman.games.checkers.CheckerCellValidator;
 import jakethurman.games.checkers.CheckerInteractionManager;
 import jakethurman.games.checkers.CheckersTurnManager;
 import jakethurman.games.checkers.Messages;
@@ -29,7 +28,7 @@ public class CheckersRenderer implements Renderer {
     	
         final Settings            settings = new Settings();
         final CheckersTurnManager ctm      = new CheckersTurnManager(settings);
-        final Checkerboard        data     = new Checkerboard(new CheckerCellValidator(settings), ctm, settings);
+        final Checkerboard        data     = new Checkerboard(ctm, settings);
         
         final ShapeFactory shapeFactory = new ShapeFactory(settings);
         final CheckersInitialization ci = new CheckersInitialization(
