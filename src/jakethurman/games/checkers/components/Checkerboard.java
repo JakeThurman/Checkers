@@ -4,7 +4,6 @@ import java.util.LinkedList;
 import java.util.List;
 import jakethurman.foundation.CleanupHandler;
 import jakethurman.foundation.Disposable;
-import jakethurman.foundation.Logging;
 import jakethurman.foundation.Point;
 import jakethurman.foundation.datastructures.SquareFixedAndFilled2DArray;
 import jakethurman.components.SafeGridPane;
@@ -25,30 +24,11 @@ public class Checkerboard implements Disposable {
 		this.turnManager = turnManager;
 		this.settings    = settings;
 		this.cleanup     = new CleanupHandler(turnManager, settings);
-
 		this.visual      = new SafeGridPane();
 		this.cells       = new SquareFixedAndFilled2DArray<>(settings.getBoardSize(), () -> new CheckerboardSquare());
-		
-		init();
-	}
-	
-	// Simple required initialization logic
-	private void init() {
-		int boardSize = settings.getBoardSize();
-		int squareSize = settings.getSquareSize();
-		
-    	//Add {Settings.BOARD_SIZE} rows and columns
-        for (int i=0; i < boardSize; i++) {
-        	visual.addRow(squareSize);
-        	visual.addColumn(squareSize);
-        }
 	}
 		
 	private CheckerboardSquare getCell(Point i) {
-		if (!cells.isValid(i)) {
-			Logging.report("Attempted Invalid Access! " + i.toString());
-			return null;
-		}
 		return cells.get(i);
 	}
 	

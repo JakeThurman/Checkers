@@ -3,6 +3,7 @@ package jakethurman.games.checkers.components;
 import java.util.LinkedList;
 
 import jakethurman.components.factories.ShapeFactory;
+import jakethurman.components.SafeGridPane;
 import jakethurman.components.SafeNode;
 import jakethurman.components.SafePaint;
 import jakethurman.foundation.CleanupHandler;
@@ -30,8 +31,20 @@ public class CheckersInitialization implements Disposable {
 	
     public void initialize(Checkerboard data) {
     	showAvailableMovesOnClick(data);
+    	addRowsAndColumns(data.getNode());
         gridHelpers.fillGridWithSquares(data.getNode());
         addPiecesToBoard(data);
+    }
+    
+    private void addRowsAndColumns(SafeGridPane node) {
+		int boardSize = settings.getBoardSize();
+		int squareSize = settings.getSquareSize();
+		
+    	//Add {Settings.BOARD_SIZE} rows and columns
+        for (int i=0; i < boardSize; i++) {
+        	node.addRow(squareSize);
+        	node.addColumn(squareSize);
+        }
     }
         
     private void showAvailableMovesOnClick(Checkerboard data) {
