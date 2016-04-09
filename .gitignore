@@ -1,5 +1,5 @@
 # Don't store the game info!!!! -- TODO: Make more specific
-userdata/*.*
+scores.json
 
 # Java Class files
 *.class
