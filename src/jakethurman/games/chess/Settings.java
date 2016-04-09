@@ -7,7 +7,7 @@ public class Settings implements ShapeSettings {
     		                 SQUARE_SIZE   = 60;
     private static final int CIRCLE_RADIUS = SQUARE_SIZE/2-6,
 	            	         CIRCLE_BORDER = 2;
-		
+	
 	//Get methods
 	@Override public int getCircleRadius() { return CIRCLE_RADIUS; }
 	@Override public int getCircleBorder() { return CIRCLE_BORDER; }

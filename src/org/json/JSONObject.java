@@ -96,7 +96,11 @@ public class JSONObject {
      */
     private static final class Null {
 
-        /**
+        public Null() {
+			// TODO Auto-generated constructor stub
+		}
+
+		/**
          * There is only intended to be a single instance of the NULL object,
          * so the clone method returns itself.
          *
@@ -125,7 +129,8 @@ public class JSONObject {
          *
          * @return The string "null".
          */
-        public String toString() {
+        @Override
+		public String toString() {
             return "null";
         }
     }
@@ -147,7 +152,7 @@ public class JSONObject {
      * Construct an empty JSONObject.
      */
     public JSONObject() {
-        this.map = new HashMap<String, Object>();
+        this.map = new HashMap<>();
     }
 
     /**
@@ -233,7 +238,7 @@ public class JSONObject {
      *            the JSONObject.
      */
     public JSONObject(Map<?, ?> map) {
-        this.map = new HashMap<String, Object>();
+        this.map = new HashMap<>();
         if (map != null) {
         	for (final Entry<?, ?> e : map.entrySet()) {
                 final Object value = e.getValue();
@@ -737,7 +742,8 @@ public class JSONObject {
      *             If there is already a property with this name that is not an
      *             Integer, Long, Double, or Float.
      */
-    public JSONObject increment(String key) throws JSONException {
+    @SuppressWarnings("boxing")
+	public JSONObject increment(String key) throws JSONException {
         Object value = this.opt(key);
         if (value == null) {
             this.put(key, 1);
@@ -1574,7 +1580,8 @@ public class JSONObject {
      *         brace)</small> and ending with <code>}</code>&nbsp;<small>(right
      *         brace)</small>.
      */
-    public String toString() {
+    @Override
+	public String toString() {
         try {
             return this.toString(0);
         } catch (Exception e) {

@@ -28,6 +28,11 @@ public class FileHandler implements Disposable {
 		ExceptionHelpers.tryRun(() -> Files.write(file, lines, Charset.forName(UTF8), StandardOpenOption.APPEND), errorHandler);
 	}
 	
+	public void appendToFileOrCreate(Path file, Iterable<String> lines) {
+		ExceptionHelpers.tryRun(() -> Files.write(file, lines, Charset.forName(UTF8), StandardOpenOption.APPEND), 
+								(e) -> overwriteFile(file, lines));
+	}
+	
 	public void appendToFile(Path file, String line) {
 		appendToFile(file, Arrays.asList(line));
 	}

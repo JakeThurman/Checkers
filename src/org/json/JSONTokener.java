@@ -351,7 +351,8 @@ public class JSONTokener {
      *
      * @return An object.
      */
-    public Object nextValue() throws JSONException {
+    @SuppressWarnings("incomplete-switch")
+	public Object nextValue() throws JSONException {
         char c = this.nextClean();
         String string;
 
@@ -439,7 +440,8 @@ public class JSONTokener {
      *
      * @return " at {index} [character {character} line {line}]"
      */
-    public String toString() {
+    @Override
+	public String toString() {
         return " at " + this.index + " [character " + this.character + " line " +
             this.line + "]";
     }

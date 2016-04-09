@@ -9,9 +9,9 @@ import jakethurman.components.SafeBorderPane;
 import jakethurman.components.SafeNode;
 import jakethurman.components.SafeText;
 import jakethurman.games.EndGameHandler;
-import jakethurman.games.GlobalSettings;
 import jakethurman.games.checkers.CheckersTurnManager;
 import jakethurman.games.checkers.Messages;
+import jakethurman.games.checkers.PlayerInfo;
 import jakethurman.games.checkers.ScoreInfo;
 import jakethurman.games.checkers.Settings;
 
@@ -58,7 +58,7 @@ public class GameStatusBar implements Disposable {
 		// Check for a win first.
 		if (currScore.player1.getPiecesRemaining() == 0 || currScore.player2.getPiecesRemaining() == 0) {
 			turnManager.gameDidEnd();
-			handleWin(currScore.player2.getPiecesRemaining() == 0);
+			handleWin(currScore.player2.getPiecesRemaining() == 0, currScore);
 			return;
 		}
 
@@ -72,7 +72,18 @@ public class GameStatusBar implements Disposable {
 		this.turn.setText(playerText);
 	}
 	
-	private void handleWin(boolean isPlayer1) {
+	//TODO: Include time as a factor
+	private static int getScoreNumber(boolean isPlayer1, ScoreInfo finalScore) {
+		PlayerInfo player = (isPlayer1 ? finalScore.player1 : finalScore.player2);
+	
+		return
+			(player.getKingCount() * 9) + 
+			(player.getPiecesRemaining());
+	}
+	
+	private void handleWin(boolean isPlayer1, ScoreInfo finalScore) {
+		endGameHandler.writeScore(settings.getSaveFileLocation(), getScoreNumber(isPlayer1, finalScore));
+		
 		String msg = msgs.getWinnerMessage(isPlayer1);
 		this.score.setText("");
 		this.turn.setText(msg);
@@ -82,7 +93,7 @@ public class GameStatusBar implements Disposable {
 		
 		SafeBorderPane bottom = new SafeBorderPane();
 		bottom.setChildren(new PositionedNodes()
-			.setLeft(GlobalSettings.IS_DEBUG ? gameStats : null)
+			.setLeft(gameStats)
 			.setRight(playAgain));
 		
 		parent.setPadding(10);

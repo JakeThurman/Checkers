@@ -1,6 +1,7 @@
 package jakethurman.games.checkers;
 
 import jakethurman.games.GameMessages;
+import jakethurman.games.SimpleScoreData;
 
 public class Messages implements GameMessages {
 	private static final String TURNSTATUS        = "It's %1$ss turn.",
@@ -74,5 +75,10 @@ public class Messages implements GameMessages {
 	@Override
 	public String getHighScoreListHeader() {
 		return HIGH_SCORES_LIST;
+	}
+
+	@Override
+	public String getHighScoreLine(SimpleScoreData data) {
+		return "Score: " + data.score;
 	}
 }

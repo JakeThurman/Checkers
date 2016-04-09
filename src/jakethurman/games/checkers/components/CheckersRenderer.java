@@ -27,7 +27,6 @@ public class CheckersRenderer implements Renderer {
 	public void render(final Runnable rerender, final Consumer<SafeScene> setScene) {
     	final SafeBorderPane      content  = new SafeBorderPane();
     	final SafeScene           scene    = new SafeScene(content);
-    	
         final Settings            settings = new Settings();
         final CheckersTurnManager ctm      = new CheckersTurnManager(settings);
         final Checkerboard        data     = new Checkerboard(ctm, settings);
@@ -80,7 +79,7 @@ public class CheckersRenderer implements Renderer {
         
         setScene.accept(scene);
     }
-
+    
 	private static SafeNode maybeGetDebugBar(CheckersTurnManager ctm, ButtonFactory bttnFactory) {
 		if (!GlobalSettings.IS_DEBUG)
 			return SafeNode.NONE;

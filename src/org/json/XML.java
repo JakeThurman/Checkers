@@ -304,6 +304,7 @@ public class XML {
      * @param string
      * @return JSON value of this string or the string
      */
+    @Deprecated
     public static Object stringToValue(String string) {
         return JSONObject.stringToValue(string);
     }

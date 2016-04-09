@@ -39,7 +39,7 @@ public class XMLTokener extends JSONTokener {
    public static final java.util.HashMap<String, Character> entity;
 
    static {
-       entity = new java.util.HashMap<String, Character>(8);
+       entity = new java.util.HashMap<>(8);
        entity.put("amp",  XML.AMP);
        entity.put("apos", XML.APOS);
        entity.put("gt",   XML.GT);
@@ -151,7 +151,8 @@ public class XMLTokener extends JSONTokener {
      * @throws JSONException If a string is not properly closed or if the XML
      *  is badly structured.
      */
-    public Object nextMeta() throws JSONException {
+    @SuppressWarnings("incomplete-switch")
+	public Object nextMeta() throws JSONException {
         char c;
         char q;
         do {
@@ -216,7 +217,8 @@ public class XMLTokener extends JSONTokener {
      * @return a String or a Character.
      * @throws JSONException If the XML is not well formed.
      */
-    public Object nextToken() throws JSONException {
+    @SuppressWarnings("incomplete-switch")
+	public Object nextToken() throws JSONException {
         char c;
         char q;
         StringBuilder sb;

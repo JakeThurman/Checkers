@@ -87,7 +87,7 @@ public class JSONArray implements Iterable<Object> {
      * Construct an empty JSONArray.
      */
     public JSONArray() {
-        this.myArrayList = new ArrayList<Object>();
+        this.myArrayList = new ArrayList<>();
     }
 
     /**
@@ -150,7 +150,7 @@ public class JSONArray implements Iterable<Object> {
      *            A Collection.
      */
     public JSONArray(Collection<?> collection) {
-        this.myArrayList = new ArrayList<Object>();
+        this.myArrayList = new ArrayList<>();
         if (collection != null) {
         	for (Object o: collection){
         		this.myArrayList.add(JSONObject.wrap(o));
@@ -1037,7 +1037,8 @@ public class JSONArray implements Iterable<Object> {
      * @return a printable, displayable, transmittable representation of the
      *         array.
      */
-    public String toString() {
+    @Override
+	public String toString() {
         try {
             return this.toString(0);
         } catch (Exception e) {
@@ -1139,7 +1140,7 @@ public class JSONArray implements Iterable<Object> {
      * @return a java.util.List containing the elements of this array
      */
     public List<Object> toList() {
-        List<Object> results = new ArrayList<Object>(this.myArrayList.size());
+        List<Object> results = new ArrayList<>(this.myArrayList.size());
         for (Object element : this.myArrayList) {
             if (element == null || JSONObject.NULL.equals(element)) {
                 results.add(null);

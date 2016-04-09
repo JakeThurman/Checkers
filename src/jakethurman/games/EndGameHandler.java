@@ -1,7 +1,9 @@
 package jakethurman.games;
 
 import java.io.File;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.function.Consumer;
 import jakethurman.foundation.Disposable;
 import jakethurman.util.FileHandler;
@@ -47,37 +49,57 @@ public class EndGameHandler implements Disposable {
 	
 	public void viewStats(String saveFileLocation) {
 		//TODO: Add a loading screen to show while waiting for the file.
-		ArrayList<String> savedHighScores = new ArrayList<>();
-		fileHandler.readFile(new File(saveFileLocation), 
-			() -> {}, 
-			(s) -> savedHighScores.add(s));
 		
+		//Read all of the high scores from the high score file
+		ArrayList<SimpleScoreData> savedHighScoreValues = new ArrayList<>();
+		fileHandler.readFile(new File(saveFileLocation),
+			() -> {}, 
+			(s) -> savedHighScoreValues.add(SimpleScoreData.deserialize(s)));
+		
+		String[] highScores = new String[savedHighScoreValues.size()];
+		int shsvSize = savedHighScoreValues.size();
+		for (int i = 0; i < shsvSize; i++)
+			highScores[i] = msgs.getHighScoreLine(savedHighScoreValues.get(i));
+		
+		//Create nodes
 		SafeNode back  = buttonFactory.create(msgs.getBackButton(), () -> setScene.accept(gameScene));
 		SafeNode chart = statsGen.getChart(StatChartType.PIECES_OVER_TIME);
 		SafeNode text  = textFactory.createLeftAlign(statsGen.getStatusText());
 		
+		SafeNode highScoreListHeader = textFactory.createCenteredBold(msgs.getHighScoreListHeader());
+		SafeNode highScoreList       = lvf.create(highScores);
+		
+		//Create containers
 		SafeBorderPane pane   = new SafeBorderPane();
 		SafeBorderPane bottom = new SafeBorderPane();
 		SafeBorderPane right  = new SafeBorderPane();
 		
+		//Add nodes to containers
 		bottom.setChildren(new PositionedNodes()
 			.setRight(back)
 			.setCenter(text));
 		
 		right.setChildren(new PositionedNodes()
-			.setTop(textFactory.createCenteredBold(msgs.getHighScoreListHeader()))
-			.setCenter(lvf.create(savedHighScores)));
+			.setTop(highScoreListHeader)
+			.setCenter(highScoreList));
 		
 		pane.setChildren(new PositionedNodes()
 			.setRight(right)
 			.setCenter(chart)
 			.setBottom(bottom));
 		
+		//Set the scene to the container
 		setScene.accept(new SafeScene(pane));
 	}
 
 	@Override
 	public void dispose() {
 		cleanup.dispose();
+	}
+
+	public void writeScore(String saveFileLocation, int scoreNumber) {
+		String newLine = new SimpleScoreData(System.currentTimeMillis(), scoreNumber).serialize();
+		
+		fileHandler.appendToFileOrCreate(Paths.get(saveFileLocation), Arrays.asList(newLine));
 	}
 }

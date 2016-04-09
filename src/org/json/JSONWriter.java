@@ -155,7 +155,7 @@ public class JSONWriter {
      * @return this
      * @throws JSONException If unbalanced.
      */
-    private JSONWriter end(char mode, char c) throws JSONException {
+    private JSONWriter end(@SuppressWarnings("hiding") char mode, char c) throws JSONException {
         if (this.mode != mode) {
             throw new JSONException(mode == 'a'
                 ? "Misplaced endArray."

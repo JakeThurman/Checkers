@@ -10,7 +10,7 @@ public class Settings implements ShapeSettings {
                              CIRCLE_RADIUS = SQUARE_SIZE/2-6,
                              CIRCLE_BORDER = 2;
             
-    private static final String    SAVE_FILE_LOCATION = "data.json";
+    private static final String    SAVE_FILE_LOCATION = "userdata/scores.json";
     private static final SafePaint SELECTED_COLOR     = SafePaint.BLUE;
     
     //Get methods
