@@ -1,6 +1,6 @@
 package jakethurman.foundation;
 
-public class Point implements Disposable {
+public class Point {
 	public final int x;
 	public final int y;
 	
@@ -17,10 +17,5 @@ public class Point implements Disposable {
 	@Override
 	public boolean equals(Object obj) {		
 		return obj instanceof Point && ((Point)obj).x == this.x && ((Point)obj).y == this.y;
-	}
-	
-	@Override
-	public void dispose() {
-		// Nothing to dispose
 	}
 }

@@ -1,8 +1,8 @@
 package jakethurman.foundation.datastructures;
 
 public final class Queue<V> {
-	Node<V> head = null;
-	Node<V> tail = null;
+	protected Node<V> head = null;
+	protected Node<V> tail = null;
 	
 	// Allows callers to the items of another Queue.
 	public void enqueue(Queue<V> items) {		
@@ -70,14 +70,5 @@ public final class Queue<V> {
 	// Does the queue have a next element?
 	public boolean hasNext() {
 		return head != null;
-	}
-	
-	private static class Node<V> {
-		protected V element;
-		protected Node<V> next;
-
-		protected Node(V element) {
-			this.element = element;
-		}
 	}
 }

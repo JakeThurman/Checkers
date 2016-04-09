@@ -48,12 +48,11 @@ public class Checker implements Disposable {
 	
 	@Override
 	public String toString() {
-		return "Checker: { Pos: {" + this.pos.toString() + "}, isPlayer1: " + this.isPlayer1 + " }"; 
+		return "{ \"pos\": " + this.pos.toString() + ", \"isPlayer1\": " + this.isPlayer1 + " }"; 
 	}
 	
 	@Override
 	public void dispose() {
-		this.pos.dispose();
-		this.pos    = null;
+		//Nothing to dispose
 	}
 }
