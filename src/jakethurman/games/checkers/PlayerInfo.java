@@ -32,4 +32,11 @@ public class PlayerInfo {
 	public String toString() {
 		return "{ \"piecesRemaining\": " + piecesRemaining + ", \"kingCount\": " + kingCount + " }"; 
 	}
+	
+	@Override
+	public PlayerInfo clone() {
+		PlayerInfo me = new PlayerInfo(piecesRemaining);
+		me.kingCount = kingCount;
+		return me;
+	}
 }

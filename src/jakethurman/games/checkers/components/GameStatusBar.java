@@ -82,7 +82,7 @@ public class GameStatusBar implements Disposable {
 	}
 	
 	private void handleWin(boolean isPlayer1, ScoreInfo finalScore) {
-		endGameHandler.writeScore(settings.getSaveFileLocation(), getScoreNumber(isPlayer1, finalScore));
+		endGameHandler.writeScore(settings.getSaveFileLocation(), getScoreNumber(isPlayer1, finalScore), msgs.getPlayerName(isPlayer1));
 		
 		String msg = msgs.getWinnerMessage(isPlayer1);
 		this.score.setText("");

@@ -97,8 +97,8 @@ public class EndGameHandler implements Disposable {
 		cleanup.dispose();
 	}
 
-	public void writeScore(String saveFileLocation, int scoreNumber) {
-		String newLine = new SimpleScoreData(System.currentTimeMillis(), scoreNumber).serialize();
+	public void writeScore(String saveFileLocation, int scoreNumber, String name) {
+		String newLine = new SimpleScoreData(System.currentTimeMillis(), scoreNumber, name).serialize();
 		
 		fileHandler.appendToFileOrCreate(Paths.get(saveFileLocation), Arrays.asList(newLine));
 	}

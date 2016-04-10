@@ -47,7 +47,7 @@ public class CheckersTurnManager implements Disposable {
 	}
 	
 	public ScoreInfo getCurrentScore() {
-		return new ScoreInfo(this.isPlayer1sTurn, this.player1, this.player2);
+		return new ScoreInfo(this.isPlayer1sTurn, this.player1.clone(), this.player2.clone());
 	}
 	
 	public void triggerOnChangeHandlers() {

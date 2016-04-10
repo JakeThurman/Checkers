@@ -84,7 +84,7 @@ public class Messages implements GameMessages {
 	
 	@Override
 	public String getHighScoreLine(SimpleScoreData data) {
-		return "Score: " + data.score + " - (" + timeAgoFormat(data.gameEndMs) + ")";
+		return data.name + ": " + data.score + " - (" + timeAgoFormat(data.gameEndMs) + ")";
 	}
 	
 	private static String timeAgoFormat(long ms) {
@@ -94,7 +94,7 @@ public class Messages implements GameMessages {
 		if (diff <= MS_IN_1_MINUTE) {
 			long seconds = TimeUnit.MILLISECONDS.toSeconds(diff);
 			// We don't return "0 seconds", so lie and say 1!
-			return (seconds == 0 ? 1 : seconds) + " seconds ago";
+			return pluralize((seconds == 0 ? 1 : seconds), "{0} second{s} ago");
 		}
 		if (diff <= MS_IN_1_HOUR)
 			return pluralize(TimeUnit.MILLISECONDS.toMinutes(diff), "{0} minute{s} ago");
@@ -108,5 +108,9 @@ public class Messages implements GameMessages {
 		return src
 			.replace("{0}", Long.toString(value))
 			.replace("{s}", value == 1 ? "" : "s");
+	}
+
+	public String getPlayerName(boolean isPlayer1) {
+		return isPlayer1 ? PLAYER1 : PLAYER2;
 	}
 }

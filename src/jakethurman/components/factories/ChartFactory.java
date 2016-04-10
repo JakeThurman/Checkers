@@ -1,19 +1,17 @@
 package jakethurman.components.factories;
 
-import java.util.Set;
+import java.util.Map;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import jakethurman.components.SafeNode;
 import jakethurman.foundation.Disposable;
-import jakethurman.foundation.Point;
 
 public class ChartFactory implements Disposable {
-	public ChartDataSeries createDataSeries(String name, Set<Point> points) {
-		return new ChartDataSeries(name, points.toArray(new Point[0]));
+	public ChartDataSeries createDataSeries(String name, Map<Double, Double> points) {
+		return new ChartDataSeries(name, points);
 	}
 	
-	@SuppressWarnings("boxing")
 	public SafeNode createLineChart(String chartTitle, String xLabel, String yLabel, ChartDataSeries...chartDataObjs) {
 		//defining the axes
         final NumberAxis xAxis = new NumberAxis();
@@ -30,8 +28,8 @@ public class ChartFactory implements Disposable {
             XYChart.Series<Number, Number> series = new XYChart.Series<>();
             series.setName(cds.name);
             
-            for (Point point : cds.points) {
-            	series.getData().add(new XYChart.Data<>(point.x, point.y));
+            for (Double point : cds.points.keySet().toArray(new Double[0])) {
+            	series.getData().add(new XYChart.Data<>(point, cds.points.get(point)));
             }
             
             lineChart.getData().add(series);
@@ -42,9 +40,9 @@ public class ChartFactory implements Disposable {
 	
 	public class ChartDataSeries {
 		protected final String  name;
-		protected final Point[] points;
+		protected final Map<Double, Double> points;
 		
-		public ChartDataSeries(String name, Point...points) {
+		public ChartDataSeries(String name, Map<Double, Double> points) {
 			this.name   = name;
 			this.points = points;
 		}

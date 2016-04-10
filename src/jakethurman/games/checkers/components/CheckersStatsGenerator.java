@@ -1,12 +1,11 @@
 package jakethurman.games.checkers.components;
 
 import java.util.LinkedList;
-import java.util.HashSet;
-
+import java.util.Map;
+import java.util.HashMap;
 import jakethurman.components.SafeNode;
 import jakethurman.components.factories.ChartFactory;
 import jakethurman.foundation.CleanupHandler;
-import jakethurman.foundation.Point;
 import jakethurman.games.StatChartType;
 import jakethurman.games.StatsGenerator;
 import jakethurman.games.checkers.CheckersTurnManager;
@@ -39,10 +38,10 @@ public class CheckersStatsGenerator implements StatsGenerator {
 	}
 	
 	public SafeNode getPiecesOverTime() {
-		HashSet<Point> player1CheckerChanges = new HashSet<>();
-		HashSet<Point> player2CheckerChanges = new HashSet<>();
-		HashSet<Point> player1KingChanges = new HashSet<>();
-		HashSet<Point> player2KingsChange = new HashSet<>();
+		Map<Double, Double> player1CheckerChanges = new HashMap<>();
+		Map<Double, Double> player2CheckerChanges = new HashMap<>();
+		Map<Double, Double> player1KingChanges = new HashMap<>();
+		Map<Double, Double> player2KingsChange = new HashMap<>();
 		
 		for (TurnInfo turn : ctm.getTurnData()) {
 			ScoreInfo score = turn.getScoreAtStart();
@@ -50,15 +49,15 @@ public class CheckersStatsGenerator implements StatsGenerator {
 			double secAfterStart = (turn.getStart() - ctm.getGameStartMS()) / 1000;
 			
 			(score.currentPlayerIsPlayer1 ? player1CheckerChanges : player2CheckerChanges)
-				.add(new Point((int)secAfterStart, score.getCurrentPlayer().getPiecesRemaining()));
+				.put(new Double(secAfterStart), new Double(score.getCurrentPlayer().getPiecesRemaining()));
 			
 			(score.currentPlayerIsPlayer1 ? player1KingChanges : player2KingsChange)
-				.add(new Point((int)secAfterStart, score.getCurrentPlayer().getKingCount()));
+				.put(new Double(secAfterStart), new Double(score.getCurrentPlayer().getKingCount()));
 		}
 		
 		//TODO: Factor strings out to Messages instance
-		ChartFactory.ChartDataSeries player1      = chartFactory.createDataSeries("Red", player1CheckerChanges);
-		ChartFactory.ChartDataSeries player2      = chartFactory.createDataSeries("Black", player2CheckerChanges);
+		ChartFactory.ChartDataSeries player1      = chartFactory.createDataSeries("Red Pieces", player1CheckerChanges);
+		ChartFactory.ChartDataSeries player2      = chartFactory.createDataSeries("Black Pieces", player2CheckerChanges);
 		ChartFactory.ChartDataSeries player1Kings = chartFactory.createDataSeries("Red Kings", player1KingChanges);
 		ChartFactory.ChartDataSeries player2Kings = chartFactory.createDataSeries("Black Kings", player2KingsChange);
 		
