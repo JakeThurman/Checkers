@@ -1,5 +1,6 @@
 package jakethurman.games.checkers;
 
+import java.util.concurrent.TimeUnit;
 import jakethurman.games.GameMessages;
 import jakethurman.games.SimpleScoreData;
 
@@ -77,8 +78,35 @@ public class Messages implements GameMessages {
 		return HIGH_SCORES_LIST;
 	}
 
+	private static final long MS_IN_1_MINUTE = 1000 * 60;
+	private static final long MS_IN_1_HOUR = MS_IN_1_MINUTE * 60;
+	private static final long MS_IN_1_DAY = MS_IN_1_HOUR * 24;
+	
 	@Override
 	public String getHighScoreLine(SimpleScoreData data) {
-		return "Score: " + data.score;
+		return "Score: " + data.score + " - (" + timeAgoFormat(data.gameEndMs) + ")";
+	}
+	
+	private static String timeAgoFormat(long ms) {
+		long now = System.currentTimeMillis();
+		long diff = now - ms;
+		
+		if (diff <= MS_IN_1_MINUTE) {
+			long seconds = TimeUnit.MILLISECONDS.toSeconds(diff);
+			// We don't return "0 seconds", so lie and say 1!
+			return (seconds == 0 ? 1 : seconds) + " seconds ago";
+		}
+		if (diff <= MS_IN_1_HOUR)
+			return pluralize(TimeUnit.MILLISECONDS.toMinutes(diff), "{0} minute{s} ago");
+        if (diff <= MS_IN_1_DAY)
+        	return pluralize(TimeUnit.MILLISECONDS.toHours(diff), "{0} hour{s} ago");
+
+        return pluralize(TimeUnit.MILLISECONDS.toDays(diff), "{0} day{s} ago");
+	}
+	
+	private static String pluralize(long value, String src) {
+		return src
+			.replace("{0}", Long.toString(value))
+			.replace("{s}", value == 1 ? "" : "s");
 	}
 }
