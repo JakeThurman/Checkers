@@ -33,10 +33,6 @@ public class FileHandler implements Disposable {
 								(e) -> overwriteFile(file, lines));
 	}
 	
-	public void appendToFile(Path file, String line) {
-		appendToFile(file, Arrays.asList(line));
-	}
-	
 	public void readFile(File f, Runnable onFileNotFound, Consumer<String> handleLine) {
 		ExceptionHelpers.tryRun(() -> {
 			try (BufferedReader br = new BufferedReader(new FileReader(f))) {
