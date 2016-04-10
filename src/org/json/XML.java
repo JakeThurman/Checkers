@@ -356,8 +356,9 @@ public class XML {
      * @return A string.
      * @throws JSONException
      */
-    public static String toString(Object object, String tagName)
+    public static String toString(Object obj, String tagName)
             throws JSONException {
+    	Object object = obj;
         StringBuilder sb = new StringBuilder();
         JSONArray ja;
         JSONObject jo;
