@@ -53,16 +53,9 @@ public class CheckersInitialization implements Disposable {
     	interactions.setAfterSelect((checker) -> {    		
     		for (CellSearchResult searchData : data.getAvailableSpaces(checker)) {
     			SafeNode circle = shapeFactory.createOpaqueCircle(SafePaint.LIGHTBLUE);
-    			Point    pos    = searchData.getPoint();
-    			interactions.initializeMoveOption(circle, () -> {
-    				data.movePieceToCell(checker, pos);
-    				
-    				// Set any jumped pieces as such
-    				for (Point i : searchData.getJumpedCells())
-    					data.setJumped(i);
-    			});
-    			data.getNode().add(circle, pos);
+    			data.getNode().add(circle, searchData.getPoint());
     			choiceNodes.add(circle);
+    			interactions.initializeMoveOption(circle, () -> data.makeMove(checker, searchData));
     		}
     	});
     	

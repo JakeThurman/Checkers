@@ -30,7 +30,7 @@ public class Checkerboard implements Disposable {
 		this.cells       = new SquareFixedAndFilled2DArray<>(settings.getBoardSize(), () -> new BoardSpace<>());
 	}
 		
-	public void setJumped(Point i) {
+	private void setJumped(Point i) {
 		BoardSpace<Checker> cell   = cells.get(i);
 		Checker             jumped = cell.getPiece();
 		
@@ -52,19 +52,40 @@ public class Checkerboard implements Disposable {
 		visual.remove(c.getNode()); // Remove the node
 	}
 
-	public void movePieceToCell(Checker checker, Point pos) {
+	public void makeMove(Checker checker, CellSearchResult searchData) {
+		Point pos = searchData.getPoint();
 		remove(checker); // Remove it from it's old location
 		checker.setPos(pos); // Record the new position to the checker
 		pieceIsInCell(checker); // Move it to the new piece
 		handleKingship(checker, pos); // Handle Kingship
+		
+		// Set any jumped pieces as such
+		for (Point i : searchData.getJumpedCells())
+			setJumped(i);
+		
 		turnManager.endTurn(); // This was this players turn so call it over
 	}
 	
-	public void handleKingship(Checker c, Point pos) {
+	private void handleKingship(Checker c, Point pos) {
 		if ((c.getIsPlayer1() && pos.y == 0) || (!c.getIsPlayer1() && pos.y == (settings.getBoardSize() - 1))) {
 			c.kingMe();
 			turnManager.playerHasKing(c.getIsPlayer1());
 		}
+	}
+	
+	public Iterable<Checker> getAllCheckers(boolean forPlayer1) {
+		LinkedList<Checker> results = new LinkedList<>();
+		
+		// Loop through every board cell
+		for (BoardSpace<Checker> cell : cells) {
+			// If this cell contains a checker, and 
+			// that checker belongs to the correct 
+			// player, add it to the results list
+			if (!cell.isEmpty() && cell.getPiece().getIsPlayer1() == forPlayer1)
+				results.add(cell.getPiece());
+		}
+		
+		return results;
 	}
 	
 	public Iterable<CellSearchResult> getAvailableSpaces(Checker checker) {

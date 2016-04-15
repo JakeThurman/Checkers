@@ -128,6 +128,7 @@ return size;
 /// ORIGINALLY RETURNED TREE NODE: 
 /// MODIFIED TO RETURN ROOT.ELEMENT 
 public E getRoot() {
+	return root == null ? null : root.element;
 }
 
 /** Returns a path from the root leading to the specified element */
