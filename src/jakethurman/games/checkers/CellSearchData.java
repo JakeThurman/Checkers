@@ -30,7 +30,7 @@ public class CellSearchData implements CellSearchResult {
 	}
 	
 	@Override
-	public Iterable<Point> getJumpedCells() {		
+	public List<Point> getJumpedCells() {		
 		return jumpedCells;
 	}
 	
@@ -69,5 +69,26 @@ public class CellSearchData implements CellSearchResult {
 	@Override
 	public String toString() {
 		return "{ source: " + source.toString() + ", deltaX: " + deltaX + ", deltaY: " + deltaY + " }";
+	}
+
+	@Override
+	public int compareTo(CellSearchResult other) {
+		Point otherPoint = other.getPoint();
+		Point myPoint = getPoint();
+		int otherJumpedCells = other.getJumpedCells().size();
+		int myJumedCells = jumpedCells.size();
+		
+		// If these are the same, return 0; (equal)
+		if (otherPoint.equals(myPoint) && otherJumpedCells == myJumedCells) 
+			return 0;
+		
+		// Prioritize difference in jumped cells
+		if (myJumedCells > otherJumpedCells)
+			return 1;
+		if (myJumedCells < otherJumpedCells)
+			return -1;
+
+		// Otherwise, do the comparison based off of the x value; Ignore y.
+		return otherPoint.x > myPoint.x ? -1 : 1;
 	}
 }

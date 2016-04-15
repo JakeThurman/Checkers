@@ -12,15 +12,17 @@ public class CheckerInteractionManager implements Disposable {
 	private final SelectionManager    selection;
 	private final CheckersTurnManager turnManager;
 	private final CleanupHandler      cleanup;
+	private final boolean             isVsAI;
 	
 	private Consumer<Checker> afterSelect    = null;
 	private Runnable          afterUnselect = null;
 	
-	public CheckerInteractionManager(SafeScene scene, SelectionManager selection, CheckersTurnManager turnManager) {
+	public CheckerInteractionManager(SafeScene scene, SelectionManager selection, CheckersTurnManager turnManager, boolean isVsAI) {
 		this.scene = scene;
 		this.selection = selection;
 		this.turnManager = turnManager;
 		this.cleanup = new CleanupHandler(selection, turnManager);
+		this.isVsAI = isVsAI;
 	}
 	
 	public void setAfterSelect(Consumer<Checker> afterSelect) {
@@ -32,14 +34,18 @@ public class CheckerInteractionManager implements Disposable {
 	}
 	
 	public void initalizeChecker(Checker c) {
-		final SafeNode node = c.getNode();
-		node.setOnMouseClicked(() -> doSelection(c));
-
-        node.setOnMouseExited(() -> scene.setDefaultCursor());
-        node.setOnMouseEntered(() -> { 
-        	if(c.getIsPlayer1() == turnManager.isPlayer1sTurn()) 
-        		scene.setSelectableCursor(); 
-        });
+		// Only allow for actions to be performed on non AI checkers
+		// Unless of course, this is a non-AI game completely!
+		if (c.getIsPlayer1() || !isVsAI) {
+			final SafeNode node = c.getNode();
+			node.setOnMouseClicked(() -> doSelection(c));
+			
+	        node.setOnMouseExited(() -> scene.setDefaultCursor());
+	        node.setOnMouseEntered(() -> { 
+	        	if(c.getIsPlayer1() == turnManager.isPlayer1sTurn()) 
+	        		scene.setSelectableCursor(); 
+	        });
+		}
 	}
 	
 	public void initializeMoveOption(SafeNode node, Runnable moveHere) {

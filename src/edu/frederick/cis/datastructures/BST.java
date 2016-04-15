@@ -124,9 +124,10 @@ public int getSize() {
 return size;
 }
 
-/** Returns the root of the tree */
-public TreeNode<E> getRoot() {
-return root;
+/// MODIFIED FROM ORIGINAL CODE:::::::
+/// ORIGINALLY RETURNED TREE NODE: 
+/// MODIFIED TO RETURN ROOT.ELEMENT 
+public E getRoot() {
 }
 
 /** Returns a path from the root leading to the specified element */

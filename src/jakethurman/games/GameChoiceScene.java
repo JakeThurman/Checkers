@@ -17,12 +17,7 @@ public class GameChoiceScene {
 		this.renderers = renderers;
 	}
 	
-	public void render(Consumer<Renderer> render, Consumer<SafeScene> setScene) {
-		if (!GlobalSettings.IS_DEBUG) {
-			render.accept(renderers[0]);
-			return;
-		}
-		
+	public void render(Consumer<Renderer> render, Consumer<SafeScene> setScene) {		
 		SafeBorderPane content = new SafeBorderPane();
 		SafeScene      scene   = new SafeScene(content);
 		

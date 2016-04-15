@@ -10,24 +10,28 @@ public class CheckersTurnManager implements Disposable {
 	private final PlayerInfo player1;
 	private final PlayerInfo player2;
 	private final LinkedList<Consumer<ScoreInfo>> onChangeHandlers;	
+	private final LinkedList<BooleanConsumer> onTurnStartHandlers;	
 	private final LinkedList<TurnInfo> turns;
 	
 	private final long startTimeMS;
 	private       long endTimeMS;
 	
-	public CheckersTurnManager(Settings settings) {
+	public CheckersTurnManager(Settings settings, boolean isVsAI) {		
 		this.player1 = new PlayerInfo(settings.getNumPieces());		
 		this.player2 = new PlayerInfo(settings.getNumPieces());
 		
-		this.onChangeHandlers = new LinkedList<>();
-		this.turns            = new LinkedList<>();
+		this.onChangeHandlers    = new LinkedList<>();
+		this.onTurnStartHandlers = new LinkedList<>();
+		this.turns               = new LinkedList<>();
 		
 		this.startTimeMS = System.currentTimeMillis();
 		
-		//Randomly decide if player 1 should go first
-		this.isPlayer1sTurn = Math.random() < 0.5;
+		// Randomly decide if player 1 should go first
+		// Unless this is an AI game, in which case,
+		// always make player 1 go first.
+		this.isPlayer1sTurn = isVsAI ? true : Math.random() < 0.5;
 		
-		//Start the first turn
+		// Start the first turn
 		turns.add(new TurnInfo(getCurrentScore()));
 		
 	}
@@ -44,6 +48,9 @@ public class CheckersTurnManager implements Disposable {
 		triggerOnChangeHandlers();
 		
 		turns.add(new TurnInfo(getCurrentScore()));
+		
+		for (BooleanConsumer handler : this.onTurnStartHandlers)
+			handler.accept(this.isPlayer1sTurn);
 	}
 	
 	public ScoreInfo getCurrentScore() {
@@ -59,6 +66,11 @@ public class CheckersTurnManager implements Disposable {
 	
 	public void addOnChangeHandler(Consumer<ScoreInfo> handler) {
 		this.onChangeHandlers.add(handler);
+	}
+	
+
+	public void addOnTurnStartHandler(BooleanConsumer handler) {
+		this.onTurnStartHandlers.add(handler);
 	}
 
 	public void recordDeadChecker(boolean isPlayer1, boolean wasKing) {
@@ -100,10 +112,7 @@ public class CheckersTurnManager implements Disposable {
 		return this.startTimeMS;
 	}
 	
-	//DANGEROUS DEBUG FUNCTION
-	public void hackPlayer2ToZeroPieces() {
-		while(this.player2.getPiecesRemaining() > 0) {
-			this.player2.playerLostPiece(false);
-		}
+	public interface BooleanConsumer {
+		public void accept(boolean val);
 	}
 }

@@ -19,6 +19,7 @@ public class Messages implements GameMessages {
                                 WAS_KING_SINGULAR = "was a king",
                                 GAME_STATS_MSG    = "%1$s won with %2$d/%3$d checkers remaining, %4$s of which %5$s. The game lasted a total of %6$.1fs",
                                 GAME_TITLE        = "Checkers",
+                                GAME_TITLE__AI    = "Checkers (vs AI)",
                                 HIGH_SCORES_LIST  = "High Scores";
 	
 	private final Settings settings;
@@ -59,8 +60,8 @@ public class Messages implements GameMessages {
 		return VIEW_GAME_STATS;
 	}
 
-	public String getGameTitle() {
-		return GAME_TITLE;
+	public String getGameTitle(boolean isVsAi) {
+		return isVsAi ? GAME_TITLE__AI : GAME_TITLE;
 	}
 	
 	@Override
