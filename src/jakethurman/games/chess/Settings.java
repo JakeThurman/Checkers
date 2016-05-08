@@ -2,7 +2,9 @@ package jakethurman.games.chess;
 
 import jakethurman.components.factories.ShapeSettings;
 
+// All of the chess specific settings
 public class Settings implements ShapeSettings {
+	/* Design Settings */
     public  static final int BOARD_SIZE    = 8,
     		                 SQUARE_SIZE   = 60;
     private static final int CIRCLE_RADIUS = SQUARE_SIZE/2-6,

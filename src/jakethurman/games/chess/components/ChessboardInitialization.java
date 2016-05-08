@@ -1,7 +1,6 @@
 package jakethurman.games.chess.components;
 
 import java.util.function.BiConsumer;
-
 import jakethurman.components.SafeGridPane;
 import jakethurman.components.SafeNode;
 import jakethurman.components.factories.ButtonFactory;
@@ -12,17 +11,23 @@ import jakethurman.foundation.Point;
 import jakethurman.games.chess.Settings;
 import jakethurman.games.chess.pieces.*;
 
+/* 
+ * Handles the initialization of a chess board.
+ */
 public class ChessboardInitialization implements Disposable {
+	// Dependencies
 	private final GridHelpers gridHelpers;
 	private final ButtonFactory buttonFactory;
 	private final CleanupHandler cleanup;
 	
+	// C'tor
 	public ChessboardInitialization(GridHelpers gridHelpers, ButtonFactory buttonFactory) {
 		this.gridHelpers = gridHelpers;
 		this.buttonFactory = buttonFactory;
 		this.cleanup = new CleanupHandler(gridHelpers, buttonFactory);
 	}
 	
+	// Initializes the chess board
 	public void init(Chessboard data) {
 		initGrid(data.getNode());
 		createPieces((peice, point) -> {
@@ -35,6 +40,7 @@ public class ChessboardInitialization implements Disposable {
 		});
 	}
 	
+	// Creates all of the pieces for a board and passes the Piece and its Point into @initPiece
 	private static void createPieces(BiConsumer<ChessPiece, Point> initPiece) {
 		for (int i = 0; i < Settings.BOARD_SIZE; i++) {
 			initPiece.accept(new Pawn(true), new Point(i, Settings.BOARD_SIZE - 2));
@@ -44,6 +50,7 @@ public class ChessboardInitialization implements Disposable {
 		}
 	}
 	
+	// Creates the appropriate chess piece for a cell in the outer row.
 	private static ChessPiece getOuterRowPeice(int i, boolean isWhite) {
 		switch (i) {
 			case 0:
@@ -64,6 +71,7 @@ public class ChessboardInitialization implements Disposable {
 		}
 	}
 	
+	// Initializes the grid for a chess board.
 	private void initGrid(SafeGridPane pane) {
 		//Add {Settings.BOARD_SIZE} rows and columns
 		for (int i=0; i < Settings.BOARD_SIZE; i++) {
@@ -71,6 +79,7 @@ public class ChessboardInitialization implements Disposable {
 			pane.addColumn(Settings.SQUARE_SIZE);
 		}
 		
+		// Initialize the background rectangles for each cell
 		gridHelpers.fillGridWithSquares(pane);
 	}
 	

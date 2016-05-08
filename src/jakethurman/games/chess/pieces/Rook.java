@@ -1,5 +1,6 @@
 package jakethurman.games.chess.pieces;
 
+/* A class to represent a Rook in a Chess game */
 public class Rook extends ChessPiece {
 	public Rook(boolean isWhite) {
 		super(isWhite);

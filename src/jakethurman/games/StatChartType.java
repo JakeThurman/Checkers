@@ -5,10 +5,8 @@ public enum StatChartType {
 }
 
 /*
- * Turn info:
+ * OTHER IDEADS:
  *	- Longest turn
  *	- Average turn length
- *    
- *
  *
  */

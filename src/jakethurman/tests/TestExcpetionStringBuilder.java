@@ -3,6 +3,7 @@ package jakethurman.tests;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
+/* Helper class for printing exceptions in unit tests */
 public class TestExcpetionStringBuilder {
 	private final Exception exception;
 	

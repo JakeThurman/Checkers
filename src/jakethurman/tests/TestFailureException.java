@@ -1,5 +1,6 @@
 package jakethurman.tests;
 
+// Exception class for when a Unit Test has failed
 public class TestFailureException extends Exception {
 	/**
 	 * Eclipse Auto Generated ID

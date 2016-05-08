@@ -3,9 +3,12 @@ package jakethurman.games.chess;
 import jakethurman.games.GameMessages;
 import jakethurman.games.SimpleScoreData;
 
+// User facing messages for a chess game
 public class Messages implements GameMessages {
+	/* Constant message values */
 	private final String GAME_TITLE = "Chess";
 
+	// Gets the name of the game
 	public String getGameTitle() {
 		return GAME_TITLE;
 	}
@@ -13,7 +16,6 @@ public class Messages implements GameMessages {
 	@Override
 	public void dispose() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override

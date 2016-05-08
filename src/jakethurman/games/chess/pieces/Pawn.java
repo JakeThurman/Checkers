@@ -1,5 +1,6 @@
 package jakethurman.games.chess.pieces;
 
+/* A class to represent a Pawn in a Chess game */
 public class Pawn extends ChessPiece {
 	public Pawn(boolean isWhite) {
 		super(isWhite);

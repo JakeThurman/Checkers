@@ -5,21 +5,25 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.function.IntFunction;
 
+/* Represents an array that is always filled, of a fixed length.  */
 public class FixedAndFilledArray<V> implements Iterable<V> {
 	private final Object[] data;
 	
+	// Supplier c'tor overload
 	public FixedAndFilledArray(int size, Supplier<V> init) {
 		this(size, (i) -> init.get());
 	}
 
+	// c'tor
 	public FixedAndFilledArray(int size, IntFunction<V> init) {
-		data = new Object[size];
+		data = new Object[size]; // Create a base object array
 		
 		// Initialize each cell in the array right away
 		for (int i = 0; i < size; i++)
 			data[i] = init.apply(i);
 	}
 	
+	// Gets an item index i
 	@SuppressWarnings("unchecked")
 	public V get(int i) {
 		return (V)data[i];
@@ -35,6 +39,7 @@ public class FixedAndFilledArray<V> implements Iterable<V> {
 		return Arrays.toString(data);
 	}
 
+	// Returns an iterator for the core array
 	@SuppressWarnings("unchecked")
 	@Override
 	public Iterator<V> iterator() {

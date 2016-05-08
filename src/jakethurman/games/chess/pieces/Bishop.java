@@ -1,5 +1,6 @@
 package jakethurman.games.chess.pieces;
 
+/* Class to represent a Bishop in a Chess game */
 public class Bishop extends ChessPiece {
 	public Bishop(boolean isWhite) {
 		super(isWhite);

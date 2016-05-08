@@ -4,23 +4,27 @@ import java.util.concurrent.TimeUnit;
 import jakethurman.games.GameMessages;
 import jakethurman.games.SimpleScoreData;
 
+// Messages specific to Checkers
 public class Messages implements GameMessages {
-	private static final String TURNSTATUS        = "It's %1$ss turn.",
-	                            SCORESTATUS_KINGS = "%2$s has %3$d/%1$d checkers remaining with %4$d king%8$s.\n%5$s has %6$d/%1$d checkers remaining with %7$d king%9$s.",
-	                            SCORESTATUS       = "%2$s has %3$d/%1$d checkers remaining.\n%5$s has %6$d/%1$d checkers remaining.",
-	                            YOUWIN            = "Congratulations %1$s! You won!",
-	                            PLAYER1           = "Red",
-	                            PLAYER2           = "Black",
-	                            PLAYAGAIN         = "Play Again",
-                                VIEW_GAME_STATS   = "View Game Statistics",
-                                BACK_BUTTON       = "Back",
-                                NONE              = "none",
-                                WAS_KING_PLURAL   = "were kings",
-                                WAS_KING_SINGULAR = "was a king",
-                                GAME_STATS_MSG    = "%1$s won with %2$d/%3$d checkers remaining, %4$s of which %5$s. The game lasted a total of %6$.1fs",
-                                GAME_TITLE        = "Checkers",
-                                GAME_TITLE__AI    = "Checkers (vs AI)",
-                                HIGH_SCORES_LIST  = "High Scores";
+	/* Constant Message Values */
+	private static final String TURNSTATUS         = "It's %1$ss turn.",
+	                            SCORESTATUS_KINGS  = "%2$s has %3$d/%1$d checkers remaining with %4$d king%8$s.\n%5$s has %6$d/%1$d checkers remaining with %7$d king%9$s.",
+	                            SCORESTATUS        = "%2$s has %3$d/%1$d checkers remaining.\n%5$s has %6$d/%1$d checkers remaining.",
+	                            YOUWIN             = "Congratulations %1$s! You won!",
+	                            PLAYER1            = "Red",
+	                            PLAYER2            = "Black",
+	                            PLAYAGAIN          = "Play Again",
+                                VIEW_GAME_STATS    = "View Game Statistics",
+                                BACK_BUTTON        = "Back",
+                                NONE               = "none",
+                                WAS_KING_PLURAL    = "were kings",
+                                WAS_KING_SINGULAR  = "was a king",
+                                GAME_STATS_MSG     = "%1$s won with %2$d/%3$d checkers remaining, %4$s of which %5$s. The game lasted a total of %6$.1fs",
+                                GAME_TITLE__HUMAN  = "Checkers",
+                                GAME_TITLE__EASY   = "Checkers (vs Easy Computer Player)",
+                                GAME_TITLE__MEDIUM = "Checkers (vs Medium Computer Player)",
+                                GAME_TITLE__HARD   = "Checkers (vs Hard Computer Player)",
+                                HIGH_SCORES_LIST   = "High Scores";
 	
 	private final Settings settings;
 	
@@ -28,17 +32,20 @@ public class Messages implements GameMessages {
 		this.settings = settings;
 	}
 	
+	/* Gets the turn status message stating that it is a given player */
 	public String getTurnStatus(boolean isPlayer1) {
 		return String.format(TURNSTATUS, isPlayer1 ? PLAYER1 : PLAYER2);
 	}
 	
-	@SuppressWarnings("boxing") // It's okay that we're boxing ints to Integers here
+	/* Gets a complete score status message. */
+	@SuppressWarnings("boxing") // Ignore that we're boxing ints to Integers here
 	public String getScoreStatus(int player1Checkers, int player2Checkers, int player1Kings, int player2Kings) {
 		// Use the kings format string if either player has a king
 		String src = player1Kings == 0 && player2Kings == 0 ? SCORESTATUS : SCORESTATUS_KINGS;
 		return String.format(src, settings.getNumPieces(), PLAYER1, player1Checkers, player1Kings, PLAYER2, player2Checkers, player2Kings, player1Checkers == 1 ? "" : "s", player2Checkers == 1 ? "" : "s");
 	}
 	
+	/* Gets game results (statistics) text */
 	@SuppressWarnings("boxing")
 	public String getGameStatsMessage(boolean player1Won, int kings, int checkers, double gameLengthMS) {
 		String playerName  = player1Won ? PLAYER1 : PLAYER2;
@@ -48,22 +55,38 @@ public class Messages implements GameMessages {
 		return String.format(GAME_STATS_MSG, playerName, checkers, settings.getNumPieces(), kingsString, wereKings, (gameLengthMS / 100));
 	}
 	
+	/* Gets the message for a player telling them that they won */
 	public String getWinnerMessage(boolean isPlayer1) {
 		return String.format(YOUWIN, isPlayer1 ? PLAYER1 : PLAYER2);
 	}
 	
+	/* Gets the play again message */
 	public String getPlayAgain() {
 		return PLAYAGAIN;
 	}
 	
+	/* Gets the view game statistics message */
 	public String getViewGameStats() {
 		return VIEW_GAME_STATS;
 	}
 
-	public String getGameTitle(boolean isVsAi) {
-		return isVsAi ? GAME_TITLE__AI : GAME_TITLE;
+	/* Gets the game title, including the optional AI modifier */
+	public String getGameTitle() {
+		switch(settings.getDifficulty()) {
+			case EASY:
+				return GAME_TITLE__EASY;
+			case MEDIUM:
+				return GAME_TITLE__MEDIUM;
+			case HARD:
+				return GAME_TITLE__HARD;
+			case HUMAN:
+				return GAME_TITLE__HUMAN;
+			default:
+				throw new Error("The given game difficulty was invalid!"); // TODO: Use a better exception class
+		}
 	}
 	
+	/* Gets the back button text */
 	@Override
 	public String getBackButton() {
 		return BACK_BUTTON;
@@ -74,43 +97,60 @@ public class Messages implements GameMessages {
 		// Nothing to dispose
 	}
 
+	/* Gets the high score list name */
 	@Override
 	public String getHighScoreListHeader() {
 		return HIGH_SCORES_LIST;
 	}
 
-	private static final long MS_IN_1_MINUTE = 1000 * 60;
-	private static final long MS_IN_1_HOUR = MS_IN_1_MINUTE * 60;
-	private static final long MS_IN_1_DAY = MS_IN_1_HOUR * 24;
-	
+	/* Returns a line of text to be displayed in the  */
 	@Override
 	public String getHighScoreLine(SimpleScoreData data) {
 		return data.name + ": " + data.score + " - (" + timeAgoFormat(data.gameEndMs) + ")";
 	}
 	
+
+	/* CONSTANT VALUES for timeAgoFormat message */
+	private static final long MS_IN_1_MINUTE = 1000 * 60;
+	private static final long MS_IN_1_HOUR = MS_IN_1_MINUTE * 60;
+	private static final long MS_IN_1_DAY = MS_IN_1_HOUR * 24;
+	
+	/* 
+	 * TODO: Move this to a class dedicated to time formating
+	 * 
+	 * Converts a time stamp in milliseconds to a string relative to the current time
+	 */
 	private static String timeAgoFormat(long ms) {
 		long now = System.currentTimeMillis();
 		long diff = now - ms;
 		
+		// This is less than one minute so use seconds
 		if (diff <= MS_IN_1_MINUTE) {
 			long seconds = TimeUnit.MILLISECONDS.toSeconds(diff);
 			// We don't return "0 seconds", so lie and say 1!
 			return pluralize((seconds == 0 ? 1 : seconds), "{0} second{s} ago");
 		}
+		
+		// This is less than one hour, so use minutes
 		if (diff <= MS_IN_1_HOUR)
 			return pluralize(TimeUnit.MILLISECONDS.toMinutes(diff), "{0} minute{s} ago");
+		
+		// This is less than one day so use hours
         if (diff <= MS_IN_1_DAY)
         	return pluralize(TimeUnit.MILLISECONDS.toHours(diff), "{0} hour{s} ago");
 
+        // Otherwise, just use days
         return pluralize(TimeUnit.MILLISECONDS.toDays(diff), "{0} day{s} ago");
 	}
 	
+	// Helper for timeAgoFormat to do string formating.
 	private static String pluralize(long value, String src) {
 		return src
 			.replace("{0}", Long.toString(value))
 			.replace("{s}", value == 1 ? "" : "s");
 	}
 
+	// Gets the name of a player
 	public String getPlayerName(boolean isPlayer1) {
 		return isPlayer1 ? PLAYER1 : PLAYER2;
 	}

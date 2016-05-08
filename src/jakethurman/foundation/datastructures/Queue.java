@@ -1,5 +1,6 @@
 package jakethurman.foundation.datastructures;
 
+// Handles super basic no-nonsense queue functionality.
 public final class Queue<V> {
 	protected Node<V> head = null;
 	protected Node<V> tail = null;

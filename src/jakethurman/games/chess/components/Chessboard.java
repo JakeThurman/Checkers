@@ -8,20 +8,27 @@ import jakethurman.games.BoardSpace;
 import jakethurman.games.chess.Settings;
 import jakethurman.games.chess.pieces.ChessPiece;
 
+/*
+ * Manages all of the cells on chess board.
+ */
 public class Chessboard implements Disposable {
+	// Local variables
 	private final SquareFixedAndFilled2DArray<BoardSpace<ChessPiece>> cells;
 	private final SafeGridPane visual;
 	
+	// C'tor
 	public Chessboard() {
 		this.cells = new SquareFixedAndFilled2DArray<>(Settings.BOARD_SIZE, () -> new BoardSpace<>());
 		this.visual = new SafeGridPane();
 	}
 	
+	// Initializes a piece on the board
 	public void initPiece(ChessPiece piece, SafeNode node) {		
-		cells.get(piece.getPoint()).setPiece(piece);
-		visual.add(node, piece.getPoint());
+		cells.get(piece.getPoint()).setPiece(piece); // Place the piece on the board
+		visual.add(node, piece.getPoint()); // Render piece's node
 	}
 	
+	// Returns the rendered node for the Chessboard
 	public SafeGridPane getNode() {
 		return visual;
 	}

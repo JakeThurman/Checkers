@@ -6,21 +6,39 @@ import javafx.stage.Stage;
 import jakethurman.components.SafeScene;
 import jakethurman.games.checkers.components.CheckersRenderer;
 
+/*
+ * PROJECT TODOs:
+ * 		- Add more comments!!!
+ * 		- Improve AI movement
+ * 		- ? Maybe add AI skill setting
+ * 		- Fix duplicated High scores
+ * 		- Add named high scores
+ * 
+ */
 public class App extends Application {
+	
 	public static void main(String[] args) {
-		launch(args);
+		launch(args); // Start the application
 	}
 
 	@Override
-	public void start(Stage primaryStage) {		
+	public void start(Stage primaryStage) {
+		// This is a helper function to allow for setting 
+		// the scene without passing down the stage
 		Consumer<SafeScene> setScene = s -> primaryStage.setScene(s.getUnsafe());
 				
+		// GameChoiceScene is a scene where 
+		// The player can choose between any 
+		// passed in renderer to render the game
 		new GameChoiceScene(
-			new CheckersRenderer(false), 
-			new CheckersRenderer(true)
-			//, new jakethurman.games.chess.components.ChessRenderer()
-		).render(r -> new RenderingHandler(r).render(setScene), setScene);
+			new CheckersRenderer(Difficulty.HUMAN), 
+			new CheckersRenderer(Difficulty.EASY), 
+			new CheckersRenderer(Difficulty.MEDIUM), 
+			new CheckersRenderer(Difficulty.HARD)
+			//, new jakethurman.games.chess.components.ChessRenderer() // TODO: Finish or remove
+		).render(r -> new RenderingHandler(r).render(setScene), setScene); // We give render a lambda that renders the scene using a rendering handler
 		
+		// Show the stage!
 		primaryStage.show();    	
 	}
 }

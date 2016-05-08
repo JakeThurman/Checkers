@@ -4,6 +4,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.layout.BorderPane;
 
+/* Wraps a border pane and only allows only for minimal interaction with the class */
 public class SafeBorderPane extends SafeParent {
 	private final BorderPane pane;
 	
@@ -29,6 +30,7 @@ public class SafeBorderPane extends SafeParent {
 		pane.setLeft(getUnsafe(pn.getLeft()));
 	}
 	
+	// Helper for setChildren to handle nulls.
 	private static Node getUnsafe(SafeNode node) {
 		return node == null ? null : node.getUnsafe();
 	}

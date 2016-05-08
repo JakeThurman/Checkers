@@ -3,6 +3,7 @@ package jakethurman.games.chess.pieces;
 import jakethurman.foundation.Disposable;
 import jakethurman.foundation.Point;
 
+/* Abstract base class to represent a Piece in a Chess game */
 public abstract class ChessPiece implements Disposable {
 	protected final boolean isWhite;
 	private Point point;

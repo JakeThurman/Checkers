@@ -1,6 +1,5 @@
 package jakethurman.util;
 
-
 // Helper class to hack around java's limitation
 // of inner classes/lambdas only being able to 
 // get instance variables of the parent class.

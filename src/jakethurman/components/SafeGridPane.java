@@ -8,6 +8,7 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 
+/* Wraps a GridPane and only allows only for minimal interaction with the class */
 public class SafeGridPane extends SafeNode {
 	private final GridPane pane;
 	

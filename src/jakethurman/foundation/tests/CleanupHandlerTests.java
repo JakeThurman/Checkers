@@ -6,6 +6,7 @@ import jakethurman.tests.TestCase;
 import jakethurman.tests.TestFailureException;
 import jakethurman.tests.TestUnit;
 
+/* Tests for the CleanupHandler class (see jakethuman.tests.TestApp to run) */
 public class CleanupHandlerTests extends TestUnit {
 	
 	private CleanupHandler ch;

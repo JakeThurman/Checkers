@@ -11,7 +11,11 @@ import jakethurman.games.Renderer;
 import jakethurman.games.chess.Messages;
 import jakethurman.games.chess.Settings;
 
+/* 
+ * Handles the rendering of a Chess game.
+ */
 public class ChessRenderer implements Renderer {
+	// Renders a new instance of Chess
 	@Override
 	public void render(final Runnable rerender, final Consumer<SafeScene> setScene) {
 		//Create scene
@@ -31,9 +35,11 @@ public class ChessRenderer implements Renderer {
 		content.setChildren(new PositionedNodes()
 			.setCenter(chessboard.getNode()));
 		
+		// Set the scene
 		setScene.accept(scene);
 	}
 
+	// Gets the name of the game
 	@Override
 	public String getTitle() {
 		return new Messages().getGameTitle();

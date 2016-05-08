@@ -1,5 +1,6 @@
 package jakethurman.games.chess.pieces;
 
+/* A class to represent a King in a Chess game */
 public class King extends ChessPiece {
 	public King(boolean isWhite) {
 		super(isWhite);

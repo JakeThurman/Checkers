@@ -1,5 +1,6 @@
 package jakethurman.games.chess.pieces;
 
+/* A class to represent a Queen in a Chess game */
 public class Queen extends ChessPiece {
 	public Queen(boolean isWhite) {
 		super(isWhite);

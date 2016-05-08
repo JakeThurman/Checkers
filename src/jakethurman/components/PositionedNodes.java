@@ -1,6 +1,10 @@
 package jakethurman.components;
 
+/*
+ * Helper class for position nodes on a border pane (with chaining!)
+ */
 public class PositionedNodes implements ReadOnlyPositionedNodes {
+	// Each of current the nodes
 	private SafeNode center;
 	private SafeNode bottom;
 	private SafeNode top;

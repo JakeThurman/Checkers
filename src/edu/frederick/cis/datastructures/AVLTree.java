@@ -265,4 +265,28 @@ public class AVLTree<E extends Comparable<E>> extends BST<E> {
 	      super(o);
 	    }
 	  }
+
+	// !! MODIFICATION:
+	// This method returns the cell with the highest computed value
+	public E getMax() {
+		TreeNode<E> curr = this.root;
+		
+		while (curr.left != null) {
+			curr = curr.left;
+		}
+		
+		return curr.element;
+	}
+
+	// !!MODIFICATION
+	// This method returns the cell with the lowest computed value
+	public E getMin() {
+		TreeNode<E> curr = this.root;
+		
+		while (curr.right != null) {
+			curr = curr.right;
+		}
+		
+		return curr.element;
+	}
 }

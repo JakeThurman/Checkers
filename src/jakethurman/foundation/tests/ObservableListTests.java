@@ -8,6 +8,7 @@ import jakethurman.tests.TestFailureException;
 import jakethurman.tests.TestUnit;
 import jakethurman.tests.ValueContainer;
 
+/* Tests for the ObservableList class (see jakethuman.tests.TestApp to run) */
 public class ObservableListTests extends TestUnit {
 
 	private ObservableList<String> ol;
