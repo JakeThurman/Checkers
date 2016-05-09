@@ -1,8 +1,8 @@
 package jakethurman.games.checkers;
 
-import java.util.concurrent.TimeUnit;
 import jakethurman.games.GameMessages;
 import jakethurman.games.SimpleScoreData;
+import jakethurman.util.RelativeTime;
 
 // Messages specific to Checkers
 public class Messages implements GameMessages {
@@ -19,7 +19,7 @@ public class Messages implements GameMessages {
                                 NONE               = "none",
                                 WAS_KING_PLURAL    = "were kings",
                                 WAS_KING_SINGULAR  = "was a king",
-                                GAME_STATS_MSG     = "%1$s won with %2$d/%3$d checkers remaining, %4$s of which %5$s. The game lasted a total of %6$.1fs",
+                                GAME_STATS_MSG     = "%1$s won with a score of: %7$d.\n    %2$d/%3$d checkers remaining\n    %4$s of which %5$s.\nThe game lasted a total of %6$s",
                                 GAME_TITLE__HUMAN  = "Checkers",
                                 GAME_TITLE__EASY   = "Checkers (vs Easy Computer Player)",
                                 GAME_TITLE__MEDIUM = "Checkers (vs Medium Computer Player)",
@@ -47,12 +47,12 @@ public class Messages implements GameMessages {
 	
 	/* Gets game results (statistics) text */
 	@SuppressWarnings("boxing")
-	public String getGameStatsMessage(boolean player1Won, int kings, int checkers, double gameLengthMS) {
+	public String getGameStatsMessage(boolean player1Won, int kings, int checkers, long gameLengthMS, int score) {
 		String playerName  = player1Won ? PLAYER1 : PLAYER2;
 		String kingsString = kings == 0 ? NONE : Integer.toString(kings);
 		String wereKings   = kings == 1 ? WAS_KING_SINGULAR : WAS_KING_PLURAL;
 		
-		return String.format(GAME_STATS_MSG, playerName, checkers, settings.getNumPieces(), kingsString, wereKings, (gameLengthMS / 100));
+		return String.format(GAME_STATS_MSG, playerName, checkers, settings.getNumPieces(), kingsString, wereKings, RelativeTime.timeSpanFormat(gameLengthMS), score);
 	}
 	
 	/* Gets the message for a player telling them that they won */
@@ -106,48 +106,7 @@ public class Messages implements GameMessages {
 	/* Returns a line of text to be displayed in the  */
 	@Override
 	public String getHighScoreLine(SimpleScoreData data) {
-		return data.name + ": " + data.score + " - (" + timeAgoFormat(data.gameEndMs) + ")";
-	}
-	
-
-	/* CONSTANT VALUES for timeAgoFormat message */
-	private static final long MS_IN_1_MINUTE = 1000 * 60;
-	private static final long MS_IN_1_HOUR = MS_IN_1_MINUTE * 60;
-	private static final long MS_IN_1_DAY = MS_IN_1_HOUR * 24;
-	
-	/* 
-	 * TODO: Move this to a class dedicated to time formating
-	 * 
-	 * Converts a time stamp in milliseconds to a string relative to the current time
-	 */
-	private static String timeAgoFormat(long ms) {
-		long now = System.currentTimeMillis();
-		long diff = now - ms;
-		
-		// This is less than one minute so use seconds
-		if (diff <= MS_IN_1_MINUTE) {
-			long seconds = TimeUnit.MILLISECONDS.toSeconds(diff);
-			// We don't return "0 seconds", so lie and say 1!
-			return pluralize((seconds == 0 ? 1 : seconds), "{0} second{s} ago");
-		}
-		
-		// This is less than one hour, so use minutes
-		if (diff <= MS_IN_1_HOUR)
-			return pluralize(TimeUnit.MILLISECONDS.toMinutes(diff), "{0} minute{s} ago");
-		
-		// This is less than one day so use hours
-        if (diff <= MS_IN_1_DAY)
-        	return pluralize(TimeUnit.MILLISECONDS.toHours(diff), "{0} hour{s} ago");
-
-        // Otherwise, just use days
-        return pluralize(TimeUnit.MILLISECONDS.toDays(diff), "{0} day{s} ago");
-	}
-	
-	// Helper for timeAgoFormat to do string formating.
-	private static String pluralize(long value, String src) {
-		return src
-			.replace("{0}", Long.toString(value))
-			.replace("{s}", value == 1 ? "" : "s");
+		return data.name + ": " + data.score + " - (" + RelativeTime.timeAgoFormat(data.gameEndMs) + ")";
 	}
 
 	// Gets the name of a player

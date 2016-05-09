@@ -79,9 +79,9 @@ public class CheckersStatsGenerator implements StatsGenerator {
 		return chartFactory.createLineChart("Pieces Over Time", "Time (Seconds)", "Pieces", player1, player2, player1Kings, player2Kings);
 	}
 	
-	// The the statistics of the game as a single sentance of information.
+	// The the statistics of the game as a single sentence of information.
 	@Override
-	public String getStatsText() {
+	public String getStatsText(int finalScore) {
 		// Get all of the turns that happened in the game
 		LinkedList<TurnInfo> data = ctm.getTurnData();
 		
@@ -91,7 +91,7 @@ public class CheckersStatsGenerator implements StatsGenerator {
 		PlayerInfo player   = endScore.getCurrentPlayer(); // Then get the information about the player who's turn it was on the last turn.
 		
 		// Return the complied message
-		return msgs.getGameStatsMessage(endScore.currentPlayerIsPlayer1, player.getKingCount(), player.getPiecesRemaining(), lastTurn.getLengthMS());
+		return msgs.getGameStatsMessage(endScore.currentPlayerIsPlayer1, player.getKingCount(), player.getPiecesRemaining(), lastTurn.getEnd() - data.getFirst().getStart(), finalScore);
 	}
 	
 	@Override

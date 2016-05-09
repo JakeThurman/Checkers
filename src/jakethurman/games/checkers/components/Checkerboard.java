@@ -85,6 +85,10 @@ public class Checkerboard implements Disposable {
 	
 	// Checkers if a checker moving to Point pos will make it a king, and handles that case
 	private void handleKingship(Checker c, Point pos) {
+		// Do not worry about making the player a king if they already are one.
+		if (c.getIsKing())
+			return;
+		
 		// If player 1 is at the top, or player 2 is at the bottom, they should be a king.
 		if ((c.getIsPlayer1() && pos.y == 0) || (!c.getIsPlayer1() && pos.y == (settings.getBoardSize() - 1))) {
 			c.kingMe(); // Convert the checker to a king, since it is at the top/bottom as appropriate.

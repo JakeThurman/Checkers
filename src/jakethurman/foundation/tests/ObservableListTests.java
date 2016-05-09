@@ -6,7 +6,7 @@ import jakethurman.foundation.ObservableList;
 import jakethurman.tests.TestCase;
 import jakethurman.tests.TestFailureException;
 import jakethurman.tests.TestUnit;
-import jakethurman.tests.ValueContainer;
+import jakethurman.util.ValueContainer;
 
 /* Tests for the ObservableList class (see jakethuman.tests.TestApp to run) */
 public class ObservableListTests extends TestUnit {
@@ -25,32 +25,32 @@ public class ObservableListTests extends TestUnit {
 				ValueContainer<Boolean> subscriberRecievedNewestValue = new ValueContainer<>(Boolean.FALSE);
 				String val = "This is a test string";
 				
-				ol.subscribe(s -> subscriberRecievedNewestValue.setValue(new Boolean(s.equals(val))));
+				ol.subscribe(s -> subscriberRecievedNewestValue.set(new Boolean(s.equals(val))));
 				ol.dispatch(val);
 				
-				if (!subscriberRecievedNewestValue.getValue().booleanValue())
+				if (!subscriberRecievedNewestValue.get().booleanValue())
 					throw new TestFailureException("Subscriber did not recieve newest item when dispatched");
 			}),
 			new TestCase("dispatch should call all subscribers.", () -> {
 				ValueContainer<Boolean> subscriber1RecievedNewestValue = new ValueContainer<>(Boolean.FALSE);
 				ValueContainer<Boolean> subscriber2RecievedNewestValue = new ValueContainer<>(Boolean.FALSE);
 								
-				ol.subscribe(s -> subscriber1RecievedNewestValue.setValue(Boolean.TRUE));
-				ol.subscribe(s -> subscriber2RecievedNewestValue.setValue(Boolean.TRUE));
+				ol.subscribe(s -> subscriber1RecievedNewestValue.set(Boolean.TRUE));
+				ol.subscribe(s -> subscriber2RecievedNewestValue.set(Boolean.TRUE));
 				ol.dispatch("Test string");
 				
-				if (!subscriber1RecievedNewestValue.getValue().booleanValue() || !subscriber2RecievedNewestValue.getValue().booleanValue())
+				if (!subscriber1RecievedNewestValue.get().booleanValue() || !subscriber2RecievedNewestValue.get().booleanValue())
 					throw new TestFailureException("All subscribers should be called for every dispatch!");
 			}),
 			new TestCase("subscribers should be called for each dispatch.", () -> {
 				ValueContainer<Integer> dispatches = new ValueContainer<>(new Integer(0));
 								
-				ol.subscribe(s -> dispatches.setValue(new Integer(dispatches.getValue().intValue() + 1)));
+				ol.subscribe(s -> dispatches.set(new Integer(dispatches.get().intValue() + 1)));
 				ol.dispatch("Test string1");
 				ol.dispatch("Test string2");
 				ol.dispatch("Test string3");
 				
-				if (dispatches.getValue().intValue() != 3)
+				if (dispatches.get().intValue() != 3)
 					throw new TestFailureException("The subscriber should have been called 3 times, but was called " + dispatches + " times.");
 			}),
 			new TestCase("getState should return all items currently in the list.", () -> {				
@@ -73,11 +73,11 @@ public class ObservableListTests extends TestUnit {
 				
 				olr.subscribe(r -> r.run());
 				
-				olr.dispatch(() -> { if (i.getValue().intValue() == 0) i.setValue(new Integer(i.getValue().intValue() + 1)); });
-				olr.dispatch(() -> { if (i.getValue().intValue() == 1) i.setValue(new Integer(i.getValue().intValue() + 1)); });
-				olr.dispatch(() -> { if (i.getValue().intValue() == 2) i.setValue(new Integer(i.getValue().intValue() + 1)); });
+				olr.dispatch(() -> { if (i.get().intValue() == 0) i.set(new Integer(i.get().intValue() + 1)); });
+				olr.dispatch(() -> { if (i.get().intValue() == 1) i.set(new Integer(i.get().intValue() + 1)); });
+				olr.dispatch(() -> { if (i.get().intValue() == 2) i.set(new Integer(i.get().intValue() + 1)); });
 								
-				if (i.getValue().intValue() != 3)
+				if (i.get().intValue() != 3)
 					throw new TestFailureException("3 dispatches were made to a subscriber, but " + i + " end up being called.");
 			})
 		};

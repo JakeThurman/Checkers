@@ -21,12 +21,12 @@ public class Settings implements ShapeSettings {
      * Data Settings
      */
     private static final String SAVE_FILE_LOCATION = "scores.json";
-    private static final int    BOT_SLEEP_TIME_MS  = 500;
     
     /*
      * User Settings.
      */
 	private Difficulty difficulty;
+    private int bot_sleep_time = 500; // Basically static - overriden by DEBUGgoToDoubleAISettings
 	
 	public Settings(Difficulty difficulty) {
 		this.difficulty = difficulty;
@@ -42,13 +42,16 @@ public class Settings implements ShapeSettings {
 	public int getBoardSize() { return BOARD_SIZE; }	
 	public SafePaint getSelectColor() { return SELECTED_COLOR; }
 	public String getSaveFileLocation() { return SAVE_FILE_LOCATION; }
-	public long getBotSleepMS() { return BOT_SLEEP_TIME_MS; }
+	public long getBotSleepMS() { return bot_sleep_time; }
 	public Difficulty getDifficulty() { return difficulty; }
 	
 	/*
 	 * DEBUG methods
 	 */
-	public void DEBUGchangeDifficulty(Difficulty d) { this.difficulty = d; }
+	public void DEBUGgoToDoubleAISettings() { 
+		this.difficulty = Difficulty.HARD;
+		this.bot_sleep_time = 20;
+	}
 	
 	/* TODO: Disposable was a mistake... It should probably die altogether, but especially here. */
 	@Override public void dispose() { /* Nothing to dispose */ }

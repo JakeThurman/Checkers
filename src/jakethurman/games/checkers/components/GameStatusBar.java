@@ -30,6 +30,9 @@ public class GameStatusBar implements Disposable {
 	private final SafeText       score;
 	private final SafeText       turn;
 	
+	// Data
+	private boolean inWinMode = false;
+	
 	// C'tor
 	public GameStatusBar(Messages msgs, Settings settings, CheckersTurnManager turnManager, EndGameHandler endGameHandler, ButtonFactory buttonFactory, TextFactory textFactory) {
 		// Store dependencies
@@ -67,10 +70,16 @@ public class GameStatusBar implements Disposable {
 	
 	// Updates the text in the status bar to represent the score
 	private void updateText(ScoreInfo currScore) {
+		// Don't do anything if we're already in win mode.
+		if (this.inWinMode) 
+			return;
+		
 		// Check for a win first.
 		if (currScore.player1.getPiecesRemaining() == 0 || currScore.player2.getPiecesRemaining() == 0) {
 			// Tell the turn manager that the game ended
 			turnManager.gameDidEnd();
+			// Remember that we're in mode so we don't have to bother with refreshing anymore.
+			this.inWinMode = true;
 			// Handle the win by completely changing the status bar
 			handleWin(currScore.player2.getPiecesRemaining() == 0, currScore);
 			// Don't do anything else here
@@ -102,8 +111,10 @@ public class GameStatusBar implements Disposable {
 	
 	// Updates the status bar to display that a player has won
 	private void handleWin(boolean isPlayer1, ScoreInfo finalScore) {
+		int scoreNumber = getScoreNumber(isPlayer1, finalScore);
+		
 		// Write the score to the save file
-		endGameHandler.writeScore(settings.getSaveFileLocation(), getScoreNumber(isPlayer1, finalScore), msgs.getPlayerName(isPlayer1));
+		endGameHandler.writeScore(settings.getSaveFileLocation(), scoreNumber, msgs.getPlayerName(isPlayer1));
 		
 		// Create the winner message
 		String msg = msgs.getWinnerMessage(isPlayer1);
@@ -114,7 +125,7 @@ public class GameStatusBar implements Disposable {
 		SafeNode playAgain = buttonFactory.create(msgs.getPlayAgain(), endGameHandler::playAgain);	
 		
 		// Create a button to let the player view statistics about the game
-		SafeNode gameStats = buttonFactory.create(msgs.getViewGameStats(), () -> endGameHandler.viewStats(settings.getSaveFileLocation()));
+		SafeNode gameStats = buttonFactory.create(msgs.getViewGameStats(), () -> endGameHandler.viewStats(settings.getSaveFileLocation(), scoreNumber));
 		
 		// Create a pane to display the buttons in
 		SafeBorderPane bottom = new SafeBorderPane();

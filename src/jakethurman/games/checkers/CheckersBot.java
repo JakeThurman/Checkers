@@ -5,6 +5,7 @@ import edu.frederick.cis.datastructures.AVLTree;
 import jakethurman.games.Difficulty;
 import jakethurman.games.checkers.components.Checker;
 import jakethurman.games.checkers.components.Checkerboard;
+import jakethurman.util.BooleanMemory;
 import javafx.application.Platform;
 
 /*
@@ -24,17 +25,29 @@ public class CheckersBot {
 	}
 	
 	// Initializes the bot to play for a given player
-	public void init(boolean forPlayer1) {
+	// returns a canceled trigger.
+	public Runnable init(boolean forPlayer1) {
+		// Boolean memory is a hack around the inability to setting variables inside lambdas
+		BooleanMemory isCanceled = new BooleanMemory(false);
+		
 		// Add a listener for turn changes which is where we will take a turn.
     	ctm.addOnTurnStartHandler(isPlayer1 -> {
+    		// Don't run for a canceled bot!
+    		if (isCanceled.get())
+    			return;
+    		
+    		// Create a new thread so we can delay
     		new Thread(() -> {
     			try {
+    				// Sleep for the requested amount of time
 					Thread.sleep(settings.getBotSleepMS());
 				} catch (Exception e) {
 					// TODO: Auto-generated catch block
 					e.printStackTrace();
 				}
     			
+    			// Run later allows us to use the UI thread again.
+    			// this is required for touching the UI in a multithreading environment.
 	    		Platform.runLater(() -> {
 		    		// If it's the other players 
 		    		// turn, we don't want to touch
@@ -45,6 +58,10 @@ public class CheckersBot {
 	    		});
     		}).start();
     	});
+    	
+    	return () -> {
+    		isCanceled.set(true);
+    	};
     }
 	
 	// Takes a turn as a given player (as Player 1 if @forPlayer1 otherwise Player 2)

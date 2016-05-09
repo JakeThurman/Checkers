@@ -269,8 +269,13 @@ public class AVLTree<E extends Comparable<E>> extends BST<E> {
 	// !! MODIFICATION:
 	// This method returns the cell with the highest computed value
 	public E getMax() {
-		TreeNode<E> curr = this.root;
+		// If there are no elements return null
+		if (this.root == null)
+			return null;
 		
+		TreeNode<E> curr = this.root;
+
+		// Move left until we find that end
 		while (curr.left != null) {
 			curr = curr.left;
 		}
@@ -281,8 +286,13 @@ public class AVLTree<E extends Comparable<E>> extends BST<E> {
 	// !!MODIFICATION
 	// This method returns the cell with the lowest computed value
 	public E getMin() {
+		// If there are no elements return null
+		if (this.root == null)
+			return null;
+		
 		TreeNode<E> curr = this.root;
 		
+		// Move right until we find the end
 		while (curr.right != null) {
 			curr = curr.right;
 		}

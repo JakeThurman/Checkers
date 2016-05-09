@@ -53,24 +53,25 @@ public class EndGameHandler implements Disposable {
 	}
 	
 	// Opens a statistics view
-	public void viewStats(String saveFileLocation) {
-		//TODO: Consider adding a loading screen to show while waiting for the file.
-		
+	public void viewStats(String saveFileLocation, int finalScore) {		
 		//Read all of the high scores from the high score file
 		ArrayList<SimpleScoreData> savedHighScoreValues = new ArrayList<>();
 		fileHandler.readFile(new File(saveFileLocation), () -> {}, 
 			(s) -> savedHighScoreValues.add(SimpleScoreData.deserialize(s)));
 		
 		//Convert high scores to an array of converted messages.
-		String[] highScores = new String[savedHighScoreValues.size()];
-		int shsvSize = savedHighScoreValues.size();
-		for (int i = 0; i < shsvSize; i++)
-			highScores[i] = msgs.getHighScoreLine(savedHighScoreValues.get(i));
+		ArrayList<String> highScores = new ArrayList<>();
+	
+		savedHighScoreValues.stream()
+			.sorted((s1, s2) -> Integer.compare(s2.score, s1.score)) // Sort the saved-score objects by score
+			.limit(20)                              // Take only the top 20 high scores
+			.map(val -> msgs.getHighScoreLine(val)) // Map each saved-score to an appropriate display message
+			.forEach((str) -> highScores.add(str)); // Add each item to the ArrayList
 		
 		//Create nodes
 		SafeNode back  = buttonFactory.create(msgs.getBackButton(), () -> setScene.accept(gameScene));
 		SafeNode chart = statsGen.getChart(StatChartType.PIECES_OVER_TIME);
-		SafeNode text  = textFactory.createLeftAlign(statsGen.getStatsText());
+		SafeNode text  = textFactory.createLeftAlign(statsGen.getStatsText(finalScore));
 		
 		SafeNode highScoreListHeader = textFactory.createCenteredBold(msgs.getHighScoreListHeader());
 		SafeNode highScoreList       = lvf.create(highScores);
@@ -104,7 +105,7 @@ public class EndGameHandler implements Disposable {
 	}
 
 	// Writes the score from a game to a save file.
-	public void writeScore(String saveFileLocation, int scoreNumber, String name) {
+	public void writeScore(String saveFileLocation, int scoreNumber, String name) {		
 		// Get the serialized data
 		String newLine = new SimpleScoreData(System.currentTimeMillis(), scoreNumber, name).serialize();
 		

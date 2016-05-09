@@ -22,8 +22,8 @@ import jakethurman.games.checkers.CheckersTurnManager;
 import jakethurman.games.checkers.Messages;
 import jakethurman.games.checkers.SelectionManager;
 import jakethurman.games.checkers.Settings;
-import jakethurman.util.BooleanMemory;
 import jakethurman.util.FileHandler;
+import jakethurman.util.ValueContainer;
 
 /*
  * Handles all of the rendering, and dependencies of a checkers game.
@@ -115,26 +115,37 @@ public class CheckersRenderer implements Renderer {
 		if (!GlobalSettings.IS_DEBUG)
 			return SafeNode.NONE;
 		
-		// We're using the boolean memory class a 
-		// total hack around the restriction of 
+		// We're using the ValueContainer class as 
+		// a total hack around the restriction of 
 		// setting values outside of lambda scope.
-		BooleanMemory gameEnded = new BooleanMemory(false);
+		ValueContainer<Runnable> cancelEndGame = new ValueContainer<>();
 		
 		//When debugging, we want a button to set both players to AI players
 		return bttnFactory.create("End Game (Double AI)", () -> {			
 			// Only end the game once dummy!
-			if (gameEnded.get()) return;
+			// If we already ended it, undo the 
+			// end now.
+			if (cancelEndGame.isSet()) {
+				System.out.println("canceling");
+				
+				cancelEndGame.get().run(); // Run the cancel event
+				cancelEndGame.clear(); // Clear the callback
+				return; // Don't restart this
+			}
 			
 			// Change the difficulty to to hard in order
 			// to move the game as fast as possible
-			settings.DEBUGchangeDifficulty(Difficulty.HARD);
+			settings.DEBUGgoToDoubleAISettings();
 			
-			bot.init(true);
+
+			// Set and remember that we have done this by 
+			// storing the returned cancel callback.
+			Runnable cancel = bot.init(true);
+			cancelEndGame.set(cancel);
+			
 			//Only initialize player2 AI is we aren't already doing so.
-			if (settings.getDifficulty() == Difficulty.HUMAN) bot.init(false);
-			
-			// Remember that we have done this
-			gameEnded.set(true);
+			if (settings.getDifficulty() == Difficulty.HUMAN) 
+				bot.init(false);
 		});
 	}
 

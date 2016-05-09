@@ -2,6 +2,7 @@ package jakethurman.components.factories;
 
 import javafx.collections.FXCollections;
 import javafx.scene.control.ListView;
+import java.util.ArrayList;
 import jakethurman.components.SafeNode;
 import jakethurman.foundation.Disposable;
 
@@ -10,12 +11,12 @@ import jakethurman.foundation.Disposable;
  */
 public class ListViewFactory implements Disposable {
 	// Creates a new list view containing the specified values
-	public SafeNode create(String[] values) {
+	public SafeNode create(ArrayList<String> values) {
 		// Create the base list view
 		ListView<String> lv = new ListView<>();
 		
 		// Set the items to a wrapped version of the input values
-		lv.setItems(FXCollections.observableArrayList(values));
+		lv.setItems(FXCollections.observableList(values));
 		
 		// Return a protected version of the list view node
 		return new SafeNode(lv);
