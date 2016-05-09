@@ -36,11 +36,23 @@ public class CheckersBot {
 		
 		// Add a listener for turn changes which is where we will take a turn.
     	ctm.addOnTurnStartHandler(isPlayer1 -> {
+    		// If it's the other players 
+    		// turn, we don't want to touch
+    		// anything! Get out now!!!
+    		// Otherwise take the turn!
+    		if (forPlayer1 != isPlayer1)
+    			return;
+    		
     		// Don't run for a canceled bot!
     		if (isCanceled.get())
     			return;
     		
-    		// Create a new thread so we can delay
+    		// If the game has already ended,
+    		// we do not want to continue moving around.
+    		if (ctm.hasGameEnded())
+    			return;
+    		
+    		// Create a new thread so we can delay the move.
     		new Thread(() -> {
     			try {
     				// Sleep for the requested amount of time
@@ -52,20 +64,12 @@ public class CheckersBot {
     			
     			// Run later allows us to use the UI thread again.
     			// this is required for touching the UI in a multithreading environment.
-	    		Platform.runLater(() -> {
-		    		// If it's the other players 
-		    		// turn, we don't want to touch
-		    		// anything! Get out now!!!
-		    		// Otherwise take the turn!
-		    		if (forPlayer1 == isPlayer1)
-		    			takeTurn(forPlayer1, prevToLastMove, lastMove);
-	    		});
+	    		Platform.runLater(() -> takeTurn(forPlayer1, prevToLastMove, lastMove));
     		}).start();
     	});
     	
-    	return () -> {
-    		isCanceled.set(true);
-    	};
+    	// Return a cancel callback
+    	return () -> isCanceled.set(true);
     }
 	
 	// Takes a turn as a given player (as Player 1 if @forPlayer1 otherwise Player 2)
@@ -98,6 +102,8 @@ public class CheckersBot {
 		// Make the best move if there is one.
 		if (bestMove != null)
 			board.makeMove(pieceMap.get(bestMove), bestMove);
+		else 
+			ctm.endTurn(); // Just end the turn if there is no move to be made
 		
 		// Store the previous steps.
 		prevToLastMove.set(lastMove.get());

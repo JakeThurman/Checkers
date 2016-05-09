@@ -24,7 +24,8 @@ public class Messages implements GameMessages {
                                 GAME_TITLE__EASY   = "Checkers (vs Easy Computer Player)",
                                 GAME_TITLE__MEDIUM = "Checkers (vs Medium Computer Player)",
                                 GAME_TITLE__HARD   = "Checkers (vs Hard Computer Player)",
-                                HIGH_SCORES_LIST   = "High Scores";
+                                HIGH_SCORES_LIST   = "High Scores",
+                                PASS_TURN          = "Pass";
 	
 	private final Settings settings;
 	
@@ -112,5 +113,10 @@ public class Messages implements GameMessages {
 	// Gets the name of a player
 	public String getPlayerName(boolean isPlayer1) {
 		return isPlayer1 ? PLAYER1 : PLAYER2;
+	}
+	
+	// Gets the text for the pass button
+	public String getPassTurn() {
+		return PASS_TURN;
 	}
 }

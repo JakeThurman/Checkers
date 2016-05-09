@@ -29,6 +29,7 @@ public class GameStatusBar implements Disposable {
 	private final SafeBorderPane parent;
 	private final SafeText       score;
 	private final SafeText       turn;
+	private final SafeNode       pass;
 	
 	// Data
 	private boolean inWinMode = false;
@@ -47,6 +48,7 @@ public class GameStatusBar implements Disposable {
 		this.score          = textFactory.createLeftAlign();
 		this.turn           = textFactory.createCenteredBold();
 		this.parent         = new SafeBorderPane();
+		this.pass           = buttonFactory.create(msgs.getPassTurn(), turnManager::endTurn);
 		
 		// INITIALIZE!
 		init();
@@ -65,6 +67,7 @@ public class GameStatusBar implements Disposable {
 		// Add to the parent pane.
 		parent.setChildren(new PositionedNodes()
 			.setCenter(this.turn)
+			.setRight(this.pass)
 			.setBottom(this.score));
 	}
 	

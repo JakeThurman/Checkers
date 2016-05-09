@@ -9,6 +9,7 @@ import jakethurman.games.Difficulty;
  * Manages turns for a game of checkers 
  */
 public class CheckersTurnManager implements Disposable {
+	/* Data */
 	private boolean isPlayer1sTurn;
 	
 	private final PlayerInfo player1;
@@ -19,6 +20,7 @@ public class CheckersTurnManager implements Disposable {
 	
 	private final long startTimeMS;
 	private       long endTimeMS;
+	private    boolean hasGameEnded = false;
 	
 	// Constructor
 	public CheckersTurnManager(Settings settings) {		
@@ -136,16 +138,21 @@ public class CheckersTurnManager implements Disposable {
 		onChangeHandlers.clear();
 	}
 
+	public boolean hasGameEnded() {
+		return this.hasGameEnded;
+	}
+	
 	// Records that the game has ended.
 	public void gameDidEnd() {
 		this.endTimeMS = System.currentTimeMillis();
+		this.hasGameEnded = true;
 	}
 
 	// Gets the millisecond time stamp of when exactly the game ended
 	public long getGameEndMS() {
 		return this.endTimeMS;
 	}
-
+	
 	// Gets the millisecond time stamp of when the game started	
 	public long getGameStartMS() {
 		return this.startTimeMS;
