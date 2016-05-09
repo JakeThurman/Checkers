@@ -21,6 +21,7 @@ public class Settings implements ShapeSettings {
      * Data Settings
      */
     private static final String SAVE_FILE_LOCATION = "scores.json";
+    private static final int BOT_SLEEP_TIME_MS = 500;
     
 
     /*
@@ -42,9 +43,11 @@ public class Settings implements ShapeSettings {
 	public int getBoardSize() { return BOARD_SIZE; }	
 	public SafePaint getSelectColor() { return SELECTED_COLOR; }
 	public String getSaveFileLocation() { return SAVE_FILE_LOCATION; }
+	public long getBotSleepMS() { return BOT_SLEEP_TIME_MS; }
 	public Difficulty getDifficulty() { return difficulty; }
 	
 	/* TODO: Disposable was a mistake... It should probably die altogether, but especially here. */
 	@Override public void dispose() { /* Nothing to dispose */ }
+
 	
 }

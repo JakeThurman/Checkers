@@ -96,6 +96,8 @@ public class CellSearchData implements CellSearchResult {
 	}
 
 	// Compares two search results.
+	// Used by the AI player move calculation
+	// when storing in the AVLTree.
 	@Override
 	public int compareTo(CellSearchResult other) {
 		// Get the points of each (this and other)

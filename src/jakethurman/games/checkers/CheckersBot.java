@@ -5,6 +5,7 @@ import edu.frederick.cis.datastructures.AVLTree;
 import jakethurman.games.Difficulty;
 import jakethurman.games.checkers.components.Checker;
 import jakethurman.games.checkers.components.Checkerboard;
+import javafx.application.Platform;
 
 /*
  * An AI robot player for a checkers game
@@ -26,12 +27,23 @@ public class CheckersBot {
 	public void init(boolean forPlayer1) {
 		// Add a listener for turn changes which is where we will take a turn.
     	ctm.addOnTurnStartHandler(isPlayer1 -> {
-    		// If it's the other players 
-    		// turn, we don't want to touch
-    		// anything! Get out now!!!
-    		// Otherwise take the turn!
-    		if (forPlayer1 == isPlayer1)
-    			takeTurn(forPlayer1);
+    		new Thread(() -> {
+    			try {
+					Thread.sleep(settings.getBotSleepMS());
+				} catch (Exception e) {
+					// TODO: Auto-generated catch block
+					e.printStackTrace();
+				}
+    			
+	    		Platform.runLater(() -> {
+		    		// If it's the other players 
+		    		// turn, we don't want to touch
+		    		// anything! Get out now!!!
+		    		// Otherwise take the turn!
+		    		if (forPlayer1 == isPlayer1)
+		    			takeTurn(forPlayer1);
+	    		});
+    		}).start();
     	});
     }
 	
