@@ -121,4 +121,22 @@ public class CellSearchData implements CellSearchResult {
 		// Otherwise, do the comparison based off of the x value; Ignore y.
 		return otherPoint.x > myPoint.x ? 1 : -1;
 	}
+
+	@Override
+	public boolean isSame(CellSearchResult other) {
+		// If there is no other item, they are not the same
+		if (other == null)
+			return false;
+		
+		// Get the points of each (this and other)
+		Point otherPoint = other.getPoint();
+		Point myPoint = getPoint();
+		
+		// Get the count of the number of cells each move is jumping
+		int otherJumpedCells = other.getJumpedCells().size();
+		int myJumedCells = jumpedCells.size();
+		
+		// Check if everything is the same, return 0;
+		return otherPoint.equals(myPoint) && otherJumpedCells == myJumedCells;
+	}
 }

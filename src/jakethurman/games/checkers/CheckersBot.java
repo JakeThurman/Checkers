@@ -6,6 +6,7 @@ import jakethurman.games.Difficulty;
 import jakethurman.games.checkers.components.Checker;
 import jakethurman.games.checkers.components.Checkerboard;
 import jakethurman.util.BooleanMemory;
+import jakethurman.util.ValueContainer;
 import javafx.application.Platform;
 
 /*
@@ -29,6 +30,9 @@ public class CheckersBot {
 	public Runnable init(boolean forPlayer1) {
 		// Boolean memory is a hack around the inability to setting variables inside lambdas
 		BooleanMemory isCanceled = new BooleanMemory(false);
+		
+		ValueContainer<CellSearchResult> prevToLastMove = new ValueContainer<>();
+		ValueContainer<CellSearchResult> lastMove       = new ValueContainer<>();
 		
 		// Add a listener for turn changes which is where we will take a turn.
     	ctm.addOnTurnStartHandler(isPlayer1 -> {
@@ -54,7 +58,7 @@ public class CheckersBot {
 		    		// anything! Get out now!!!
 		    		// Otherwise take the turn!
 		    		if (forPlayer1 == isPlayer1)
-		    			takeTurn(forPlayer1);
+		    			takeTurn(forPlayer1, prevToLastMove, lastMove);
 	    		});
     		}).start();
     	});
@@ -65,7 +69,7 @@ public class CheckersBot {
     }
 	
 	// Takes a turn as a given player (as Player 1 if @forPlayer1 otherwise Player 2)
-	private void takeTurn(boolean forPlayer1) {
+	private void takeTurn(boolean forPlayer1, ValueContainer<CellSearchResult> prevToLastMove, ValueContainer<CellSearchResult> lastMove) {
 		// Stores a Checker so we can get back to it later from the CellSearchResult we choose.
 		HashMap<CellSearchResult, Checker> pieceMap = new HashMap<>();
 		
@@ -76,8 +80,12 @@ public class CheckersBot {
 		for (Checker checker : board.getAllCheckers(forPlayer1)) {
 			// Get all move options available for each checker
 			for (CellSearchResult viableMove : board.getAvailableSpaces(checker)) {
-				// Record it as a viable move
-				viableMoves.insert(viableMove);
+				// Do not store moves that we used in the last two moves
+				// we don't need to check against last move because it's 
+				// not physically possible to be back in the last space
+				if (!viableMove.isSame(prevToLastMove.get()))
+					// Record it as a viable move
+					viableMoves.insert(viableMove);
 				
 				// And store it in the map so we can get back to it's checker later
 				pieceMap.put(viableMove, checker);
@@ -90,6 +98,10 @@ public class CheckersBot {
 		// Make the best move if there is one.
 		if (bestMove != null)
 			board.makeMove(pieceMap.get(bestMove), bestMove);
+		
+		// Store the previous steps.
+		prevToLastMove.set(lastMove.get());
+		lastMove.set(bestMove);
 	}
 
 	// Returns the best move based on the given difficulty setting

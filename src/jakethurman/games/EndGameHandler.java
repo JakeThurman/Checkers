@@ -83,7 +83,7 @@ public class EndGameHandler implements Disposable {
 		
 		//Add nodes to containers
 		bottom.setChildren(new PositionedNodes()
-			.setRight(back)
+			.setLeft(back)
 			.setCenter(text));
 		
 		right.setChildren(new PositionedNodes()
