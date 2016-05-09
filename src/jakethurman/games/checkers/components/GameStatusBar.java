@@ -98,7 +98,7 @@ public class GameStatusBar implements Disposable {
 		this.turn.setText(playerText);
 	}
 	
-	// Calculates the resulting scroe of a game of checkers.
+	// Calculates the resulting score of a game of checkers.
 	//TODO: Include time as a factor
 	private static int getScoreNumber(boolean isPlayer1, ScoreInfo finalScore) {
 		// Get the data about the winning player.
