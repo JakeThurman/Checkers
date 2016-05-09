@@ -1,6 +1,6 @@
-## A Simple JavaFX Checkers Game!
+## A JavaFX Checkers Game!
 
-I wrote this simply to help me learn JavaFX.
+I wrote this to help me learn JavaFX. I then built upon that foundation for a college term project.
 
 Here's a screenshot:
 
