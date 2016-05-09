@@ -32,7 +32,7 @@ public class App extends Application {
 			new CheckersRenderer(Difficulty.MEDIUM), 
 			new CheckersRenderer(Difficulty.HARD)
 			//, new jakethurman.games.chess.components.ChessRenderer() // TODO: Finish or remove
-		).render(r -> new RenderingHandler(r).render(setScene), setScene); // We give render a lambda that renders the scene using a rendering handler
+		).render(setScene);
 		
 		// Show the stage!
 		primaryStage.show();    	

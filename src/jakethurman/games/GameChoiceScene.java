@@ -22,7 +22,7 @@ public class GameChoiceScene {
 		this.renderers = renderers;
 	}
 	
-	public void render(Consumer<Renderer> render, Consumer<SafeScene> setScene) {		
+	public void render(Consumer<SafeScene> setScene) {		
 		// Create a scene to show the game in
 		SafeBorderPane content = new SafeBorderPane();
 		SafeScene      scene   = new SafeScene(content);
@@ -44,7 +44,7 @@ public class GameChoiceScene {
 			// Create and add a button for the renderer 
 			// with the game title as the text and that 
 			// renders the game on button click.
-			buttons.add(bf.create(r.getTitle(), () -> render.accept(r)), new Point(i, 0));
+			buttons.add(bf.create(r.getTitle(), () -> r.render(() -> render(setScene), setScene)), new Point(i, 0));
 		}
 		
 		// Put the buttons and a scene title message 
