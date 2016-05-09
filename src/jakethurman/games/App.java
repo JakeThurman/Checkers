@@ -8,10 +8,6 @@ import jakethurman.games.checkers.components.CheckersRenderer;
 
 /*
  * PROJECT TODOs:
- * 		- Add more comments!!!
- * 		- Improve AI movement
- * 		- ? Maybe add AI skill setting
- * 		- Fix duplicated High scores
  * 		- Add named high scores
  * 
  */
