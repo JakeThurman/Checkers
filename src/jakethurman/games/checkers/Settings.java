@@ -21,13 +21,12 @@ public class Settings implements ShapeSettings {
      * Data Settings
      */
     private static final String SAVE_FILE_LOCATION = "scores.json";
-    private static final int BOT_SLEEP_TIME_MS = 500;
+    private static final int    BOT_SLEEP_TIME_MS  = 500;
     
-
     /*
      * User Settings.
      */
-	private final Difficulty difficulty;
+	private Difficulty difficulty;
 	
 	public Settings(Difficulty difficulty) {
 		this.difficulty = difficulty;
@@ -45,6 +44,11 @@ public class Settings implements ShapeSettings {
 	public String getSaveFileLocation() { return SAVE_FILE_LOCATION; }
 	public long getBotSleepMS() { return BOT_SLEEP_TIME_MS; }
 	public Difficulty getDifficulty() { return difficulty; }
+	
+	/*
+	 * DEBUG methods
+	 */
+	public void DEBUGchangeDifficulty(Difficulty d) { this.difficulty = d; }
 	
 	/* TODO: Disposable was a mistake... It should probably die altogether, but especially here. */
 	@Override public void dispose() { /* Nothing to dispose */ }

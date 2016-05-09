@@ -121,9 +121,13 @@ public class CheckersRenderer implements Renderer {
 		BooleanMemory gameEnded = new BooleanMemory(false);
 		
 		//When debugging, we want a button to set both players to AI players
-		return bttnFactory.create("End Game (Double AI)", () -> {
+		return bttnFactory.create("End Game (Double AI)", () -> {			
 			// Only end the game once dummy!
 			if (gameEnded.get()) return;
+			
+			// Change the difficulty to to hard in order
+			// to move the game as fast as possible
+			settings.DEBUGchangeDifficulty(Difficulty.HARD);
 			
 			bot.init(true);
 			//Only initialize player2 AI is we aren't already doing so.
