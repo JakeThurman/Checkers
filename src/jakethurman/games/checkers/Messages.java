@@ -20,7 +20,7 @@ public class Messages implements GameMessages {
                                 WAS_KING_PLURAL    = "were kings",
                                 WAS_KING_SINGULAR  = "was a king",
                                 GAME_STATS_MSG     = "%1$s won with a score of: %7$d.\n    %2$d/%3$d checkers remaining\n    %4$s of which %5$s.\nThe game lasted a total of %6$s",
-                                GAME_TITLE__HUMAN  = "Checkers",
+                                GAME_TITLE__HUMAN  = "Checkers (2 Player)",
                                 GAME_TITLE__EASY   = "Checkers (vs Easy Computer Player)",
                                 GAME_TITLE__MEDIUM = "Checkers (vs Medium Computer Player)",
                                 GAME_TITLE__HARD   = "Checkers (vs Hard Computer Player)",
