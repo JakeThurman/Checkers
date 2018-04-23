@@ -2,6 +2,8 @@
 
 I wrote this to help me learn JavaFX. I then built upon that foundation for a college term project.
 
+There is a very basic implementation of an AI player for the game.
+
 Here's a screenshot:
 
 ![Game Screenshot](https://raw.githubusercontent.com/JakeThurman/Checkers/master/images/screenshot.png)
