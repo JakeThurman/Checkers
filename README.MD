@@ -4,9 +4,7 @@ I wrote this to help me learn JavaFX. I then built upon that foundation for a co
 
 Here's a screenshot:
 
-[![Screenshot][example-image]][example-url]
-[example-image]: https://raw.githubusercontent.com/JakeThurman/Checkers/master/images/screenshot.png
-[example-url]: https://raw.githubusercontent.com/JakeThurman/Checkers/master/images/screenshot.png
+![Game Screenshot](https://raw.githubusercontent.com/JakeThurman/Checkers/master/images/screenshot.png)
 
 Thanks for checking it out!
 
